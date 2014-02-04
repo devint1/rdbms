@@ -12,8 +12,13 @@ void Database::openTable(string filename){
 	myfile.open(filename.c_str());
 	while (getline(myfile, line)){
 		istringstream iss(line);
-		vector<string> deliminated_input{ istream_iterator<string>(iss), istream_iterator<string>() };
-
+		vector<string> tokens{ istream_iterator<string>(iss), istream_iterator<string>() };
+		cout << lineNumber << ": ";
+		for (size_t i = 0; i < tokens.size(); i++){
+			cout << tokens[i] << " ";
+		}
+		cout << endl;
+		lineNumber++;
 	}
 	myfile.close();
 }

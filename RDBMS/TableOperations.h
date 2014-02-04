@@ -4,7 +4,7 @@
 class TableOperations
 {
 public:
-	static Table Selection(
+	//static Table Selection(
 
 
 
