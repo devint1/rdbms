@@ -5,6 +5,6 @@ public:
 	Table();
 	~Table();
 
-	Table select(string attributesToInclude, string condition);
+	void writeTable();				//save to file
 };
 
