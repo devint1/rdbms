@@ -24,10 +24,16 @@ Table::Table(string filename)
 	while (getline(myfile, line)){
 		istringstream iss(line);
 		vector<string> tokens{ istream_iterator<string>(iss), istream_iterator<string>() };
-		cout << lineNumber << ": ";
-		for (size_t i = 0; i < tokens.size(); i++){
-			cout << tokens[i] << " ";
+		if (lineNumber == 0)
+		for (size_t i = 0; i < tokens.size(); i+=2){
+			tableAttributes.push_back(TableAttribute(tokens[i],tokens[i+1]));
 		}
+		else{
+			for (size_t j = 0; j < tokens.size(); j += 2){
+				tableData[lineNumber-1].push_back(tokens[j]);
+			}
+		}
+
 		cout << endl;
 		lineNumber++;
 	}
