@@ -12,6 +12,9 @@ public:
 	Table(string filename); //Used in OPEN (open from file)
 	~Table();
 
+	//Getters
+	string getName();
+
 	void writeTable(); //Used in WRITE (write to file)
 private:
 	string name;

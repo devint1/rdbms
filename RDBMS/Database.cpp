@@ -1,5 +1,14 @@
 #include "Database.h"
 
+Table Database::findTable(string name)
+{
+	for (Table t : tables) {
+		if (t.getName == name) {
+			return t;
+		}
+	}
+}
+
 Database::Database()
 {
 }

@@ -10,7 +10,7 @@ class Database
 private:
 	vector<Table> tables;
 
-	int findTableIndex(string name); //Helper function that returns the index of a table with a given name
+	Table findTable(string name); //Helper function that returns the index of a table with a given name
 public:
 	Database();
 	~Database();
@@ -25,4 +25,3 @@ public:
 	//Delete from table
 	void exit();
 };
-
