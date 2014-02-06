@@ -53,9 +53,9 @@ void Table::writeTable()
 {
 	ofstream file;
 	file.open(name+".db");
-	for(int i=0;i<(int)TableAttributes.size();i++)
+	for(int i=0;i<(int)tableAttributes.size();i++)
 	{
-		file<<TableAttributes[i].getName()<<" "<<TableAttributes[i].getType()<<"\t";
+		file<<tableAttributes[i].getName()<<" "<<tableAttributes[i].getType()<<"\t";
 	}
 	for(int i=0;i<(int)tableData.size();i++)
 	{
@@ -65,4 +65,5 @@ void Table::writeTable()
 		}
 		file<<"\n";
 	}
+	file.close();
 }
