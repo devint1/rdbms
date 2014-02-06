@@ -5,7 +5,6 @@
 int main()
 {
 	Table test("cars.db");
-	
 	system("PAUSE");
 	return 0;
 }
