@@ -21,12 +21,13 @@ Table::Table(string name, string attributeNames[], string dataTypeNames[], strin
 	}
 }
 
-Table::Table(string filename)
+Table::Table(string tablename)
 {
+	name = tablename;
 	string line;
 	ifstream myfile;
 	int lineNumber = 0;
-	myfile.open((filename + ".db").c_str());
+	myfile.open((tablename + ".db").c_str());
 	while (getline(myfile, line)){
 		istringstream iss(line);
 		vector<string> tokens{ istream_iterator<string>(iss), istream_iterator<string>() };
@@ -35,9 +36,7 @@ Table::Table(string filename)
 			tableAttributes.push_back(TableAttribute(tokens[i],tokens[i+1]));
 		}
 		else{
-			for (size_t j = 0; j < tokens.size(); j += 2){
-				tableData[lineNumber-1].push_back(tokens[j]);
-			}
+			tableData.push_back(tokens);
 		}
 
 		cout << endl;
