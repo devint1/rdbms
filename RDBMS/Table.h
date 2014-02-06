@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-
+#include <vector>
 using namespace std;
 
 class Table
@@ -19,9 +19,11 @@ public:
 	void writeTable(); //Used in WRITE (write to file)
 private:
 	string name;
+
 	//Array of rows
-	//Array of attribute names
-	//Array of attribute data tyoes
+	vector< vector<string> > tableData;
+
+	//Array of attribute data types and names
+	vector<TableAttribute> TableAttributes;
 	//Array of attribute properties (e.g., the length of a varchar or PRIMARY KEY)
 };
-
