@@ -17,8 +17,8 @@ public:
 
 	void openTable(string filename);
 	void closeTable(string tablename);
-	void writeTable(string tablename);
-	void showTable(string input);
+	void writeTable(string tablename); //Corey
+	void showTable(string input); //
 	//Create table
 	//Update table
 	//Insert into table

@@ -3,10 +3,17 @@
 #include <sstream>
 #include <vector>
 #include "Table.h"
+#include <iostream>
+#include <fstream>
 
 /*Table::Table()
 {
 }*/
+
+Table::Table(string name, string attributeNames[], string dataTypeNames[], string primaryKeyNames[])
+{
+
+}
 
 Table::Table(string filename)
 {
@@ -34,4 +41,8 @@ Table::~Table()
 
 string Table::getName() {
 	return name;
+}
+
+void Table::writeTable(){
+
 }
