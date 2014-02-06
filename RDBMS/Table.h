@@ -25,5 +25,6 @@ private:
 
 	//Array of attribute data types and names
 	vector<TableAttribute> TableAttributes;
+
 	//Array of attribute properties (e.g., the length of a varchar or PRIMARY KEY)
 };
