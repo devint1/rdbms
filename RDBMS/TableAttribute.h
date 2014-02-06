@@ -16,6 +16,9 @@ public:
 	string getName();
 	string getType();
 
+	void setName( string name);
+	void setType( string type );
+
 private:
 
 	string name;
