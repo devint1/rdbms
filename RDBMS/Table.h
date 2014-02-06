@@ -11,7 +11,6 @@ public:
 
 	Table(string filename); //Used in OPEN (open from file)
 	~Table();
-	string getName();
 
 	//Getters
 	string getName();
@@ -21,7 +20,7 @@ private:
 	string name;
 	//Array of rows
 	//Array of attribute names
-	//Array of attribute data tyoes
+	//Array of attribute data types
 	//Array of attribute properties (e.g., the length of a varchar or PRIMARY KEY)
 };
 

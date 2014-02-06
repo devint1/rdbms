@@ -3,6 +3,8 @@
 #include <sstream>
 #include <vector>
 #include "Table.h"
+#include <iostream>
+#include <fstream>
 
 /*Table::Table()
 {
@@ -34,4 +36,8 @@ Table::~Table()
 
 string Table::getName() {
 	return name;
+}
+
+void Table::writeTable(){
+
 }
