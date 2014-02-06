@@ -36,5 +36,7 @@ int Database::findTableIndex(string name){
 
 void Database::writeTable(string tablename){
 	Table table;
+	int index = findTableIndex(tablename);
+	table = tables[index];
 
 }
