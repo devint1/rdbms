@@ -26,15 +26,17 @@ Database::~Database()
 {
 }
 
-/*int Database::findTableIndex(string name){
+int Database::findTableIndex(string name){
 	for(int i=0;i<(int)tables.size();i++)
 	{
-		if(tables[i].getName() == name)
+		if(tables[i].getName==name)
 			return i;
 	}
-}*/
+}
 
 void Database::writeTable(string tablename){
-	Table table = findTable(tablename);
-	table.writeTable();
+	Table table;
+	int index = findTableIndex(tablename);
+	table = tables[index];
+
 }
