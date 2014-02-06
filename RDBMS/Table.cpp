@@ -26,7 +26,7 @@ Table::Table(string filename)
 	string line;
 	ifstream myfile;
 	int lineNumber = 0;
-	myfile.open(filename.c_str());
+	myfile.open((filename + ".db").c_str());
 	while (getline(myfile, line)){
 		istringstream iss(line);
 		vector<string> tokens{ istream_iterator<string>(iss), istream_iterator<string>() };
@@ -58,18 +58,34 @@ string Table::getName() {
 void Table::writeTable()
 {
 	ofstream file;
-	file.open(name+".db");
-	for(int i=0;i<(int)tableAttributes.size();i++)
+	file.open(name + ".db");
+	for (int i = 0; i < (int)tableAttributes.size(); i++)
 	{
-		file<<tableAttributes[i].getName()<<" "<<tableAttributes[i].getType()<<"\t";
+		file << tableAttributes[i].getName() << " " << tableAttributes[i].getType() << "\t";
 	}
-	for(int i=0;i<(int)tableData.size();i++)
+	for (int i = 0; i < (int)tableData.size(); i++)
 	{
-		for(int j=0;j<(int)tableData[i].size();j++)
+		for (int j = 0; j < (int)tableData[i].size(); j++)
 		{
-			file<<tableData[i][j]<<"\t";
+			file << tableData[i][j] << "\t";
 		}
-		file<<"\n";
+		file << "\n";
 	}
 	file.close();
+}
+
+void Table::showTable()
+{
+	for (int i = 0; i<(int)tableAttributes.size(); i++)
+	{
+		cout << tableAttributes[i].getName() << " " << tableAttributes[i].getType() << "\t";
+	}
+	for (int i = 0; i<(int)tableData.size(); i++)
+	{
+		for (int j = 0; j<(int)tableData[i].size(); j++)
+		{
+			cout << tableData[i][j] << "\t";
+		}
+		cout << "\n";
+	}
 }

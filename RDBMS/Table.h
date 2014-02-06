@@ -18,6 +18,7 @@ public:
 	string getName();
 
 	void writeTable(); //Used in WRITE (write to file)
+	void showTable(); //Used in SHOW (print to screen)
 
 	int findAttributebyName(string attributeName);//Sergio
 	void changeAttributeName(string attributeName); //Sergio

@@ -4,7 +4,9 @@
 
 int main()
 {
-	Table test("cars.db");
+	Database db;
+	db.openTable("cars");
+	db.showTable("cars");
 	system("PAUSE");
 	return 0;
 }
