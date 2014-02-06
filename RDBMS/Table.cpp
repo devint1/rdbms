@@ -31,3 +31,7 @@ Table::Table(string filename)
 Table::~Table()
 {
 }
+
+string Table::getName(){
+	return name;
+}
