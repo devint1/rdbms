@@ -4,8 +4,8 @@
 
 int main()
 {
-	Database db;
-	db.openTable("cars.db");
+	Table test("cars.db");
+	
 	system("PAUSE");
 	return 0;
 }
