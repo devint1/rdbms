@@ -3,8 +3,7 @@
 #include <sstream>
 #include <vector>
 #include "Table.h"
-#include <iostream>
-#include <fstream>
+
 
 /*Table::Table()
 {
@@ -43,6 +42,20 @@ string Table::getName() {
 	return name;
 }
 
-void Table::writeTable(){
-
+void Table::writeTable()
+{
+	ofstream file;
+	file.open(name+".db");
+	for(int i=0;i<(int)TableAttributes.size();i++)
+	{
+		file<<TableAttributes[i].getName()<<" "<<TableAttributes[i].getType()<<"\t";
+	}
+	for(int i=0;i<(int)tableData.size();i++)
+	{
+		for(int j=0;j<(int)tableData[i].size();j++)
+		{
+			file<<tableData[i][j]<<"\t";
+		}
+		file<<"\n";
+	}
 }

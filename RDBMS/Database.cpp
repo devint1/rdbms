@@ -13,7 +13,8 @@ Database::Database()
 {
 }
 
-void Database::openTable(string filename){
+void Database::openTable(string filename)
+{
 	tables.push_back(Table(filename));
 }
 
@@ -27,7 +28,8 @@ Database::~Database()
 }
 
 
-void Database::writeTable(string tablename){
+void Database::writeTable(string tablename)
+{
 	Table table = findTable(tablename);
 	table.writeTable();
 
