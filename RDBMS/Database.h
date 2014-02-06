@@ -18,8 +18,8 @@ public:
 	void openTable(string filename);
 	void closeTable(string tablename);
 	void writeTable(string tablename); //Corey
-	void showTable(string input); //
-	//Create table
+	void showTable(string input); 
+	void createTable(string name, string attributeNames[], string dataTypeNames[], string primaryKeyNames[]); //Devin
 	//Update table
 	//Insert into table
 	//Delete from table
