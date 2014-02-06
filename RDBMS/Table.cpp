@@ -65,6 +65,7 @@ void Table::writeTable()
 		}
 		file<<"\n";
 	}
+	file.close();
 }
 
 void Table::showTable()

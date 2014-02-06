@@ -18,7 +18,10 @@ public:
 	string getName();
 
 	void writeTable(); //Used in WRITE (write to file)
-	void showTable();
+
+	int findAttributebyName(string attributeName);//Sergio
+	void changeAttributeName(string attributeName); //Sergio
+
 private:
 	string name;
 
