@@ -8,6 +8,11 @@
 {
 }*/
 
+Table::Table(string name, string attributeNames[], string dataTypeNames[], string primaryKeyNames[])
+{
+
+}
+
 Table::Table(string filename)
 {
 	string line;
