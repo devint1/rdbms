@@ -18,6 +18,7 @@ public:
 	string getName();
 
 	void writeTable(); //Used in WRITE (write to file)
+	void showTable();
 private:
 	string name;
 

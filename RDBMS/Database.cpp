@@ -35,6 +35,12 @@ void Database::writeTable(string tablename)
 
 }
 
+void Database::showTable(string tablename)
+{
+	Table table = findTable(tablename);
+	table.showTable();
+}
+
 void Database::createTable(string name, string attributeNames[], string dataTypeNames[], string primaryKeyNames[])
 {
 	tables.push_back(Table(name, attributeNames, dataTypeNames, primaryKeyNames));
