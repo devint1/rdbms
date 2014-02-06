@@ -1,21 +1,16 @@
 #include "Database.h"
 
-
 Database::Database()
 {
 }
 
 void Database::openTable(string filename){
-	string line;
-	ifstream myfile;
-	int lineNumber = 0;
-	myfile.open(filename.c_str());
-	while (getline(myfile, line)){
-		istringstream iss(line);
-		vector<string> deliminated_input{ istream_iterator<string>(iss), istream_iterator<string>() };
+	tables.push_back(Table(filename));
+}
 
-	}
-	myfile.close();
+void Database::exit()
+{
+	exit();
 }
 
 Database::~Database()
