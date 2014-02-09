@@ -1,8 +1,8 @@
 #include "Database.h"
 
-Table Database::findTable(string name)
+Table& Database::findTable(string name)
 {
-	for (Table t : tables) {
+	for (Table& t : tables) {
 		if (t.getName() == name) {
 			return t;
 		}
@@ -63,6 +63,12 @@ void Database::showTable(string tablename)
 void Database::createTable(string name, string attributeNames[], string dataTypeNames[], string primaryKeyNames[])
 {
 	tables.push_back(Table(name, attributeNames, dataTypeNames, primaryKeyNames));
+}
+
+void Database::insertIntoTable(string tablename, string values[])
+{
+	Table& t = findTable(tablename);
+	t.insert(values);
 }
 
 void Database::UpdateTable(string relationName, string attributeName, string condition)

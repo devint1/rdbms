@@ -10,7 +10,7 @@ class Database
 private:
 	vector<Table> tables;
 
-	Table findTable(string name); //Helper function that returns the index of a table with a given name
+	Table& findTable(string name); //Helper function that returns the index of a table with a given name
 public:
 	Database();
 	~Database();
@@ -21,9 +21,7 @@ public:
 	void showTable(string tablename); //Devin
 	void createTable(string name, string attributeNames[], string dataTypeNames[], string primaryKeyNames[]); //Devin
 	void UpdateTable(string relationName, string attributeName, string condition);
-	//Update table // Sergio 
-	//Insert into table
 	void deleteFromTable(string name, string attributeName, string dataName);
-
+	void insertIntoTable(string tablename, string values[]);
 	void exit();
 };

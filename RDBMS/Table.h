@@ -19,6 +19,8 @@ public:
 	vector<TableAttribute> getAttributes();
 	void writeTable(); //Used in WRITE (write to file)
 	void showTable(); //Used in SHOW (print to screen)
+	void insert(string values[]); //Used in INSERT
+
 	void deleteFromTable(string attributeName, string dataName);
 	int findAttributebyName(string attributeName);//Sergio
 	void changeAttributeName(string attributeName, string newAttributeName); //Sergio
