@@ -15,7 +15,7 @@ Table::Table(string name, vector<string> attributeNames, vector<string> dataType
 	if (attributeNames.size() != dataTypeNames.size())
 		throw "Number of attributes and number of datatypes do not match.";
 	else { //If we get here, we know the arrays have the same size, so it does not matter which array we get the size of
-		for (int i = 0; i < attributeNames.size(); ++i) {
+		for (size_t i = 0; i < attributeNames.size(); ++i) {
 			tableAttributes.push_back(TableAttribute(attributeNames[i], dataTypeNames[i]));
 		}
 	}
@@ -60,6 +60,10 @@ vector<string> Table::getPrimaryKeys(){
 	return primaryKeys;
 }
 
+vector< vector<string> > Table::getTableData(){
+	return tableData;
+}
+
 void Table::writeTable()
 {
 	ofstream file;
@@ -92,7 +96,7 @@ void Table::showTable()
 		cout << setw(COL_WIDTH) << tableAttributes[i].getType();
 	}
 	cout << endl;
-	for (int i = 0; i < tableAttributes.size(); ++i)
+	for (size_t i = 0; i < tableAttributes.size(); ++i)
 	{
 		for (int j = 0; j <= COL_WIDTH - 1; ++j)
 		{
@@ -116,7 +120,7 @@ void Table::insert(vector<string> values)
 	if (values.size() == tableAttributes.size())
 	{
 		vector<string> vec;
-		for (int i = 0; i < values.size(); ++i) {
+		for (size_t i = 0; i < values.size(); ++i) {
 			vec.push_back(values[i]);
 		}
 		tableData.push_back(vec);
@@ -138,20 +142,13 @@ int Table::findAttributebyName(string attributeName)
 		{
 			string indexedAttributeName = (*it).getName();
 
-		if (attributeName == indexedAttributeName)
-		{
-			return position;
-		}
-		else
-		{
+			if (attributeName == indexedAttributeName)
+				return position;
+
 			position++;
 		}
 	}
-}
-	else
-	{
-		return -1;
-	}
+	return -1;
 }
 
 void Table::changeAttributeName(string attributeName, string newAttributeName)
