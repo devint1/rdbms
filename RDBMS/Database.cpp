@@ -56,7 +56,7 @@ void Database::createTable(string name, string attributeNames[], string dataType
 	tables.push_back(Table(name, attributeNames, dataTypeNames, primaryKeyNames));
 }
 
-void Database::UpdateTable(string relationName, string attributeName, string condition)
+void Database::UpdateTable(string relationName, string attributeName, string condition)	 ///MAKE SURE findtable() ACCOUNTS for not finding the relation/table used for argument.
 {
- 
+	
 }
