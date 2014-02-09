@@ -1,7 +1,7 @@
 // RDBMS.cpp : Defines the entry point for the console application.
 //
 #include "Database.h"
-
+#include "TableOperations.h";
 int main()
 {
 	Database db;
@@ -18,6 +18,10 @@ int main()
 	db.showTable("users");
 	db.writeTable("users");
 	db.closeTable("users");
+	db.openTable("cars2");
+
+	TableOperations::setUnion(db.findTable("cars"), db.findTable("cars2"), "Model");
+	
 	system("PAUSE");
 	return 0;
 }

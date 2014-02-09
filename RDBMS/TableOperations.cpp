@@ -1,6 +1,6 @@
 #include "TableOperations.h"
 
-static Table setUnion(Table table1, Table table2, string keyAttribute){
+Table TableOperations::setUnion(Table table1, Table table2, string keyAttribute){
 	bool attributesEqual = true;
 	int i = 0;
 
@@ -44,6 +44,7 @@ static Table setUnion(Table table1, Table table2, string keyAttribute){
 				unionTable.insert(table2.getTableData()[j]);
 			}
 
+			unionTable.writeTable();
 			return unionTable;
 		}
 	}
