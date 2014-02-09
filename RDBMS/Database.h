@@ -20,7 +20,7 @@ public:
 	void writeTable(string tablename); //Corey WORKS
 	void showTable(string tablename); //Devin WORKS
 	void createTable(string name, vector<string> attributeNames, vector<string> dataTypeNames, vector<string> primaryKeyNames); //Devin WORKS
-	void UpdateTable(string relationName, string attributeName, string condition);
+	void UpdateTable(string relationName, string attributeName1, string attributeData1, string conditionAttributeName, string condition); 	///MAKE SURE findtable() ACCOUNTS for not finding the relation/table used for argument.	   //Sergio
 	void deleteFromTable(string name, string attributeName, string dataName); //WORKS
 	void insertIntoTable(string tablename, vector<string> values); //WORKS
 	void exit();
