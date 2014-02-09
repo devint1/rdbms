@@ -21,7 +21,7 @@ public:
 	void showTable(); //Used in SHOW (print to screen)
 	void deleteFromTable(string attributeName, string dataName);
 	int findAttributebyName(string attributeName);//Sergio
-	void changeAttributeName(string attributeName); //Sergio
+	void changeAttributeName(string attributeName, string newAttributeName); //Sergio
 
 private:
 	string name;

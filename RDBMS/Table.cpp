@@ -1,5 +1,6 @@
 #include <fstream>
 #include <iostream>
+#include <iomanip>
 #include <sstream>
 #include <vector>
 #include "Table.h"
@@ -38,8 +39,6 @@ Table::Table(string tablename)
 		else{
 			tableData.push_back(tokens);
 		}
-
-		cout << endl;
 		lineNumber++;
 	}
 	myfile.close();
@@ -75,31 +74,73 @@ void Table::writeTable()
 
 void Table::showTable()
 {
-	for (int i = 0; i<(int)tableAttributes.size(); i++)
+	const int COL_WIDTH = 15;
+	for (int i = 0; i < (int)tableAttributes.size(); ++i)
 	{
-		cout << tableAttributes[i].getName() << " " << tableAttributes[i].getType() << "\t";
+		cout << setw(COL_WIDTH) << tableAttributes[i].getName();
 	}
+	cout << endl;
+	for (int i = 0; i < (int)tableAttributes.size(); ++i)
+	{
+		cout << setw(COL_WIDTH) << tableAttributes[i].getType();
+	}
+	cout << endl;
+	for (int i = 0; i < tableAttributes.size(); ++i)
+	{
+		for (int j = 0; j <= COL_WIDTH - 1; ++j)
+		{
+			cout << "=";
+		}
+	}
+	cout << endl;
 	for (int i = 0; i<(int)tableData.size(); i++)
 	{
 		for (int j = 0; j<(int)tableData[i].size(); j++)
 		{
-			cout << tableData[i][j] << "\t";
+			cout << setw(COL_WIDTH) << tableData[i][j];
 		}
 		cout << "\n";
 	}
 }
 
-void Table::deleteFromTable(string attributeName, string dataName)
+int Table::findAttributebyName(string attributeName)
 {
-	int attributeIndex;
-	for (int i = 0; i<(int)tableAttributes.size(); i++)
+	int position = 0;
+	vector<TableAttribute>::iterator it = tableAttributes.begin();
+
+	if (it != tableAttributes.end())		 //Checks if vector is not empty first. If it is, thus the name was not found and retunrs -1
 	{
-		if (tableAttributes[i].getName() == attributeName)
-			attributeIndex = i;
+		for (it = tableAttributes.begin(); it != tableAttributes.end(); it++)
+		{
+			string indexedAttributeName = (*it).getName;
+
+			if (attributeName == indexedAttributeName)
+			{
+				return position;
+			}
+			else
+			{
+				position++;
+			}
+	     }
 	}
-	for (int i = 0; i<(int)tableData.size(); i++)
+	else
 	{
-		if (tableData[i][attributeIndex] == dataName)
-			tableData[i][attributeIndex].clear();
+		return -1;
 	}
 }
+
+void Table::changeAttributeName(string attributeName, string newAttributeName)
+{
+	for (vector<TableAttribute>::iterator it = tableAttributes.begin(); it != tableAttributes.end(); it++)
+	{
+		string indexedAttributeName = (*it).getName;
+
+		if (attributeName == indexedAttributeName)
+		{
+			(*it).setName(newAttributeName);
+		}
+		else{}
+	}
+}
+

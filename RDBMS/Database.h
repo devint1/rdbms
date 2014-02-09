@@ -16,11 +16,12 @@ public:
 	~Database();
 
 	void openTable(string filename);
-	void closeTable(string tablename);
+	void closeTable(string tablename); //Corey
 	void writeTable(string tablename); //Corey
 	void showTable(string tablename); //Devin
 	void createTable(string name, string attributeNames[], string dataTypeNames[], string primaryKeyNames[]); //Devin
-	//Update table
+	void UpdateTable(string relationName, string attributeName, string condition);
+	//Update table // Sergio 
 	//Insert into table
 	void deleteFromTable(string name, string attributeName, string dataName);
 
