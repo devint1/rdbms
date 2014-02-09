@@ -1,8 +1,8 @@
 #include "Database.h"
 
-Table Database::findTable(string name)
+Table& Database::findTable(string name)
 {
-	for (Table t : tables) {
+	for (Table& t : tables) {
 		if (t.getName() == name) {
 			return t;
 		}
@@ -38,6 +38,15 @@ void Database::closeTable(string tablename)
 	}
 }
 
+void Database::deleteFromTable(string name, string attributeName, string dataName)
+{
+	for (int i = 0; i<(int)tables.size(); i++)
+	{
+		if (tables[i].getName() == name)
+			tables[i].deleteFromTable(attributeName, dataName);
+	}
+}
+
 void Database::writeTable(string tablename)
 {
 	Table table = findTable(tablename);
@@ -56,7 +65,13 @@ void Database::createTable(string name, string attributeNames[], string dataType
 	tables.push_back(Table(name, attributeNames, dataTypeNames, primaryKeyNames));
 }
 
-void Database::UpdateTable(string relationName, string attributeName, string condition)	 ///MAKE SURE findtable() ACCOUNTS for not finding the relation/table used for argument.
+void Database::insertIntoTable(string tablename, string values[])
 {
-	
+	Table& t = findTable(tablename);
+	t.insert(values);
+}
+
+void Database::UpdateTable(string relationName, string attributeName, string condition)
+{
+ 
 }

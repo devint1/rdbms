@@ -103,6 +103,23 @@ void Table::showTable()
 	}
 }
 
+void Table::insert(string values[])
+{
+	int numValues = sizeof(values) / sizeof(string);
+	if (numValues == tableAttributes.size())
+	{
+		vector<string> vec;
+		for (int i = 0; i < numValues; ++i) {
+			vec.push_back(values[i]);
+		}
+		tableData.push_back(vec);
+	}
+	else
+	{
+		throw "Number of inserted values does not match number of columns.";
+	}
+}
+
 int Table::findAttributebyName(string attributeName)
 {
 	int position = 0;
@@ -112,18 +129,18 @@ int Table::findAttributebyName(string attributeName)
 	{
 		for (it = tableAttributes.begin(); it != tableAttributes.end(); it++)
 		{
-			string indexedAttributeName = (*it).getName;
+			string indexedAttributeName = (*it).getName();
 
-			if (attributeName == indexedAttributeName)
-			{
-				return position;
-			}
-			else
-			{
-				position++;
-			}
-	     }
+		if (attributeName == indexedAttributeName)
+		{
+			return position;
+		}
+		else
+		{
+			position++;
+		}
 	}
+}
 	else
 	{
 		return -1;
@@ -134,13 +151,28 @@ void Table::changeAttributeName(string attributeName, string newAttributeName)
 {
 	for (vector<TableAttribute>::iterator it = tableAttributes.begin(); it != tableAttributes.end(); it++)
 	{
-		string indexedAttributeName = (*it).getName;
+		string indexedAttributeName = (*it).getName();
 
 		if (attributeName == indexedAttributeName)
 		{
 			(*it).setName(newAttributeName);
 		}
 		else{}
+	}
+}
+
+void Table::deleteFromTable(string attributeName, string dataName)
+{
+	int attributeIndex;
+	for (int i = 0; i<(int)tableAttributes.size(); i++)
+	{
+		if (tableAttributes[i].getName() == attributeName)
+			attributeIndex = i;
+	}
+	for (int i = 0; i<(int)tableData.size(); i++)
+	{
+		if (tableData[i][attributeIndex] == dataName)
+			tableData[i][attributeIndex].clear();
 	}
 }
 

@@ -19,18 +19,19 @@ public:
 
 	void writeTable(); //Used in WRITE (write to file)
 	void showTable(); //Used in SHOW (print to screen)
+	void insert(string values[]); //Used in INSERT
 
+	void deleteFromTable(string attributeName, string dataName);
 	int findAttributebyName(string attributeName);//Sergio
 	void changeAttributeName(string attributeName, string newAttributeName); //Sergio
 
 private:
 	string name;
-
+	vector<string> primaryKeys;
 	//Array of rows
 	vector< vector<string> > tableData;
 
 	//Array of attribute data types and names
 	vector<TableAttribute> tableAttributes;
 
-	//Array of attribute properties (e.g., the length of a varchar or PRIMARY KEY)
 };
