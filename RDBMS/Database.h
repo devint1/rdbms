@@ -19,9 +19,9 @@ public:
 	void closeTable(string tablename); //Corey
 	void writeTable(string tablename); //Corey
 	void showTable(string tablename); //Devin
-	void createTable(string name, string attributeNames[], string dataTypeNames[], string primaryKeyNames[]); //Devin
+	void createTable(string name, vector<string> attributeNames, vector<string> dataTypeNames, vector<string> primaryKeyNames); //Devin
 	void UpdateTable(string relationName, string attributeName, string condition);
 	void deleteFromTable(string name, string attributeName, string dataName);
-	void insertIntoTable(string tablename, string values[]);
+	void insertIntoTable(string tablename, vector<string> values);
 	void exit();
 };

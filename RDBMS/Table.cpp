@@ -10,13 +10,12 @@
 {
 }*/
 
-Table::Table(string name, string attributeNames[], string dataTypeNames[], string primaryKeyNames[]) : name(name)
+Table::Table(string name, vector<string> attributeNames, vector<string> dataTypeNames, vector<string> primaryKeyNames) : name(name)
 {
-	if (sizeof(attributeNames) != sizeof(dataTypeNames))
+	if (attributeNames.size() != dataTypeNames.size())
 		throw "Number of attributes and number of datatypes do not match.";
 	else { //If we get here, we know the arrays have the same size, so it does not matter which array we get the size of
-		int numAttributes = sizeof(attributeNames) / sizeof(string);
-		for (int i = 0; i < numAttributes; ++i) {
+		for (int i = 0; i < attributeNames.size(); ++i) {
 			tableAttributes.push_back(TableAttribute(attributeNames[i], dataTypeNames[i]));
 		}
 	}
@@ -101,15 +100,15 @@ void Table::showTable()
 		}
 		cout << "\n";
 	}
+	cout << endl;
 }
 
-void Table::insert(string values[])
+void Table::insert(vector<string> values)
 {
-	int numValues = sizeof(values) / sizeof(string);
-	if (numValues == tableAttributes.size())
+	if (values.size() == tableAttributes.size())
 	{
 		vector<string> vec;
-		for (int i = 0; i < numValues; ++i) {
+		for (int i = 0; i < values.size(); ++i) {
 			vec.push_back(values[i]);
 		}
 		tableData.push_back(vec);
