@@ -8,7 +8,7 @@ using namespace std;
 class Table
 {
 public:
-	Table(string name, string attributeNames[], string dataTypeNames[], string primaryKeyNames[]); //Used in CREATE: need to pass the relation-name, typed-attribute-list, and PRIMARY KEY attribute-list
+	Table(string name, vector<string> attributeNames, vector<string> dataTypeNames, vector<string> primaryKeyNames); //Used in CREATE: need to pass the relation-name, typed-attribute-list, and PRIMARY KEY attribute-list
 	Table();
 
 	Table(string tablename); //Used in OPEN (open from file)
@@ -16,10 +16,11 @@ public:
 
 	//Getters
 	string getName();
-
+	vector<TableAttribute> getAttributes();
+	vector<string> getPrimaryKeys();
 	void writeTable(); //Used in WRITE (write to file)
 	void showTable(); //Used in SHOW (print to screen)
-	void insert(string values[]); //Used in INSERT
+	void insert(vector<string> values); //Used in INSERT
 
 	void deleteFromTable(string attributeName, string dataName);
 	int findAttributebyName(string attributeName);//Sergio
