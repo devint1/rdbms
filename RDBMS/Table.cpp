@@ -103,13 +103,30 @@ void Table::showTable()
 	}
 }
 
+void Table::insert(string values[])
+{
+	int numValues = sizeof(values) / sizeof(string);
+	if (numValues == tableAttributes.size())
+	{
+		vector<string> vec;
+		for (int i = 0; i < numValues; ++i) {
+			vec.push_back(values[i]);
+		}
+		tableData.push_back(vec);
+	}
+	else
+	{
+		throw "Number of inserted values does not match number of columns.";
+	}
+}
+
 int Table::findAttributebyName(string attributeName)
 {
 	int position = 0;
 
 	for (vector<TableAttribute>::iterator it = tableAttributes.begin(); it != tableAttributes.end(); it++)
 	{
-		string indexedAttributeName = (*it).getName;
+		string indexedAttributeName = (*it).getName();
 
 		if (attributeName == indexedAttributeName)
 		{
@@ -126,7 +143,7 @@ void Table::changeAttributeName(string attributeName, string newAttributeName)
 {
 	for (vector<TableAttribute>::iterator it = tableAttributes.begin(); it != tableAttributes.end(); it++)
 	{
-		string indexedAttributeName = (*it).getName;
+		string indexedAttributeName = (*it).getName();
 
 		if (attributeName == indexedAttributeName)
 		{
@@ -135,4 +152,3 @@ void Table::changeAttributeName(string attributeName, string newAttributeName)
 		else{}
 	}
 }
-
