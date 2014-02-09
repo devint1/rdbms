@@ -27,6 +27,16 @@ Database::~Database()
 {
 }
 
+void Database::closeTable(string tablename)
+{
+	Table table = findTable(tablename);
+	table.writeTable();
+	for(int i=0;i<(int)tables.size();i++)
+	{
+		if(tables[i].getName()==tablename)
+			tables.erase(tables.begin()+i);
+	}
+}
 
 void Database::writeTable(string tablename)
 {
