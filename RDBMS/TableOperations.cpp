@@ -10,7 +10,7 @@ Table TableOperations::setUnion(Table table1, Table table2, string keyAttribute)
 		i++;
 	}
 
-	if (table1.getAttributes().size() != table2.getAttributes().size() || !attributesEqual)
+	if (table1.getAttributes().size() != table1.getAttributes().size() || !attributesEqual)
 		cout << "\nError: Tables do not have same attributes! (cannot compute Union)";
 
 	else{
