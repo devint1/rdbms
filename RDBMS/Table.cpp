@@ -53,6 +53,10 @@ string Table::getName() {
 	return name;
 }
 
+vector<TableAttribute> Table::getAttributes(){
+	return tableAttributes;
+}
+
 void Table::writeTable()
 {
 	ofstream file;

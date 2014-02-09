@@ -16,7 +16,7 @@ public:
 
 	//Getters
 	string getName();
-
+	vector<TableAttribute> getAttributes();
 	void writeTable(); //Used in WRITE (write to file)
 	void showTable(); //Used in SHOW (print to screen)
 	void deleteFromTable(string attributeName, string dataName);
