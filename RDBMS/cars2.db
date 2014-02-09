@@ -1,6 +1,8 @@
 car_id int Make varchar(255) Model varchar(255) Mpg int
 741 toyota celica 23
 742 ford F-250 19
+678 audi R8 4
 743 mazda rx8 25
+646 hyundai elantra 40
 744 toyota camry 28
 745 ford mustang 29

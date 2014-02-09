@@ -10,7 +10,7 @@ Table TableOperations::setUnion(Table table1, Table table2, string keyAttribute)
 		i++;
 	}
 
-	if (table1.getAttributes().size() != table1.getAttributes().size() || !attributesEqual)
+	if (table1.getAttributes().size() != table2.getAttributes().size() || !attributesEqual)
 		cout << "\nError: Tables do not have same attributes! (cannot compute Union)";
 
 	else{
@@ -36,12 +36,21 @@ Table TableOperations::setUnion(Table table1, Table table2, string keyAttribute)
 
 			Table unionTable(unionTableName, attributeNames, dataTypeNames, table1.getPrimaryKeys());
 
+			// insert contents of table 1 into unionTable
 			for (size_t k = 0; k < table1.getTableData().size(); k++){
 				unionTable.insert(table1.getTableData()[k]);
 			}
 
+			// insert contents of table 2 into unionTable excluding duplicates
+			bool duplicate = false;
 			for (size_t j = 0; j < table2.getTableData().size(); j++){
-				unionTable.insert(table2.getTableData()[j]);
+				for (size_t k = 0; k < table1.getTableData().size(); k++){
+					if (table2.getTableData()[j][keyAttributeIndex] == table1.getTableData()[k][keyAttributeIndex])
+						duplicate = true;
+				}
+				if (!duplicate)
+					unionTable.insert(table2.getTableData()[j]);
+				duplicate = false;
 			}
 
 			unionTable.writeTable();

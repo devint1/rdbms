@@ -72,7 +72,7 @@ void Table::writeTable()
 	{
 		file << tableAttributes[i].getName() << " " << tableAttributes[i].getType() << "\t";
 	}
-	cout << endl;
+	file << endl;
 	for (int i = 0; i < (int)tableData.size(); i++)
 	{
 		for (int j = 0; j < (int)tableData[i].size(); j++)
