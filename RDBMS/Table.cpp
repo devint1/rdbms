@@ -88,3 +88,37 @@ void Table::showTable()
 		cout << "\n";
 	}
 }
+
+int Table::findAttributebyName(string attributeName)
+{
+	int position = 0;
+
+	for (vector<TableAttribute>::iterator it = tableAttributes.begin(); it != tableAttributes.end(); it++)
+	{
+		string indexedAttributeName = (*it).getName;
+
+		if (attributeName == indexedAttributeName)
+		{
+			return position;
+		}
+		else
+		{
+			position++;
+		}
+	}
+}
+
+void Table::changeAttributeName(string attributeName, string newAttributeName)
+{
+	for (vector<TableAttribute>::iterator it = tableAttributes.begin(); it != tableAttributes.end(); it++)
+	{
+		string indexedAttributeName = (*it).getName;
+
+		if (attributeName == indexedAttributeName)
+		{
+			(*it).setName(newAttributeName);
+		}
+		else{}
+	}
+}
+
