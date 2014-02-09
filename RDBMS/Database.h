@@ -21,12 +21,7 @@ public:
 	void showTable(string tablename); //Devin
 	void createTable(string name, string attributeNames[], string dataTypeNames[], string primaryKeyNames[]); //Devin
 	void UpdateTable(string relationName, string attributeName, string condition);
-	//Update table // Sergio 
-	//Insert into table
 	void deleteFromTable(string name, string attributeName, string dataName);
-
-	//Update table
 	void insertIntoTable(string tablename, string values[]);
-	//Delete from table
 	void exit();
 };
