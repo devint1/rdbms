@@ -7,6 +7,7 @@ Table& Database::findTable(string name)
 			return t;
 		}
 	}
+	throw "Table not found.";
 }
 
 Database::Database()
@@ -60,12 +61,12 @@ void Database::showTable(string tablename)
 	table.showTable();
 }
 
-void Database::createTable(string name, string attributeNames[], string dataTypeNames[], string primaryKeyNames[])
+void Database::createTable(string name, vector<string> attributeNames, vector<string> dataTypeNames, vector<string> primaryKeyNames)
 {
 	tables.push_back(Table(name, attributeNames, dataTypeNames, primaryKeyNames));
 }
 
-void Database::insertIntoTable(string tablename, string values[])
+void Database::insertIntoTable(string tablename, vector<string> values)
 {
 	Table& t = findTable(tablename);
 	t.insert(values);
