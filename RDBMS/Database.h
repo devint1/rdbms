@@ -22,7 +22,7 @@ public:
 	void createTable(string name, string attributeNames[], string dataTypeNames[], string primaryKeyNames[]); //Devin
 	void UpdateTable(string relationName, string attributeName1, string attributeData1, string conditionAttributeName, string condition); 	///MAKE SURE findtable() ACCOUNTS for not finding the relation/table used for argument.	   //Sergio
 
-	//Insert into table
+	//Insert into tab
 	void deleteFromTable(string name, string attributeName, string dataName);
 
 	//Update table
