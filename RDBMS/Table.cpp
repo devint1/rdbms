@@ -123,10 +123,13 @@ void Table::insert(string values[])
 int Table::findAttributebyName(string attributeName)
 {
 	int position = 0;
+	vector<TableAttribute>::iterator it = tableAttributes.begin();
 
-	for (vector<TableAttribute>::iterator it = tableAttributes.begin(); it != tableAttributes.end(); it++)
+	if (it != tableAttributes.end())		 //Checks if vector is not empty first. If it is, thus the name was not found and retunrs -1
 	{
-		string indexedAttributeName = (*it).getName();
+		for (it = tableAttributes.begin(); it != tableAttributes.end(); it++)
+		{
+			string indexedAttributeName = (*it).getName();
 
 		if (attributeName == indexedAttributeName)
 		{
@@ -136,6 +139,11 @@ int Table::findAttributebyName(string attributeName)
 		{
 			position++;
 		}
+	}
+}
+	else
+	{
+		return -1;
 	}
 }
 
@@ -152,3 +160,19 @@ void Table::changeAttributeName(string attributeName, string newAttributeName)
 		else{}
 	}
 }
+
+void Table::deleteFromTable(string attributeName, string dataName)
+{
+	int attributeIndex;
+	for (int i = 0; i<(int)tableAttributes.size(); i++)
+	{
+		if (tableAttributes[i].getName() == attributeName)
+			attributeIndex = i;
+	}
+	for (int i = 0; i<(int)tableData.size(); i++)
+	{
+		if (tableData[i][attributeIndex] == dataName)
+			tableData[i][attributeIndex].clear();
+	}
+}
+

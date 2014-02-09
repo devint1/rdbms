@@ -38,6 +38,15 @@ void Database::closeTable(string tablename)
 	}
 }
 
+void Database::deleteFromTable(string name, string attributeName, string dataName)
+{
+	for (int i = 0; i<(int)tables.size(); i++)
+	{
+		if (tables[i].getName() == name)
+			tables[i].deleteFromTable(attributeName, dataName);
+	}
+}
+
 void Database::writeTable(string tablename)
 {
 	Table table = findTable(tablename);
@@ -60,4 +69,9 @@ void Database::insertIntoTable(string tablename, string values[])
 {
 	Table& t = findTable(tablename);
 	t.insert(values);
+}
+
+void Database::UpdateTable(string relationName, string attributeName, string condition)
+{
+ 
 }
