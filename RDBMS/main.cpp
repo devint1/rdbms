@@ -10,6 +10,7 @@ int main()
 	vector<string> vals = { "646", "Lamborghini", "Gallardo", "11" };
 	db.insertIntoTable("cars", vals);
 	db.deleteFromTable("cars", "Make", "ford");
+	db.updateTable("cars", "Model", "Celica", "Model", "corolla");
 	vector<string> attNames = { "firstName", "lastName", "email", "cars" };
 	vector<string> attTypes = { "varchar(255)", "varchar(255)", "varchar(255)", "varchar(255)" };
 	vector<string> primKeys = { "email" };
