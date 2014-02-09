@@ -18,6 +18,8 @@ public:
 	string getName();
 	vector<TableAttribute> getAttributes();
 	vector<string> getPrimaryKeys();
+	vector< vector<string> > getTableData();
+
 	void writeTable(); //Used in WRITE (write to file)
 	void showTable(); //Used in SHOW (print to screen)
 	void insert(vector<string> values); //Used in INSERT
