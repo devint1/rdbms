@@ -71,7 +71,22 @@ void Database::insertIntoTable(string tablename, string values[])
 	t.insert(values);
 }
 
-void Database::UpdateTable(string relationName, string attributeName, string condition)
+void Database::UpdateTable(string relationName, string changeAtrributeName, string conditionAttributeData, string conditionAttributeName, string changeAttributeData)
 {
- 
+	Table relation;
+	int changeAttributePos;
+	int conditionAttributePos;
+	
+
+	relation = findTable(relationName);
+
+	changeAttributePos = relation.findAttributebyName(changeAtrributeName);	  //Gets the attribute that will be modified index's
+	conditionAttributePos = relation.findAttributebyName(conditionAttributeName);	  //Gets the attribute that will be used as conditions index's
+	
+	relation.update(changeAttributePos, conditionAttributePos, conditionAttributeData, changeAttributeData);
+	
 }
+
+
+
+

@@ -176,3 +176,17 @@ void Table::deleteFromTable(string attributeName, string dataName)
 	}
 }
 
+void Table::update(int& changeAttributePos, int& conditionAttributePos, string& conditionAttributeData, string& changeAttributeData)
+{
+	if ( (conditionAttributePos != -1) && (changeAttributePos != -1) ) //-1 Means attribute was not found
+	{
+		for (int i = 0; i < tableData.size(); i++)
+		{
+			if (tableData[i][conditionAttributePos] == conditionAttributeData)
+			{
+				tableData[i][changeAttributePos] = changeAttributeData;
+			}
+		}
+	}
+}
+
