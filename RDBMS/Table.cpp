@@ -57,6 +57,10 @@ vector<TableAttribute> Table::getAttributes(){
 	return tableAttributes;
 }
 
+vector<string> Table::getPrimaryKeys(){
+	return primaryKeys;
+}
+
 void Table::writeTable()
 {
 	ofstream file;

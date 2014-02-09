@@ -17,6 +17,7 @@ public:
 	//Getters
 	string getName();
 	vector<TableAttribute> getAttributes();
+	vector<string> getPrimaryKeys();
 	void writeTable(); //Used in WRITE (write to file)
 	void showTable(); //Used in SHOW (print to screen)
 	void insert(string values[]); //Used in INSERT
