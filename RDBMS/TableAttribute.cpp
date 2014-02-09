@@ -1,10 +1,8 @@
 #include "TableAttribute.h"
 
 
-TableAttribute::TableAttribute(string name, string type)
+TableAttribute::TableAttribute(string name, string type) : name(name), type(type)
 {
-	name = name;
-	type  = type;
 }
 
 

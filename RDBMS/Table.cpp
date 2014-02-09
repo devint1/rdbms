@@ -1,5 +1,6 @@
 #include <fstream>
 #include <iostream>
+#include <iomanip>
 #include <sstream>
 #include <vector>
 #include "Table.h"
@@ -38,8 +39,6 @@ Table::Table(string tablename)
 		else{
 			tableData.push_back(tokens);
 		}
-
-		cout << endl;
 		lineNumber++;
 	}
 	myfile.close();
@@ -75,15 +74,30 @@ void Table::writeTable()
 
 void Table::showTable()
 {
-	for (int i = 0; i<(int)tableAttributes.size(); i++)
+	const int COL_WIDTH = 15;
+	for (int i = 0; i < (int)tableAttributes.size(); ++i)
 	{
-		cout << tableAttributes[i].getName() << " " << tableAttributes[i].getType() << "\t";
+		cout << setw(COL_WIDTH) << tableAttributes[i].getName();
 	}
+	cout << endl;
+	for (int i = 0; i < (int)tableAttributes.size(); ++i)
+	{
+		cout << setw(COL_WIDTH) << tableAttributes[i].getType();
+	}
+	cout << endl;
+	for (int i = 0; i < tableAttributes.size(); ++i)
+	{
+		for (int j = 0; j <= COL_WIDTH - 1; ++j)
+		{
+			cout << "=";
+		}
+	}
+	cout << endl;
 	for (int i = 0; i<(int)tableData.size(); i++)
 	{
 		for (int j = 0; j<(int)tableData[i].size(); j++)
 		{
-			cout << tableData[i][j] << "\t";
+			cout << setw(COL_WIDTH) << tableData[i][j];
 		}
 		cout << "\n";
 	}
