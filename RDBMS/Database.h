@@ -22,6 +22,7 @@ public:
 	void createTable(string name, string attributeNames[], string dataTypeNames[], string primaryKeyNames[]); //Devin
 	//Update table
 	//Insert into table
-	//Delete from table
+	void deleteFromTable(string name, string attributeName, string dataName);
+
 	void exit();
 };
