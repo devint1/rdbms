@@ -92,19 +92,27 @@ void Table::showTable()
 int Table::findAttributebyName(string attributeName)
 {
 	int position = 0;
+	vector<TableAttribute>::iterator it = tableAttributes.begin();
 
-	for (vector<TableAttribute>::iterator it = tableAttributes.begin(); it != tableAttributes.end(); it++)
+	if (it != tableAttributes.end())		 //Checks if vector is not empty first. If it is, thus the name was not found and retunrs -1
 	{
-		string indexedAttributeName = (*it).getName;
+		for (it = tableAttributes.begin(); it != tableAttributes.end(); it++)
+		{
+			string indexedAttributeName = (*it).getName;
 
-		if (attributeName == indexedAttributeName)
-		{
-			return position;
-		}
-		else
-		{
-			position++;
-		}
+			if (attributeName == indexedAttributeName)
+			{
+				return position;
+			}
+			else
+			{
+				position++;
+			}
+	     }
+	}
+	else
+	{
+		return -1;
 	}
 }
 
