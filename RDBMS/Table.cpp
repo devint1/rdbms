@@ -169,13 +169,16 @@ void Table::deleteFromTable(string attributeName, string dataName)
 	int attributeIndex;
 	for (int i = 0; i<(int)tableAttributes.size(); i++)
 	{
-		if (tableAttributes[i].getName() == attributeName)
+		if (tableAttributes[i].getName() == attributeName) 
+		{
 			attributeIndex = i;
+			break;
+		}
 	}
 	for (int i = 0; i<(int)tableData.size(); i++)
 	{
 		if (tableData[i][attributeIndex] == dataName)
-			tableData[i][attributeIndex].clear();
+			tableData.erase(tableData.begin() + i);
 	}
 }
 

@@ -49,5 +49,8 @@
     <None Include="cars.db">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="users.db">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
