@@ -104,3 +104,19 @@ Table TableOperations::setDifference(Table table1, Table table2, string keyAttri
 	}
 	return table1; // not sure what to return if not difference-able
 }
+
+Table TableOperations::naturalJoin(Table table1, Table table2, string keyAttribute){
+	int keyAttributeIndex1 = table1.findAttributebyName(keyAttribute);
+	int keyAttributeIndex2 = table2.findAttributebyName(keyAttribute);
+
+	if (keyAttributeIndex1 == -1 || keyAttributeIndex2 == -1)
+		cout << "\nError: Tables do not have matching " << keyAttribute << " attribute! (cannot be joined)";
+
+	else{
+		// (1) find union of attributes (should require separate function)
+		// (2) create table with union of attributes
+		// (3) insert elements with matching atrribute values and all other data in each row.
+	}
+
+	return table1; // not sure what to return if not join-able
+}
