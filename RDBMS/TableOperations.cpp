@@ -104,6 +104,26 @@ Table TableOperations::setDifference(Table table1, Table table2, string keyAttri
 	}
 	return table1; // not sure what to return if not difference-able
 }
+vector<TableAttribute> TableOperations::attributeUnion(Table table1, Table table2){
+	vector<TableAttribute> attributes;
+	bool duplicate = false;
+
+	for (size_t k = 0; k < table1.getAttributes().size(); k++){
+		attributes.push_back(table1.getAttributes()[k]);
+	}
+
+	for (size_t j = 0; j < table2.getAttributes().size(); j++){
+		for (size_t k = 0; k < table1.getAttributes().size(); k++){
+			if (table2.getAttributes()[j].getName() == table1.getAttributes()[k].getName())
+				duplicate = true;
+		}
+		if (!duplicate)
+			attributes.push_back(table2.getAttributes()[j]);
+		duplicate = false;
+	}
+
+	return attributes;
+}
 
 Table TableOperations::naturalJoin(Table table1, Table table2, string keyAttribute){
 	int keyAttributeIndex1 = table1.findAttributebyName(keyAttribute);
@@ -114,8 +134,22 @@ Table TableOperations::naturalJoin(Table table1, Table table2, string keyAttribu
 
 	else{
 		// (1) find union of attributes (should require separate function)
+		vector<TableAttribute> joinAttributes = attributeUnion(table1, table2);
+		
 		// (2) create table with union of attributes
-		// (3) insert elements with matching atrribute values and all other data in each row.
+		string unionTableName = table1.getName() + "_" + table2.getName() + "_join";
+		vector<string> attributeNames;
+		vector<string> dataTypeNames;
+		int keyAttributeIndex = table1.findAttributebyName(keyAttribute);
+
+		for (TableAttribute attrib : joinAttributes){
+			attributeNames.push_back(attrib.getName());
+			dataTypeNames.push_back(attrib.getType());
+		}
+
+		Table differenceTable(unionTableName, attributeNames, dataTypeNames, table1.getPrimaryKeys());
+
+		// (3) insert elements with matching k attribute values from each table. #TODO
 	}
 
 	return table1; // not sure what to return if not join-able
