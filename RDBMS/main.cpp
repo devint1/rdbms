@@ -21,7 +21,10 @@ int main()
 	db.closeTable("users");
 	db.openTable("cars2");
 
-	TableOperations::setUnion(db.findTable("cars"), db.findTable("cars2"), "Model");
+	TableOperations::setUnion(db.findTable("cars"), db.findTable("cars2"), "car_id");
+	TableOperations::setDifference(db.findTable("cars"), db.findTable("cars2"), "car_id");
+	TableOperations::setDifference(db.findTable("cars2"), db.findTable("cars2"), "car_id");
+	TableOperations::setDifference(db.findTable("cars2"), db.findTable("cars"), "car_id");
 	
 	system("PAUSE");
 	return 0;

@@ -12,9 +12,10 @@ public:
 
 	//Calculates set union of two tables, returns the the result as a new table
 	static Table setUnion(Table table1, Table table2, string keyAttribute); // MIGUEL
-	static Table setDifference(Table table1, Table table2); //Calculates set difference of two tables, returns the the result as a new table
+	static Table setDifference(Table table1, Table table2, string keyAttribute); //Calculates set difference of two tables, returns the the result as a new table
 	static Table crossProduct(Table table1, Table table2); //Calculates cartesian product of two tables, returns the result as a new table
 	//Projection
+
 	//Renaming
 };
 
