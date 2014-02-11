@@ -159,15 +159,10 @@ int Table::findAttributebyName(string attributeName)
 
 void Table::changeAttributeName(string attributeName, string newAttributeName)
 {
-	for (vector<TableAttribute>::iterator it = tableAttributes.begin(); it != tableAttributes.end(); it++)
-	{
-		string indexedAttributeName = (*it).getName();
-
-		if (attributeName == indexedAttributeName)
-		{
-			(*it).setName(newAttributeName);
+	for (int i = 0; i < tableAttributes.size(); ++i) {
+		if (tableAttributes[i].getName() == attributeName) {
+			tableAttributes[i].setName(newAttributeName);
 		}
-		else{}
 	}
 }
 

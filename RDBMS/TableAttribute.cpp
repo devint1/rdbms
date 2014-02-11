@@ -21,12 +21,12 @@ string TableAttribute::getType()
 	return type;
 }
 
-void TableAttribute::setName(string name)
+void TableAttribute::setName(string newName)
 {
-	name = name;
+	name = newName;
 }
 
-void TableAttribute::setType(string type)
+void TableAttribute::setType(string newType)
 {
-	type = type;
+	type = newType;
 }

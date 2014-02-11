@@ -99,6 +99,10 @@ namespace RDBMSTest
 		TEST_METHOD(Rename)
 		{
 			initDB();
+			Table table = db.findTable("schoolLocations");
+			table.changeAttributeName("School", "my_school");
+			string testString = "my_school";
+			Assert::AreEqual(table.getAttributes()[0].getName(), testString);
 		}
 		TEST_METHOD(NaturalJoin)
 		{
