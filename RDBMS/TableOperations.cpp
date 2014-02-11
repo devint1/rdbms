@@ -3,8 +3,9 @@
 
 Table TableOperations::select(string attributesToInclude, Table targetTable, string conditionAttribute, string condition)
 {
-	int attributesToIncludeIndex = 0;
-	int conditionIndex = 0;
+
+	int conditionAttributeIndex;
+	int attributesToIncludeIndex;
 	vector< vector<string> > targetData;
 	vector<TableAttribute> targetAttributes;
 
@@ -20,18 +21,10 @@ Table TableOperations::select(string attributesToInclude, Table targetTable, str
 			newTablePrimaryKeyNames.push_back(targetTable.getPrimaryKeys()[i]);
 	}
 
-
 	targetData = targetTable.getTableData();
 	targetAttributes = targetTable.getAttributes();
 	newTableName = ("Cars_select_") + attributesToInclude; //Check if literals and non-literals can be concatenated
 
-
-
-	for (size_t i = 0; i < targetAttributes.size(); i++)  // Finds the condition index within table attributes to later relate it to TableData
-	{
-		if (targetAttributes[i].getName() == conditionAttribute)
-			conditionIndex = i;
-	}
 
 	for (size_t i = 0; i < targetAttributes.size(); i++)   //Finds the attributes to include index within a table attributes to later relate it to TableData
 	{
@@ -42,13 +35,19 @@ Table TableOperations::select(string attributesToInclude, Table targetTable, str
 			newTableDataTypeNames.push_back(targetAttributes[i].getType());
 		}
 	}
-	
+
+	for (size_t i = 0; i < targetAttributes.size(); i++)   //Finds the condition attribute index within a table attributes to later relate it to TableData
+	{
+		if (targetAttributes[i].getName() == conditionAttribute)	 //had == condition (I think  == condition is wrong)
+		{
+			conditionAttributeIndex = i;
+		}
+	}
 	for (size_t i = 0; i < targetData.size(); i++)
 	{
-		if (targetData[i][conditionIndex] == condition)
-		{
+		if (targetData[i][conditionAttributeIndex] == condition)
 			newTableData.push_back(targetData[i][attributesToIncludeIndex]); //Inputs attribute desired that met condition from old, original table, into the new table Data
-		}
+	
 
 	}
 
@@ -58,13 +57,11 @@ Table TableOperations::select(string attributesToInclude, Table targetTable, str
 	{
 		vector<string>data;
 		data.push_back(newTableData[i]);
-		if (data[conditionIndex] == condition)
 		selectTable.insert(data);
 	}
 
 	selectTable.writeTable();
 	return selectTable;
-
 }
 
 Table TableOperations::select(string attributesToInclude, Table targetTable)
@@ -88,7 +85,7 @@ Table TableOperations::select(string attributesToInclude, Table targetTable)
 
 	targetData = targetTable.getTableData();
 	targetAttributes = targetTable.getAttributes();
-	newTableName = ("Cars_select_") + attributesToInclude; //Check if literals and non-literals can be concatenated
+	newTableName = (targetTable.getName()+"_select_") + attributesToInclude; //Check if literals and non-literals can be concatenated
 
 
 	for (size_t i = 0; i < targetAttributes.size(); i++)   //Finds the attributes to include index within a table attributes to later relate it to TableData
