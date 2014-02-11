@@ -55,5 +55,11 @@
     <None Include="cars2.db">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="students.db">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="schoolLocations.db">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
