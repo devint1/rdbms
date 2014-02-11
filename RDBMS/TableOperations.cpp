@@ -66,7 +66,6 @@ Table TableOperations::select(string attributesToInclude, Table targetTable, str
 
 Table TableOperations::select(string attributesToInclude, Table targetTable)
 {
-	int conditionIndex;
 	int attributesToIncludeIndex;
 	vector< vector<string> > targetData;
 	vector<TableAttribute> targetAttributes;
@@ -284,9 +283,12 @@ Table TableOperations::naturalJoin(Table table1, Table table2){
 		vector<TableAttribute> joinAttributes = attributeUnion(table1, table2);
 		vector<TableAttribute> intersectAttributes = attributeIntersection(table1, table2);
 		vector<TableAttribute> appendAttributes = attributeDifference(table1, table2);
-
+		if (intersectAttributes.size() == 0){
+			cout << "\nError: no intersecting attributes. (no join possible)";
+			return table1;
+		}
 		string keyAttribute = intersectAttributes[0].getName();
-
+	
 		int keyAttributeIndex1 = table1.findAttributebyName(keyAttribute);
 		int keyAttributeIndex2 = table2.findAttributebyName(keyAttribute);
 

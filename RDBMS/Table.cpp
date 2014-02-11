@@ -159,7 +159,7 @@ int Table::findAttributebyName(string attributeName)
 
 void Table::changeAttributeName(string attributeName, string newAttributeName)
 {
-	for (int i = 0; i < tableAttributes.size(); ++i) {
+	for (size_t i = 0; i < tableAttributes.size(); ++i) {
 		if (tableAttributes[i].getName() == attributeName) {
 			tableAttributes[i].setName(newAttributeName);
 		}
@@ -188,7 +188,7 @@ void Table::update(int& changeAttributePos, int& conditionAttributePos, string& 
 {
 	if ( (conditionAttributePos != -1) && (changeAttributePos != -1) ) //-1 Means attribute was not found
 	{
-		for (int i = 0; i < tableData.size(); i++)
+		for (size_t i = 0; i < tableData.size(); i++)
 		{
 			if (tableData[i][conditionAttributePos] == conditionAttributeData)
 			{
