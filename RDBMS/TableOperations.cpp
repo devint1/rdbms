@@ -190,3 +190,27 @@ Table TableOperations::crossProduct(Table table1, Table table2)
 
 	return result;
 }
+
+Table TableOperations::renamingAttributes(Table table, string attributeName, string rename)
+{
+	Table newtable = table;
+	newtable.changeAttributeName(attributeName, rename);
+	return newtable;
+}
+
+TableAttribute TableOperations::project(Table table, string name)
+{
+	Table newtable = table;
+	int index = newtable.findAttributebyName(name);
+	vector<TableAttribute> attr = newtable.getAttributes();
+	return attr[index];
+}
+
+tuple<TableAttribute, TableAttribute> TableOperations::project(Table table, string name1, string name2)
+{
+	Table newtable = table;
+	int index1 = newtable.findAttributebyName(name1);
+	int index2 = newtable.findAttributebyName(name2);
+	vector<TableAttribute> attr = newtable.getAttributes();
+	return make_tuple(attr[index1], attr[index2]);
+}
