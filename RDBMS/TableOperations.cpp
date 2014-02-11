@@ -154,3 +154,10 @@ Table TableOperations::naturalJoin(Table table1, Table table2, string keyAttribu
 
 	return table1; // not sure what to return if not join-able
 }
+
+Table TableOperations::renamingAttributes(Table table, string attributeName, string rename)
+{
+	Table newtable = table;
+	newtable.changeAttributeName(attributeName, rename);
+	return newtable;
+}

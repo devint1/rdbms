@@ -18,6 +18,6 @@ public:
 	static Table naturalJoin(Table table1, Table table2, string keyAttribute); // MIGUEL
 	//Projection
 
-	//Renaming
+	static Table renamingAttributes(Table table, string attributeName, string rename);	//Corey, takes a table, the attribute name to be renamed, and the name to be changed to. returns the new table
 };
 
