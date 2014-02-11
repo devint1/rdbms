@@ -14,7 +14,7 @@ Table select(string attributesToInclude, Table targetTable, string condition)
 	vector<string> newTableAttributeNames;
 	vector<string> newTablePrimaryKeyNames;
 
-	for (size_t i = 0; i < targetTable.getPrimaryKeys.size(); i++)
+	for (size_t i = 0; i < targetTable.getPrimaryKeys().size(); i++)
 	{
 		if (attributesToInclude == targetTable.getPrimaryKeys()[i])
 			newTablePrimaryKeyNames.push_back(targetTable.getPrimaryKeys()[i]);
@@ -27,13 +27,13 @@ Table select(string attributesToInclude, Table targetTable, string condition)
 
 
 
-	for (int i = 0; i < targetAttributes.size(); i++)  // Finds the condition index within table attributes to later relate it to TableData
+	for (size_t i = 0; i < targetAttributes.size(); i++)  // Finds the condition index within table attributes to later relate it to TableData
 	{
 		if (targetAttributes[i].getName() == condition)
 			conditionIndex = i;
 	}
 
-	for (int i = 0; i < targetAttributes.size(); i++)   //Finds the attributes to include index within a table attributes to later relate it to TableData
+	for (size_t i = 0; i < targetAttributes.size(); i++)   //Finds the attributes to include index within a table attributes to later relate it to TableData
 	{
 		if (targetAttributes[i].getName() == attributesToInclude)	 //had == condition (I think  == condition is wrong)
 		{
@@ -43,7 +43,7 @@ Table select(string attributesToInclude, Table targetTable, string condition)
 		}
 	}
 	
-	for (int i = 0; i < targetData.size(); i++)
+	for (size_t i = 0; i < targetData.size(); i++)
 	{
 		if (targetData[i][conditionIndex] == condition)
 		{
@@ -54,7 +54,7 @@ Table select(string attributesToInclude, Table targetTable, string condition)
 
 	Table selectTable(newTableName, newTableAttributeNames, newTableDataTypeNames, newTablePrimaryKeyNames);
 
-	for (int i = 0; i < newTableData.size(); i++)	 //Inserts Attribute Data into Table
+	for (size_t i = 0; i < newTableData.size(); i++)	 //Inserts Attribute Data into Table
 	{
 		vector<string>data;
 		data.push_back(newTableData[i]);
@@ -79,7 +79,7 @@ Table select(string attributesToInclude, Table targetTable)
 	vector<string> newTableAttributeNames;
 	vector<string> newTablePrimaryKeyNames;
 
-	for (size_t i = 0; i < targetTable.getPrimaryKeys.size(); i++)
+	for (size_t i = 0; i < targetTable.getPrimaryKeys().size(); i++)
 	{
 		if (attributesToInclude == targetTable.getPrimaryKeys()[i])
 			newTablePrimaryKeyNames.push_back(targetTable.getPrimaryKeys()[i]);
@@ -90,7 +90,7 @@ Table select(string attributesToInclude, Table targetTable)
 	newTableName = ("Cars_select_") + attributesToInclude; //Check if literals and non-literals can be concatenated
 
 
-	for (int i = 0; i < targetAttributes.size(); i++)   //Finds the attributes to include index within a table attributes to later relate it to TableData
+	for (size_t i = 0; i < targetAttributes.size(); i++)   //Finds the attributes to include index within a table attributes to later relate it to TableData
 	{
 		if (targetAttributes[i].getName() == attributesToInclude)	 //had == condition (I think  == condition is wrong)
 		{
@@ -100,7 +100,7 @@ Table select(string attributesToInclude, Table targetTable)
 		}
 	}
 
-	for (int i = 0; i < targetData.size(); i++)
+	for (size_t i = 0; i < targetData.size(); i++)
 	{
 		//if (targetData[i][attributesToIncludeIndex] == attributesToInclude)
 		//{
@@ -111,7 +111,7 @@ Table select(string attributesToInclude, Table targetTable)
 
 	Table selectTable(newTableName, newTableAttributeNames, newTableDataTypeNames, newTablePrimaryKeyNames);
 
-	for (int i = 0; i < newTableData.size(); i++)	 //Inserts Attribute Data into Table
+	for (size_t i = 0; i < newTableData.size(); i++)	 //Inserts Attribute Data into Table
 	{
 		vector<string>data;
 		data.push_back(newTableData[i]);
