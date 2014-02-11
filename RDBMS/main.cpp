@@ -20,6 +20,8 @@ int main()
 	db.writeTable("users");
 	db.closeTable("users");
 	db.openTable("cars2");
+	db.openTable("students");
+	db.openTable("schoolLocations");
 
 	TableOperations::setUnion(db.findTable("cars"), db.findTable("cars2"), "car_id");
 	TableOperations::setDifference(db.findTable("cars"), db.findTable("cars2"), "car_id");
@@ -30,8 +32,7 @@ int main()
 	string name1, name2;
 	TableAttribute rename = TableOperations::project(db.findTable("cars"), name1);
 	TableOperations::renamingAttributes(db.findTable("cars2"), name2, rename.getName());
-
-	
+	TableOperations::naturalJoin(db.findTable("students"), db.findTable("schoolLocations"));
 	
 	system("PAUSE");
 	return 0;

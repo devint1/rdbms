@@ -16,6 +16,10 @@ public:
 	static Table setDifference(Table table1, Table table2, string keyAttribute); //Calculates set difference of two tables, returns the the result as a new table
 	static Table crossProduct(Table table1, Table table2); //Calculates cartesian product of two tables, returns the result as a new table
 	static vector<TableAttribute> attributeUnion(Table table1, Table table2);
+	static vector<TableAttribute> attributeIntersection(Table table1, Table table2);
+	static vector<TableAttribute> attributeDifference(Table table1, Table table2);
+	static Table naturalJoin(Table table1, Table table2); // MIGUEL
+	//Projection
 	static Table naturalJoin(Table table1, Table table2, string keyAttribute); // MIGUEL
 	static TableAttribute project(Table table, string name);	//Corey, takes a name, returns the entire TableAttribute
 	static tuple<TableAttribute, TableAttribute> project(Table table, string name1, string name2);//Corey, takes two names, returns a tuple of the two Attributes

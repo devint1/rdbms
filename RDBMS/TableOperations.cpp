@@ -226,6 +226,23 @@ Table TableOperations::setDifference(Table table1, Table table2, string keyAttri
 	}
 	return table1; // not sure what to return if not difference-able
 }
+
+vector<TableAttribute> TableOperations::attributeIntersection(Table table1, Table table2){
+	vector<TableAttribute> attributes;
+	bool duplicate = false;
+
+	for (size_t j = 0; j < table2.getAttributes().size(); j++){
+		for (size_t k = 0; k < table1.getAttributes().size(); k++){
+			if (table2.getAttributes()[j].getName() == table1.getAttributes()[k].getName())
+				duplicate = true;
+		}
+		if (duplicate)
+			attributes.push_back(table2.getAttributes()[j]);
+		duplicate = false;
+	}
+	return attributes;
+}
+
 vector<TableAttribute> TableOperations::attributeUnion(Table table1, Table table2){
 	vector<TableAttribute> attributes;
 	bool duplicate = false;
@@ -247,32 +264,76 @@ vector<TableAttribute> TableOperations::attributeUnion(Table table1, Table table
 	return attributes;
 }
 
-Table TableOperations::naturalJoin(Table table1, Table table2, string keyAttribute){
-	int keyAttributeIndex1 = table1.findAttributebyName(keyAttribute);
-	int keyAttributeIndex2 = table2.findAttributebyName(keyAttribute);
+vector<TableAttribute> TableOperations::attributeDifference(Table table1, Table table2){
+	vector<TableAttribute> attributes;
+	bool inTable1 = false;
+	for (size_t j = 0; j < table2.getAttributes().size(); j++){
+		for (size_t k = 0; k < table1.getAttributes().size(); k++){
+			if (table2.getAttributes()[j].getName() == table1.getAttributes()[k].getName())
+				inTable1 = true;
+		}
+		if (!inTable1)
+			attributes.push_back(table2.getAttributes()[j]);
+		inTable1 = false;
+	}
 
-	if (keyAttributeIndex1 == -1 || keyAttributeIndex2 == -1)
-		cout << "\nError: Tables do not have matching " << keyAttribute << " attribute! (cannot be joined)";
+	return attributes;
+}
 
-	else{
+Table TableOperations::naturalJoin(Table table1, Table table2){
+
 		// (1) find union of attributes (should require separate function)
 		vector<TableAttribute> joinAttributes = attributeUnion(table1, table2);
-		
-		// (2) create table with union of attributes
-		string unionTableName = table1.getName() + "_" + table2.getName() + "_join";
-		vector<string> attributeNames;
-		vector<string> dataTypeNames;
-		int keyAttributeIndex = table1.findAttributebyName(keyAttribute);
+		vector<TableAttribute> intersectAttributes = attributeIntersection(table1, table2);
+		vector<TableAttribute> appendAttributes = attributeDifference(table1, table2);
 
-		for (TableAttribute attrib : joinAttributes){
-			attributeNames.push_back(attrib.getName());
-			dataTypeNames.push_back(attrib.getType());
+		string keyAttribute = intersectAttributes[0].getName();
+
+		int keyAttributeIndex1 = table1.findAttributebyName(keyAttribute);
+		int keyAttributeIndex2 = table2.findAttributebyName(keyAttribute);
+
+		if (keyAttributeIndex1 == -1 || keyAttributeIndex2 == -1)
+			cout << "\nError: Tables do not have matching " << keyAttribute << " attribute! (cannot be joined)";
+		else{
+			// (2) create table with union of attributes
+			string joinTableName = table1.getName() + "_" + table2.getName() + "_join";
+			vector<string> attributeNames;
+			vector<string> dataTypeNames;
+
+			for (TableAttribute attrib : joinAttributes){
+				attributeNames.push_back(attrib.getName());
+				dataTypeNames.push_back(attrib.getType());
+			}
+
+			Table joinTable(joinTableName, attributeNames, dataTypeNames, table1.getPrimaryKeys());
+			vector<string> newTableEntry;
+			vector<int> table1AttributeInd;
+			vector<int> table2AttributeInd;
+
+			for (size_t j = 0; j < (joinAttributes.size() - appendAttributes.size()); j++){
+				table1AttributeInd.push_back(table1.findAttributebyName(joinAttributes[j].getName()));
+			}
+
+			for (size_t k = 0; k < appendAttributes.size(); k++){
+				table2AttributeInd.push_back(table2.findAttributebyName(appendAttributes[k].getName()));
+			}
+
+ 			for (size_t i = 0; i < table1.getTableData().size(); i++){
+				for (size_t x = 0; x < table2.getTableData().size(); x++){
+					if (table1.getTableData()[i][keyAttributeIndex1] == table2.getTableData()[x][keyAttributeIndex2]){
+						for (size_t n = 0; n < table1AttributeInd.size(); n++){
+							newTableEntry.push_back(table1.getTableData()[i][table1AttributeInd[n]]);
+						}
+						for (size_t m = 0; m < table2AttributeInd.size(); m++){
+							newTableEntry.push_back(table2.getTableData()[x][table2AttributeInd[m]]);
+						}
+						joinTable.insert(newTableEntry);
+						newTableEntry.clear();
+					}
+				}
+			}
+			joinTable.writeTable();
 		}
-
-		Table differenceTable(unionTableName, attributeNames, dataTypeNames, table1.getPrimaryKeys());
-
-		// (3) insert elements with matching k attribute values from each table. #TODO
-	}
 
 	return table1; // not sure what to return if not join-able
 }
