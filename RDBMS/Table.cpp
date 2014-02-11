@@ -21,6 +21,11 @@ Table::Table(string name, vector<string> attributeNames, vector<string> dataType
 	}
 }
 
+Table::Table(string name, vector<TableAttribute> attributes, vector<string> primaryKeyNames) : name(name), tableAttributes(attributes), primaryKeys(primaryKeyNames)
+{
+
+}
+
 Table::Table(string tablename)
 {
 	name = tablename;
