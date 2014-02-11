@@ -8,7 +8,7 @@ class TableOperations //All relational algebra logic is handled by this class
 {
 public:
 	//These are close to what the assignment requires, but not exactly
-	static Table select(string attributesToInclude, Table targetTable, string condition); //Sergio //User provided a WHERE clause
+	static Table select(string attributesToInclude, Table targetTable, string conditionAttribute, string condition); //Sergio //User provided a WHERE clause
 	static Table select(string attributesToInclude, Table targetTable); //Sergio //User did not provide a WHERE clause
 
 	//Calculates set union of two tables, returns the the result as a new table

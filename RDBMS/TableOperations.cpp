@@ -1,10 +1,10 @@
 #include "TableOperations.h"
 
 
-Table select(string attributesToInclude, Table targetTable, string condition)	
+Table TableOperations::select(string attributesToInclude, Table targetTable, string conditionAttribute, string condition)
 {
-	int conditionIndex;
-	int attributesToIncludeIndex;
+	int attributesToIncludeIndex = 0;
+	int conditionIndex = 0;
 	vector< vector<string> > targetData;
 	vector<TableAttribute> targetAttributes;
 
@@ -14,22 +14,13 @@ Table select(string attributesToInclude, Table targetTable, string condition)
 	vector<string> newTableAttributeNames;
 	vector<string> newTablePrimaryKeyNames;
 
-	for (size_t i = 0; i < targetTable.getPrimaryKeys.size(); i++)
-	{
-		if (attributesToInclude == targetTable.getPrimaryKeys()[i])
-			newTablePrimaryKeyNames.push_back(targetTable.getPrimaryKeys()[i]);
-	}
-
-
 	targetData = targetTable.getTableData();
 	targetAttributes = targetTable.getAttributes();
 	newTableName = ("Cars_select_") + attributesToInclude; //Check if literals and non-literals can be concatenated
 
-
-
 	for (int i = 0; i < targetAttributes.size(); i++)  // Finds the condition index within table attributes to later relate it to TableData
 	{
-		if (targetAttributes[i].getName() == condition)
+		if (targetAttributes[i].getName() == conditionAttribute)
 			conditionIndex = i;
 	}
 
@@ -58,7 +49,8 @@ Table select(string attributesToInclude, Table targetTable, string condition)
 	{
 		vector<string>data;
 		data.push_back(newTableData[i]);
-		selectTable.insert(data);
+		if (data[conditionIndex] == condition)
+			selectTable.insert(data);
 	}
 
 	selectTable.writeTable();
@@ -66,7 +58,7 @@ Table select(string attributesToInclude, Table targetTable, string condition)
 
 }
 
-Table select(string attributesToInclude, Table targetTable)
+Table TableOperations::select(string attributesToInclude, Table targetTable)
 {
 	int conditionIndex;
 	int attributesToIncludeIndex;
@@ -79,7 +71,7 @@ Table select(string attributesToInclude, Table targetTable)
 	vector<string> newTableAttributeNames;
 	vector<string> newTablePrimaryKeyNames;
 
-	for (size_t i = 0; i < targetTable.getPrimaryKeys.size(); i++)
+	for (size_t i = 0; i < targetTable.getPrimaryKeys().size(); i++)
 	{
 		if (attributesToInclude == targetTable.getPrimaryKeys()[i])
 			newTablePrimaryKeyNames.push_back(targetTable.getPrimaryKeys()[i]);

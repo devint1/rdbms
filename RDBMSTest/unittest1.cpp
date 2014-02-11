@@ -90,11 +90,15 @@ namespace RDBMSTest
 		//Need to complete
 		TEST_METHOD(Select)
 		{
-
+			initDB();
+			Table testTable1 = TableOperations::select("Model", db.findTable("cars"));
+			Table testTable2 = TableOperations::select("Make", db.findTable("cars"), "Make", "hyundai");
+			Assert::AreEqual((int)testTable1.getAttributes().size(), 1);
+			Assert::AreEqual((int)testTable2.getAttributes().size(), 1);
 		}
 		TEST_METHOD(Rename)
 		{
-			
+			initDB();
 		}
 		TEST_METHOD(NaturalJoin)
 		{
