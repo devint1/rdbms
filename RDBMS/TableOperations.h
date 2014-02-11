@@ -17,7 +17,5 @@ public:
 	static vector<TableAttribute> attributeUnion(Table table1, Table table2);
 	static Table naturalJoin(Table table1, Table table2, string keyAttribute); // MIGUEL
 	//Projection
-
-	//Renaming
 };
 

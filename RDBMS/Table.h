@@ -9,6 +9,7 @@ class Table
 {
 public:
 	Table(string name, vector<string> attributeNames, vector<string> dataTypeNames, vector<string> primaryKeyNames); //Used in CREATE: need to pass the relation-name, typed-attribute-list, and PRIMARY KEY attribute-list
+	Table(string name, vector<TableAttribute> attributes, vector<string> primaryKeyNames);
 	Table();
 
 	Table(string tablename); //Used in OPEN (open from file)
