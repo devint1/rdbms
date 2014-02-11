@@ -24,5 +24,4 @@ public:
 	void deleteFromTable(string name, string attributeName, string dataName); //WORKS
 	void insertIntoTable(string tablename, vector<string> values); //WORKS
 	Table& findTable(string name); //Helper function that returns the index of a table with a given name
-	void exit();
 };

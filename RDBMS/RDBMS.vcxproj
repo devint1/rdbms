@@ -79,12 +79,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Database.cpp" />
+    <ClCompile Include="Parser.cpp" />
     <ClCompile Include="Table.cpp" />
     <ClCompile Include="TableAttribute.cpp" />
     <ClCompile Include="TableOperations.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Database.h" />
+    <ClInclude Include="Parser.h" />
     <ClInclude Include="Table.h" />
     <ClInclude Include="TableAttribute.h" />
     <ClInclude Include="TableOperations.h" />

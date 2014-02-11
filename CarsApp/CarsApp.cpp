@@ -1,9 +1,11 @@
-#include "../RDBMS/Database.h"
-#include "../RDBMS/TableOperations.h";
+#include "../RDBMS/Parser.h"
+
+/*#include "../RDBMS/Database.h"
+#include "../RDBMS/TableOperations.h";*/
 
 int main()
 {
-	Database db;
+	/*Database db;
 	db.openTable("cars");
 	//db.UpdateTable("cars", "")
 	vector<string> vals = { "646", "Lamborghini", "Gallardo", "11" };
@@ -35,6 +37,17 @@ int main()
 	TableOperations::naturalJoin(db.findTable("students"), db.findTable("schoolLocations"));
 	TableOperations::select("Model", db.findTable("cars"), "Make", "toyota");
 	
-	system("PAUSE");
+	system("PAUSE");*/
+
+	cout << "Welcome to the RDBMS interpreter." << endl;
+	cout << ":: ";
+	string statement;
+	Parser parser;
+
+	while (getline(cin, statement)) {
+		parser.evaluateStatement(statement);
+		cout << endl << ":: ";
+	}
+
 	return 0;
 }
