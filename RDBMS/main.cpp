@@ -25,6 +25,7 @@ int main()
 	TableOperations::setDifference(db.findTable("cars"), db.findTable("cars2"), "car_id");
 	TableOperations::setDifference(db.findTable("cars2"), db.findTable("cars2"), "car_id");
 	TableOperations::setDifference(db.findTable("cars2"), db.findTable("cars"), "car_id");
+	
 	string name1, name2;
 	TableAttribute rename = TableOperations::project(db.findTable("cars"), name1);
 	TableOperations::renamingAttributes(db.findTable("cars2"), name2, rename.getName());
