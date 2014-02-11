@@ -1,5 +1,116 @@
 #include "TableOperations.h"
 
+
+Table select(string attributesToInclude, Table targetTable, string condition)	
+{
+	int conditionIndex;
+	int attributesToIncludeIndex;
+	vector< vector<string> > targetData;
+	vector<TableAttribute> targetAttributes;
+
+	string newTableName;
+	vector<string> newTableData;
+	vector<string> newTableDataTypeNames;
+	vector<string> newTableAttributeNames;
+	vector<string> newTablePrimaryKeyNames;
+
+
+	targetData = targetTable.getTableData();
+	targetAttributes = targetTable.getAttributes();
+	newTableName = ("Cars_select_") + attributesToInclude; //Check if literals and non-literals can be concatenated
+
+
+
+	for (int i = 0; i < targetAttributes.size(); i++)  // Finds the condition index within table attributes to later relate it to TableData
+	{
+		if (targetAttributes[i].getName() == condition)
+			conditionIndex = i;
+	}
+
+	for (int i = 0; i < targetAttributes.size(); i++)   //Finds the attributes to include index within a table attributes to later relate it to TableData
+	{
+		if (targetAttributes[i].getName() == attributesToInclude)	 //had == condition (I think  == condition is wrong)
+		{
+			attributesToIncludeIndex = i;
+			newTableAttributeNames.push_back(targetAttributes[i].getName());
+			newTableDataTypeNames.push_back(targetAttributes[i].getType());
+		}
+	}
+	
+	for (int i = 0; i < targetData.size(); i++)
+	{
+		if (targetData[i][conditionIndex] == condition)
+		{
+			newTableData.push_back(targetData[i][attributesToIncludeIndex]); //Inputs attribute desired that met condition from old, original table, into the new table Data
+		}
+
+	}
+
+	Table selectTable(newTableName, newTableAttributeNames, newTableDataTypeNames, newTablePrimaryKeyNames);
+
+	for (int i = 0; i < newTableData.size(); i++)	 //Inserts Attribute Data into Table
+	{
+		vector<string>data;
+		data.push_back(newTableData[i]);
+		selectTable.insert(data);
+	}
+
+	selectTable.writeTable();
+	return selectTable;
+
+}
+
+Table select(string attributesToInclude, Table targetTable)
+{
+	int conditionIndex;
+	int attributesToIncludeIndex;
+	vector< vector<string> > targetData;
+	vector<TableAttribute> targetAttributes;
+
+	string newTableName;
+	vector<string> newTableData;
+	vector<string> newTableDataTypeNames;
+	vector<string> newTableAttributeNames;
+	vector<string> newTablePrimaryKeyNames;
+
+
+	targetData = targetTable.getTableData();
+	targetAttributes = targetTable.getAttributes();
+	newTableName = ("Cars_select_") + attributesToInclude; //Check if literals and non-literals can be concatenated
+
+
+	for (int i = 0; i < targetAttributes.size(); i++)   //Finds the attributes to include index within a table attributes to later relate it to TableData
+	{
+		if (targetAttributes[i].getName() == attributesToInclude)	 //had == condition (I think  == condition is wrong)
+		{
+			attributesToIncludeIndex = i;
+			newTableAttributeNames.push_back(targetAttributes[i].getName());
+			newTableDataTypeNames.push_back(targetAttributes[i].getType());
+		}
+	}
+
+	for (int i = 0; i < targetData.size(); i++)
+	{
+		//if (targetData[i][attributesToIncludeIndex] == attributesToInclude)
+		//{
+		newTableData.push_back(targetData[i][attributesToIncludeIndex]); //Inputs attribute desired that met condition from old, original table, into the new table Data
+		//}
+
+	}
+
+	Table selectTable(newTableName, newTableAttributeNames, newTableDataTypeNames, newTablePrimaryKeyNames);
+
+	for (int i = 0; i < newTableData.size(); i++)	 //Inserts Attribute Data into Table
+	{
+		vector<string>data;
+		data.push_back(newTableData[i]);
+		selectTable.insert(data);
+	}
+
+	selectTable.writeTable();
+	return selectTable;
+}
+
 Table TableOperations::setUnion(Table table1, Table table2, string keyAttribute){
 	bool attributesEqual = true;
 	int i = 0;
