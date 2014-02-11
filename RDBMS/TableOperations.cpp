@@ -14,6 +14,12 @@ Table select(string attributesToInclude, Table targetTable, string condition)
 	vector<string> newTableAttributeNames;
 	vector<string> newTablePrimaryKeyNames;
 
+	for (size_t i = 0; i < targetTable.getPrimaryKeys.size(); i++)
+	{
+		if (attributesToInclude == targetTable.getPrimaryKeys()[i])
+			newTablePrimaryKeyNames.push_back(targetTable.getPrimaryKeys()[i]);
+	}
+
 
 	targetData = targetTable.getTableData();
 	targetAttributes = targetTable.getAttributes();
@@ -73,6 +79,11 @@ Table select(string attributesToInclude, Table targetTable)
 	vector<string> newTableAttributeNames;
 	vector<string> newTablePrimaryKeyNames;
 
+	for (size_t i = 0; i < targetTable.getPrimaryKeys.size(); i++)
+	{
+		if (attributesToInclude == targetTable.getPrimaryKeys()[i])
+			newTablePrimaryKeyNames.push_back(targetTable.getPrimaryKeys()[i]);
+	}
 
 	targetData = targetTable.getTableData();
 	targetAttributes = targetTable.getAttributes();

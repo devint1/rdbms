@@ -30,6 +30,8 @@ int main()
 	string name1, name2;
 	TableAttribute rename = TableOperations::project(db.findTable("cars"), name1);
 	TableOperations::renamingAttributes(db.findTable("cars2"), name2, rename.getName());
+
+	
 	
 	system("PAUSE");
 	return 0;
