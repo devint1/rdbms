@@ -30,4 +30,21 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Debug\cars.db">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\Debug\cars2.db">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\Debug\schoolLocations.db">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\Debug\students.db">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\Debug\users.db">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
 </Project>

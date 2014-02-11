@@ -1,0 +1,9 @@
+car_id int	Make varchar(255)	Model varchar(255)	Mpg int	
+641	toyota	rav4	23	
+642	ford	F-150	19	
+643	mazda	protege	25	
+644	toyota	corolla	28	
+645	ford	escape	29	
+646	hyundai	elantra	40	
+677	honda	civic	35	
+678	audi	R8	4	

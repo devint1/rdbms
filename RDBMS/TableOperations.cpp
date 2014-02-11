@@ -322,9 +322,10 @@ Table TableOperations::naturalJoin(Table table1, Table table2){
 				}
 			}
 			joinTable.writeTable();
+			return joinTable;
 		}
 
-	return table1; // not sure what to return if not join-able
+		return table1; // not sure what to return if not join-able
 }
 
 Table TableOperations::crossProduct(Table table1, Table table2)

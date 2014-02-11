@@ -11,13 +11,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{70ED67E1-3759-45CB-AC87-041D855CDF27}</ProjectGuid>
+    <ProjectGuid>{FE3349BB-CC4C-4FC5-A5AC-19EC75BFBF3B}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>RDBMS</RootNamespace>
+    <RootNamespace>CarsApp</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
@@ -78,16 +78,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Database.cpp" />
-    <ClCompile Include="Table.cpp" />
-    <ClCompile Include="TableAttribute.cpp" />
-    <ClCompile Include="TableOperations.cpp" />
+    <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Database.h" />
-    <ClInclude Include="Table.h" />
-    <ClInclude Include="TableAttribute.h" />
-    <ClInclude Include="TableOperations.h" />
+    <ClCompile Include="CarsApp.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RDBMS\RDBMS.vcxproj">
+      <Project>{70ed67e1-3759-45cb-ac87-041d855cdf27}</Project>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="cars.db" />

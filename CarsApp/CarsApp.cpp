@@ -1,7 +1,6 @@
-// RDBMS.cpp : Defines the entry point for the console application.
-//
-#include "Database.h"
-#include "TableOperations.h";
+#include "../RDBMS/Database.h"
+#include "../RDBMS/TableOperations.h";
+
 int main()
 {
 	Database db;
@@ -28,8 +27,9 @@ int main()
 	TableOperations::setDifference(db.findTable("cars2"), db.findTable("cars2"), "car_id");
 	TableOperations::setDifference(db.findTable("cars2"), db.findTable("cars"), "car_id");
 	TableOperations::crossProduct(db.findTable("cars2"), db.findTable("cars"));
-	
-	string name1, name2;
+
+	string name1 = "Model";
+	string name2 = "my_model";
 	TableAttribute rename = TableOperations::project(db.findTable("cars"), name1);
 	TableOperations::renamingAttributes(db.findTable("cars2"), name2, rename.getName());
 	TableOperations::naturalJoin(db.findTable("students"), db.findTable("schoolLocations"));
@@ -37,4 +37,3 @@ int main()
 	system("PAUSE");
 	return 0;
 }
-

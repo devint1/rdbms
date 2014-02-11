@@ -15,47 +15,27 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Table.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Database.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TableOperations.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TableAttribute.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Table.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Database.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TableOperations.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TableAttribute.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+    <ClCompile Include="CarsApp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="cars.db">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="users.db">
+    <None Include="cars2.db">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="cars2.db">
+    <None Include="schoolLocations.db">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="students.db">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="schoolLocations.db">
+    <None Include="users.db">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

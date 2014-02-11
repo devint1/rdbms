@@ -18,6 +18,8 @@ namespace RDBMSTest
 		{
 			db.openTable("cars");
 			db.openTable("cars2");
+			db.openTable("students");
+			db.openTable("schoolLocations");
 		}
 	public:
 		TEST_METHOD(CreateTable)
@@ -63,34 +65,43 @@ namespace RDBMSTest
 			Table testTable = TableOperations::crossProduct(db.findTable("cars2"), db.findTable("cars"));
 			Assert::AreEqual(testTable.getTableData().size(), db.findTable("cars2").getTableData().size() * db.findTable("cars").getTableData().size()); //Size of result should equal the product of the sizes of the input tables
 		}
-		TEST_METHOD(Union) //Add assertions
+		TEST_METHOD(Union)
 		{
 			initDB();
-			TableOperations::setUnion(db.findTable("cars2"), db.findTable("cars"), "car_id");
+			Table testTable = TableOperations::setUnion(db.findTable("cars2"), db.findTable("cars"), "car_id");
+			vector<TableAttribute> testAttributes = TableOperations::attributeUnion(db.findTable("cars"), db.findTable("cars2"));
+			Assert::AreEqual(testTable.getAttributes().size(), testAttributes.size());
 		}
-		TEST_METHOD(Difference) //Add assertions
+		TEST_METHOD(Difference)
 		{
 			initDB();
-			TableOperations::setDifference(db.findTable("cars"), db.findTable("cars2"), "car_id");
-			TableOperations::setDifference(db.findTable("cars2"), db.findTable("cars2"), "car_id");
-			TableOperations::setDifference(db.findTable("cars2"), db.findTable("cars"), "car_id");
+			Table testTable = TableOperations::setDifference(db.findTable("cars"), db.findTable("cars"), "car_id");
+			int testCols = testTable.getTableData().size();
+			Assert::AreEqual(testCols, 0); //Difference of a table with itself should be zero
 		}
-		//Need to complete
 		TEST_METHOD(Project)
 		{
-
+			initDB();
+			string name1 = "Model";
+			string name2 = "my_model";
+			TableAttribute rename = TableOperations::project(db.findTable("cars"), name1);
+			TableOperations::renamingAttributes(db.findTable("cars2"), name2, rename.getName());
 		}
+		//Need to complete
 		TEST_METHOD(Select)
 		{
 
 		}
 		TEST_METHOD(Rename)
 		{
-
+			
 		}
 		TEST_METHOD(NaturalJoin)
 		{
-
+			initDB();
+			Table testTable = TableOperations::naturalJoin(db.findTable("students"), db.findTable("schoolLocations"));
+			vector<TableAttribute> testAttributes = TableOperations::attributeUnion(db.findTable("students"), db.findTable("schoolLocations"));
+			Assert::AreEqual(testTable.getAttributes().size(), testAttributes.size());
 		}
 	};
 }

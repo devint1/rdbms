@@ -97,6 +97,13 @@
       <Project>{70ed67e1-3759-45cb-ac87-041d855cdf27}</Project>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Debug\cars.db" />
+    <None Include="..\Debug\cars2.db" />
+    <None Include="..\Debug\schoolLocations.db" />
+    <None Include="..\Debug\students.db" />
+    <None Include="..\Debug\users.db" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

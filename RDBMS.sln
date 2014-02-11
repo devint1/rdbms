@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RDBMS", "RDBMS\RDBMS.vcxpro
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RDBMSTest", "RDBMSTest\RDBMSTest.vcxproj", "{DAE4D94E-6874-4563-A2CF-29639C969A01}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CarsApp", "CarsApp\CarsApp.vcxproj", "{FE3349BB-CC4C-4FC5-A5AC-19EC75BFBF3B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -21,6 +23,10 @@ Global
 		{DAE4D94E-6874-4563-A2CF-29639C969A01}.Debug|Win32.Build.0 = Debug|Win32
 		{DAE4D94E-6874-4563-A2CF-29639C969A01}.Release|Win32.ActiveCfg = Release|Win32
 		{DAE4D94E-6874-4563-A2CF-29639C969A01}.Release|Win32.Build.0 = Release|Win32
+		{FE3349BB-CC4C-4FC5-A5AC-19EC75BFBF3B}.Debug|Win32.ActiveCfg = Debug|Win32
+		{FE3349BB-CC4C-4FC5-A5AC-19EC75BFBF3B}.Debug|Win32.Build.0 = Debug|Win32
+		{FE3349BB-CC4C-4FC5-A5AC-19EC75BFBF3B}.Release|Win32.ActiveCfg = Release|Win32
+		{FE3349BB-CC4C-4FC5-A5AC-19EC75BFBF3B}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
