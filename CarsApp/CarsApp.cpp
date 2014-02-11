@@ -33,6 +33,7 @@ int main()
 	TableAttribute rename = TableOperations::project(db.findTable("cars"), name1);
 	TableOperations::renamingAttributes(db.findTable("cars2"), name2, rename.getName());
 	TableOperations::naturalJoin(db.findTable("students"), db.findTable("schoolLocations"));
+	TableOperations::select("Model", db.findTable("cars"), "Make", "toyota");
 	
 	system("PAUSE");
 	return 0;
