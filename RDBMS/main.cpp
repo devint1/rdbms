@@ -26,7 +26,11 @@ int main()
 	TableOperations::setDifference(db.findTable("cars2"), db.findTable("cars2"), "car_id");
 	TableOperations::setDifference(db.findTable("cars2"), db.findTable("cars"), "car_id");
 	TableOperations::crossProduct(db.findTable("cars2"), db.findTable("cars"));
-
+	
+	string name1, name2;
+	TableAttribute rename = TableOperations::project(db.findTable("cars"), name1);
+	TableOperations::renamingAttributes(db.findTable("cars2"), name2, rename.getName());
+	
 	system("PAUSE");
 	return 0;
 }
