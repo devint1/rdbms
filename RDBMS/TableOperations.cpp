@@ -155,6 +155,42 @@ Table TableOperations::naturalJoin(Table table1, Table table2, string keyAttribu
 	return table1; // not sure what to return if not join-able
 }
 
+Table TableOperations::crossProduct(Table table1, Table table2)
+{
+	string resultTableName = table1.getName() + "_" + table2.getName() + "_crossProduct";
+
+	//Concatenate the primary keys from both tables
+	vector<TableAttribute> resultAttributes = table1.getAttributes();
+	for (TableAttribute attribute : table2.getAttributes()) {
+		resultAttributes.push_back(attribute);
+	}
+
+	//Concatenate the primary keys from both tables
+	vector<string> resultPrimaryKeys = table1.getPrimaryKeys();
+	for (string key : table2.getPrimaryKeys()) {
+		resultPrimaryKeys.push_back(key);
+	}
+
+	Table result(resultTableName, resultAttributes, resultPrimaryKeys);
+
+	//Compute all row combinations
+	for (vector<string> row1 : table1.getTableData()) {
+		for (vector<string> row2 : table2.getTableData()) {
+			//Create a new row for the result table
+			vector<string> rowToInsert = row1;
+			for (string value : row2) {
+				rowToInsert.push_back(value);
+			}
+
+			result.insert(rowToInsert); //Add the row to the result table
+		}
+	}
+
+	result.writeTable();
+
+	return result;
+}
+
 Table TableOperations::renamingAttributes(Table table, string attributeName, string rename)
 {
 	Table newtable = table;
