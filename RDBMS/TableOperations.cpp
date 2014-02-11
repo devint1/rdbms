@@ -88,7 +88,7 @@ Table TableOperations::select(string attributesToInclude, Table targetTable)
 
 	targetData = targetTable.getTableData();
 	targetAttributes = targetTable.getAttributes();
-	newTableName = ("Cars_select_") + attributesToInclude; //Check if literals and non-literals can be concatenated
+	newTableName = (targetTable.getName()+"_select_") + attributesToInclude; //Check if literals and non-literals can be concatenated
 
 
 	for (size_t i = 0; i < targetAttributes.size(); i++)   //Finds the attributes to include index within a table attributes to later relate it to TableData
