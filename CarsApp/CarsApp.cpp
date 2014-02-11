@@ -23,6 +23,7 @@ int main()
 	db.openTable("cars2");
 	db.openTable("students");
 	db.openTable("schoolLocations");
+	db.openTable("makeLocations");
 
 	TableOperations::setUnion(db.findTable("cars"), db.findTable("cars2"), "car_id");
 	TableOperations::setDifference(db.findTable("cars"), db.findTable("cars2"), "car_id");
@@ -35,6 +36,7 @@ int main()
 	TableAttribute rename = TableOperations::project(db.findTable("cars"), name1);
 	TableOperations::renamingAttributes(db.findTable("cars2"), name2, rename.getName());
 	TableOperations::naturalJoin(db.findTable("students"), db.findTable("schoolLocations"));
+	TableOperations::naturalJoin(db.findTable("cars"), db.findTable("makeLocations"));
 	TableOperations::select("Model", db.findTable("cars"), "Make", "toyota");
 	
 	system("PAUSE");*/

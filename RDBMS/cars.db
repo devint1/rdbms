@@ -7,3 +7,4 @@ car_id int Make varchar(255) Model varchar(255) Mpg int
 646 hyundai elantra 40
 677 honda civic 35
 678 audi R8 4
+679 toyota prius 40
