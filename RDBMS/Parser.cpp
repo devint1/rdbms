@@ -21,11 +21,40 @@ bool Parser::checkNumTokens(command cmd, int numTokens)
 
 void Parser::executeCreate(vector<string> tokens)
 {
-	cout << "Create command is not yet implemented." << endl;
+	if (tokens[0] != "TABLE") {
+		cerr << "ERROR: Expected token \"TABLE\"" << endl;
+		return;
+	}
+	string relationName = tokens[1];
+	//Look for open parenthesis
+	//Remember all of the attribute list
+	//Look for closed parenthesis
+	//Look for PRIMARY and KEY
+	//Look for open parenthesis
+	//Remember all of the primary keys
+	//Look for closed parenthesis
 }
 
 void Parser::evaluateQuery(string query)
 {
+	istringstream iss(query);
+	vector<string> tokens{ istream_iterator<string>(iss), istream_iterator<string>() };
+	bool isCommand = false;
+
+	string relationName = tokens[0];
+
+	if (tokens.size() <= 1)
+	{
+		cerr << "ERROR: Expected <-" << endl;
+		return;
+	}
+
+	else if (tokens[1] != "<-") 
+	{
+		cerr << "ERROR: Expected <-" << endl;
+		return;
+	}
+
 	cout << "Your input was interpreted as a query; queries are not yet implemented." << endl;
 }
 
@@ -44,42 +73,50 @@ void Parser::evaulateCommand(string command)
 	}
 
 	if (checkNumTokens(cmd, tokens.size() - 1)) {
-		switch (cmd) {
-		case open:
-			db.openTable(tokens[1]);
-			break;
-		case close:
-			db.closeTable(tokens[1]);
-			break;
-		case write:
-			db.writeTable(tokens[1]);
-			break;
-		case exit:
-			_exit(0);
-			break;
-		case show:
-			db.showTable(tokens[1]);
-			break;
-		case create: {
-			vector<string> createTokens(tokens.begin() + 1, tokens.end());
-			executeCreate(createTokens);
-			break;
+		try {
+			switch (cmd) {
+			case open:
+				db.openTable(tokens[1]);
+				break;
+			case close:
+				db.closeTable(tokens[1]);
+				break;
+			case write:
+				db.writeTable(tokens[1]);
+				break;
+			case exit:
+				_exit(0);
+				break;
+			case show:
+				db.showTable(tokens[1]);
+				break;
+			case create: {
+				vector<string> createTokens(tokens.begin() + 1, tokens.end());
+				executeCreate(createTokens);
+				break;
+			}
+			/*case update:
+				//Add implementation here
+				break;*/
+			/*case insert:
+				//Add implementation here
+				break;*/
+			/*case del:
+				//Add implementation here
+				break;*/
+			default:
+				cerr << "ERROR: Command not implemented." << endl;
+			}
 		}
-		/*case update:
-			//Add implementation here
-			break;*/
-		/*case insert:
-			//Add implementation here
-			break;*/
-		/*case del:
-			//Add implementation here
-			break;*/
-		default:
-			cerr << "ERROR: Command not implemented." << endl;
+		catch (exception e) {
+			cerr << "ERROR: " << e.what() << endl;
+		} 
+		catch (...) {
+			cerr << "ERROR: Unknown error." << endl;
 		}
 	}
- else
-	cerr << "ERROR: Invalid syntax." << endl;
+	else
+		cerr << "ERROR: Invalid syntax." << endl;
 }
 
 Parser::Parser()
@@ -91,8 +128,16 @@ Parser::~Parser()
 {
 }
 
+Database Parser::getDb()
+{
+	return db;
+}
+
 void Parser::evaluateStatement(string statement)
 {
+	if (statement.length() == 0)
+		return;
+
 	istringstream iss(statement);
 	vector<string> tokens{ istream_iterator<string>(iss), istream_iterator<string>() };
 	bool isCommand = false;
@@ -100,6 +145,7 @@ void Parser::evaluateStatement(string statement)
 	for (int i = 0; i < sizeof(COMMAND_NAMES) / sizeof(string); ++i)
 	{
 		isCommand = isCommand || tokens[0] == COMMAND_NAMES[i];
+		if (isCommand) break;
 	}
 
 	if (isCommand)

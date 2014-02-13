@@ -4,6 +4,7 @@
 #include "..\RDBMS\Table.h"
 #include "..\RDBMS\Database.h"
 #include "..\RDBMS\TableOperations.h"
+#include "..\RDBMS\Parser.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -13,6 +14,7 @@ namespace RDBMSTest
 	{
 	private:
 		Database db;
+		Parser parser;
 
 		void initDB() 
 		{
@@ -20,6 +22,14 @@ namespace RDBMSTest
 			db.openTable("cars2");
 			db.openTable("students");
 			db.openTable("schoolLocations");
+			parser.evaluateStatement("OPEN cars");
+			parser.evaluateStatement("OPEN cars2");
+			parser.evaluateStatement("OPEN students");
+			parser.evaluateStatement("OPEN schoolLocations");
+
+			Database parserDb = parser.getDb();
+
+			//Assert::AreEqual(parserDb.findTable("cars"), db.findTable("cars"));
 		}
 	public:
 		TEST_METHOD(CreateTable)

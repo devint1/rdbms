@@ -29,8 +29,6 @@ public:
 	int findAttributebyName(string attributeName);//Sergio
 	void changeAttributeName(string attributeName, string newAttributeName); //Sergio
 	void update(int& changeAttributePos, int& conditionAttributePos, string& conditionAttributeData, string& changeAttributeData);  //Sergio  Used by Database Update.
-
-
 private:
 	string name;
 	vector<string> primaryKeys;
