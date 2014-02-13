@@ -24,6 +24,18 @@ void Parser::executeCreate(vector<string> tokens)
 	cout << "Create command is not yet implemented." << endl;
 }
 
+void Parser::executeInsert(vector<string> tokens)
+{
+	if (tokens[0] != "INTO" || tokens[2] != "VALUES" || tokens[3] != "FROM")
+		cerr << "Incorrect Input" << endl;
+	string tablename = tokens[1];
+	if (tokens[5] == "RELATION")
+	{
+
+	}
+
+}
+
 void Parser::evaluateQuery(string query)
 {
 	cout << "Your input was interpreted as a query; queries are not yet implemented." << endl;
@@ -66,11 +78,11 @@ void Parser::evaulateCommand(string command)
 			break;
 		}
 		case update:
-			db.updateTable(tokens[1], tokens[2], tokens[3], tokens[4],tokens[5]);
+			//not implemented
 			break;
 		case insert: {
 			vector<string> insertTokens(tokens.begin() + 1, tokens.end());
-			db.insertIntoTable(tokens[1], insertTokens);
+			executeInsert(insertTokens);
 			break;
 		}
 		case del:

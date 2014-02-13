@@ -13,6 +13,7 @@ private:
 	bool checkNumTokens(command cmd, int numTokens);
 
 	void executeCreate(vector<string> tokens);
+	void executeInsert(vector<string> tokens);
 
 	void evaluateQuery(string query);
 	void evaulateCommand(string command);
