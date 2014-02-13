@@ -68,12 +68,14 @@ void Parser::evaulateCommand(string command)
 		/*case update:
 			//Add implementation here
 			break;*/
-		/*case insert:
-			//Add implementation here
-			break;*/
-		/*case del:
-			//Add implementation here
-			break;*/
+		case insert: {
+			vector<string> insertTokens(tokens.begin() + 1, tokens.end());
+			db.insertIntoTable(tokens[1], insertTokens);
+			break;
+		}
+		case del:
+			db.deleteFromTable(tokens[1], tokens[2], tokens[3]);
+			break;
 		default:
 			cerr << "ERROR: Command not implemented." << endl;
 		}
