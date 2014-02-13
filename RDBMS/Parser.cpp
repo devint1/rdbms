@@ -65,9 +65,9 @@ void Parser::evaulateCommand(string command)
 			executeCreate(createTokens);
 			break;
 		}
-		/*case update:
-			//Add implementation here
-			break;*/
+		case update:
+			db.updateTable(tokens[1], tokens[2], tokens[3], tokens[4],tokens[5]);
+			break;
 		case insert: {
 			vector<string> insertTokens(tokens.begin() + 1, tokens.end());
 			db.insertIntoTable(tokens[1], insertTokens);
