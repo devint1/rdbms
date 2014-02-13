@@ -74,49 +74,51 @@ void Parser::evaulateCommand(string command)
 
 	if (checkNumTokens(cmd, tokens.size() - 1)) {
 		try {
-			switch (cmd) {
-			case open:
-				db.openTable(tokens[1]);
-				break;
-			case close:
-				db.closeTable(tokens[1]);
-				break;
-			case write:
-				db.writeTable(tokens[1]);
-				break;
-			case exit:
-				_exit(0);
-				break;
-			case show:
-				db.showTable(tokens[1]);
-				break;
-			case create: {
-				vector<string> createTokens(tokens.begin() + 1, tokens.end());
-				executeCreate(createTokens);
-				break;
-			}
-			/*case update:
-				//Add implementation here
-				break;*/
-			/*case insert:
-				//Add implementation here
-				break;*/
-			/*case del:
-				//Add implementation here
-				break;*/
-			default:
-				cerr << "ERROR: Command not implemented." << endl;
-			}
+		switch (cmd) {
+		case open:
+			db.openTable(tokens[1]);
+			break;
+		case close:
+			db.closeTable(tokens[1]);
+			break;
+		case write:
+			db.writeTable(tokens[1]);
+			break;
+		case exit:
+			_exit(0);
+			break;
+		case show:
+			db.showTable(tokens[1]);
+			break;
+		case create: {
+			vector<string> createTokens(tokens.begin() + 1, tokens.end());
+			executeCreate(createTokens);
+			break;
+		}
+		case update:
+			db.updateTable(tokens[1], tokens[2], tokens[3], tokens[4],tokens[5]);
+			break;
+		case insert: {
+			vector<string> insertTokens(tokens.begin() + 1, tokens.end());
+			db.insertIntoTable(tokens[1], insertTokens);
+			break;
+		}
+		case del:
+			db.deleteFromTable(tokens[1], tokens[2], tokens[3]);
+			break;
+		default:
+			cerr << "ERROR: Command not implemented." << endl;
+		}
 		}
 		catch (exception e) {
 			cerr << "ERROR: " << e.what() << endl;
 		} 
 		catch (...) {
 			cerr << "ERROR: Unknown error." << endl;
-		}
 	}
-	else
-		cerr << "ERROR: Invalid syntax." << endl;
+	}
+ else
+	cerr << "ERROR: Invalid syntax." << endl;
 }
 
 Parser::Parser()

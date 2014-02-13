@@ -1,5 +1,6 @@
-Name varchar(255)	School varchar(255)
-Joe_Smith Rice
-Jill_Smith LSU
-Sam_Jones Texas_A&M
-Sue_jones Rice
+School varchar(255) Name varchar(255)	
+Rice				Joe_Smith 
+LSU	 				Jill_Smith
+Texas_A&M 			Sam_Jones
+Rice 				Sue_jones
+Auburn				Carl_junior

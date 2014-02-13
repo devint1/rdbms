@@ -292,49 +292,59 @@ Table TableOperations::naturalJoin(Table table1, Table table2){
 		int keyAttributeIndex1 = table1.findAttributebyName(keyAttribute);
 		int keyAttributeIndex2 = table2.findAttributebyName(keyAttribute);
 
-		if (keyAttributeIndex1 == -1 || keyAttributeIndex2 == -1)
-			cout << "\nError: Tables do not have matching " << keyAttribute << " attribute! (cannot be joined)";
-		else{
-			// (2) create table with union of attributes
-			string joinTableName = table1.getName() + "_" + table2.getName() + "_join";
-			vector<string> attributeNames;
-			vector<string> dataTypeNames;
+		
+		// (2) create table with union of attributes
+		string joinTableName = table1.getName() + "_" + table2.getName() + "_join";
+		vector<string> attributeNames;
+		vector<string> dataTypeNames;
 
-			for (TableAttribute attrib : joinAttributes){
-				attributeNames.push_back(attrib.getName());
-				dataTypeNames.push_back(attrib.getType());
-			}
+		for (TableAttribute attrib : joinAttributes){
+			attributeNames.push_back(attrib.getName());
+			dataTypeNames.push_back(attrib.getType());
+		}
 
-			Table joinTable(joinTableName, attributeNames, dataTypeNames, table1.getPrimaryKeys());
-			vector<string> newTableEntry;
-			vector<int> table1AttributeInd;
-			vector<int> table2AttributeInd;
+		Table joinTable(joinTableName, attributeNames, dataTypeNames, table1.getPrimaryKeys());
+		vector<string> newTableEntry;
+		vector<int> table1AttributeInd;
+		vector<int> table2AttributeInd;
+		for (size_t j = 0; j < (joinAttributes.size() - appendAttributes.size()); j++)
+			table1AttributeInd.push_back(table1.findAttributebyName(joinAttributes[j].getName()));
+		
+		for (size_t k = 0; k < appendAttributes.size(); k++)
+			table2AttributeInd.push_back(table2.findAttributebyName(appendAttributes[k].getName()));
 
-			for (size_t j = 0; j < (joinAttributes.size() - appendAttributes.size()); j++){
-				table1AttributeInd.push_back(table1.findAttributebyName(joinAttributes[j].getName()));
-			}
+		bool matchFound = false;
+ 		for (size_t i = 0; i < table1.getTableData().size(); i++){
+			matchFound = false;
+			for (size_t x = 0; x < table2.getTableData().size(); x++){
+				if (table1.getTableData()[i][keyAttributeIndex1] == table2.getTableData()[x][keyAttributeIndex2]){
+					matchFound = true;
+					for (size_t n = 0; n < table1AttributeInd.size(); n++)
+						newTableEntry.push_back(table1.getTableData()[i][table1AttributeInd[n]]);
+					
+					for (size_t m = 0; m < table2AttributeInd.size(); m++)
+						newTableEntry.push_back(table2.getTableData()[x][table2AttributeInd[m]]);
+					
+					joinTable.insert(newTableEntry);
+					newTableEntry.clear();
+					break;
+				}
+				// In case no corresponding data, set to "N/A"
+				else if (!matchFound && x == table2.getTableData().size()-1){
+					for (size_t n = 0; n < table1.getAttributes().size(); n++)
+						newTableEntry.push_back(table1.getTableData()[i][table1AttributeInd[n]]);
 
-			for (size_t k = 0; k < appendAttributes.size(); k++){
-				table2AttributeInd.push_back(table2.findAttributebyName(appendAttributes[k].getName()));
-			}
+					for (size_t m = 0; m < table2AttributeInd.size(); m++)
+						newTableEntry.push_back("(N/A)");
 
- 			for (size_t i = 0; i < table1.getTableData().size(); i++){
-				for (size_t x = 0; x < table2.getTableData().size(); x++){
-					if (table1.getTableData()[i][keyAttributeIndex1] == table2.getTableData()[x][keyAttributeIndex2]){
-						for (size_t n = 0; n < table1AttributeInd.size(); n++){
-							newTableEntry.push_back(table1.getTableData()[i][table1AttributeInd[n]]);
-						}
-						for (size_t m = 0; m < table2AttributeInd.size(); m++){
-							newTableEntry.push_back(table2.getTableData()[x][table2AttributeInd[m]]);
-						}
-						joinTable.insert(newTableEntry);
-						newTableEntry.clear();
-					}
+					joinTable.insert(newTableEntry);
+					newTableEntry.clear();
 				}
 			}
-			joinTable.writeTable();
-			return joinTable;
 		}
+		joinTable.writeTable();
+		return joinTable;
+		
 
 		return table1; // not sure what to return if not join-able
 }
