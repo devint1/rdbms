@@ -21,6 +21,8 @@ public:
 	Parser();
 	~Parser();
 
+	Database getDb();
+
 	void evaluateStatement(string statement);
 };
 
