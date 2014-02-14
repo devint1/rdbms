@@ -1,4 +1,5 @@
 #include <sstream>
+#include <algorithm>
 #include "Parser.h"
 
 const string Parser::COMMAND_NAMES[] = {"OPEN", "CLOSE", "WRITE", "EXIT", "SHOW", "CREATE", "UPDATE", "INSERT", "DELETE"};
@@ -95,6 +96,8 @@ void Parser::evaluateStatement(string statement)
 {
 	istringstream iss(statement);
 	vector<string> tokens{ istream_iterator<string>(iss), istream_iterator<string>() };
+	for (string line : parse_parens(tokens))
+		cout << "[" << line << "] " << endl;
 	bool isCommand = false;
 
 	for (int i = 0; i < sizeof(COMMAND_NAMES) / sizeof(string); ++i)
@@ -106,4 +109,58 @@ void Parser::evaluateStatement(string statement)
 		evaulateCommand(statement);
 	else
 		evaluateQuery(statement);
+}
+
+string Parser::remove_parens(string& s) {
+	s.erase(remove(s.begin(), s.end(), '\"'), s.end());
+	return s;
+}
+
+int number_of_open_parens(string str){
+	return count(str.begin(), str.end(), '(');
+}
+
+int number_of_close_parens(string str){
+	return count(str.begin(), str.end(), ')');
+}
+
+// function returns vector with all things in parentheses in the same index
+vector<string> Parser::parse_parens(vector<string> input) {
+	vector<string> result;
+	int count = 0;
+	int pushback_index = 0;
+	int end, opens, closes;
+	int start = 0;
+	int total = 0;
+	for (size_t i = 0; i < input.size(); i++) {
+		end = input[i].length() - 1;
+		opens = number_of_open_parens(input[i]);
+		closes = number_of_close_parens(input[i]);
+		total += (opens - closes);
+
+		if (total == 0 && (opens + closes) == 0)
+			result.push_back(input[i]);
+
+		else if (count == 0 && input[i][start] == '('){
+			result.push_back(input[i]);
+			pushback_index = result.size()-1;
+		}
+		
+		else if (total == 0 && input[i][end] == ')')
+			result[pushback_index] += (" " + input[i]);
+
+		else if (total > 0)
+			result[pushback_index] += (" " + input[i]);
+
+		else if (total == 0 && opens == closes) 
+			result.push_back(input[i]);
+		
+		count += opens;
+		if (total == 0)
+			count = 0;
+
+	}
+	if (count != 0)
+		cout << "Error: Missmatched parentheses!\n";
+	return result;
 }
