@@ -33,6 +33,9 @@ Table::Table(string tablename)
 	ifstream myfile;
 	int lineNumber = 0;
 	myfile.open((tablename + ".db").c_str());
+	if (!myfile.is_open()) {
+		throw exception("File not found.");
+	}
 	while (getline(myfile, line)){
 		istringstream iss(line);
 		vector<string> tokens{ istream_iterator<string>(iss), istream_iterator<string>() };
@@ -197,4 +200,3 @@ void Table::update(int& changeAttributePos, int& conditionAttributePos, string& 
 		}
 	}
 }
-
