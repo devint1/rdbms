@@ -18,9 +18,12 @@ private:
 	string remove_commas(string s);
 	vector<string> parse_parens(vector<string> input);
 
+	//Executions
 	void executeCreate(vector<string> tokens);
 	void executeInsert(vector<string> tokens);
+	void executeDelete(vector<string> tokens);
 
+	//Evaluations
 	void evaluateQuery(string query);
 	void evaulateCommand(string command);
 	
@@ -30,6 +33,7 @@ public:
 
 	Database getDb();
 
+	//This is the main interface between the parser and external applications
 	void evaluateStatement(string statement);
 };
 
