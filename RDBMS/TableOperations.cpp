@@ -345,8 +345,8 @@ Table TableOperations::naturalJoin(Table table1, Table table2){
 		joinTable.writeTable();
 		return joinTable;
 		
-
-		return table1; // not sure what to return if not join-able
+		// not sure what to return if not join-able
+		return table1; 
 }
 
 Table TableOperations::crossProduct(Table table1, Table table2)
@@ -392,19 +392,42 @@ Table TableOperations::renamingAttributes(Table table, string attributeName, str
 	return newtable;
 }
 
-TableAttribute TableOperations::project(Table table, string name)
+Table TableOperations::project(Table table, string name)
 {
-	Table newtable = table;
-	int index = newtable.findAttributebyName(name);
-	vector<TableAttribute> attr = newtable.getAttributes();
-	return attr[index];
+	int index = table.findAttributebyName(name);
+	string tablename = table.getName() + "_project_" + name;
+	vector<string> attrnames;
+	attrnames.push_back(name);
+	vector<string> attrtypes;
+	attrtypes.push_back(table.getAttributes()[index].getType());
+	Table newtable(tablename, attrnames, attrtypes, attrnames);
+	vector<string> newrow;
+	vector<vector<string>> newdata = newtable.getTableData();
+	vector<vector<string>> olddata = table.getTableData();
+	for(size_t i = 0; i < olddata.size(); i++)
+	{
+		newrow.push_back(olddata[i][index]);
+		newtable.insert(newrow);
+	}
+	return newtable;
 }
 
-tuple<TableAttribute, TableAttribute> TableOperations::project(Table table, string name1, string name2)
+Table TableOperations::combineTables(Table table1, Table table2)
 {
-	Table newtable = table;
-	int index1 = newtable.findAttributebyName(name1);
-	int index2 = newtable.findAttributebyName(name2);
-	vector<TableAttribute> attr = newtable.getAttributes();
-	return make_tuple(attr[index1], attr[index2]);
+	Table newtable = table1;
+	vector<TableAttribute> t2attr = table2.getAttributes();
+	vector<vector<string>> t2data = table2.getTableData();
+	for (int i = 0; i < t2attr.size(); i++)
+	{
+		newtable.getAttributes().push_back(t2attr[i]);
+	}
+	for (int i = 0; i < t2data.size(); i++)
+	{
+		for (int j = 0; j < table1.getAttributes().size(); j++)
+		{
+			(newtable.getTableData())[i].push_back(t2data[i][j]);
+		}
+	}
+	newtable.showTable();
+	return newtable;
 }
