@@ -164,6 +164,64 @@ void Parser::executeDelete(vector<string> tokens)
 
 }
 
+void Parser::executeUpdate(vector<string> tokens)
+{
+	tokens = parse_parens(tokens);
+
+	if (tokens.size() != 5) {
+		cerr << "ERROR: Invalid syntax." << endl;
+		return;
+	}
+
+	string relationName = tokens[0];
+	if (tokens[1] != "SET") {
+		cerr << "ERROR: Expected token \"SET\"" << endl;
+		return;
+	}
+	string attributesToSet = remove_parens(remove_commas(tokens[2]));
+	
+	istringstream iss(attributesToSet);
+	vector<string> attributesToSetTokens{ istream_iterator<string>(iss), istream_iterator<string>() };
+
+	if (attributesToSetTokens.size() != 3) {
+		cerr << "ERROR: Invalid syntax." << endl;
+		return;
+	}
+
+	if (attributesToSetTokens[1] != "=") {
+		cerr << "ERROR: Expected '='" << endl;
+		return;
+	}
+
+	string attributeSetName = attributesToSetTokens[0];
+	string attributeSetValue = attributesToSetTokens[2];
+	
+	if (tokens[3] != "WHERE") {
+		cerr << "ERROR: Expected token \"WHERE\"" << endl;
+		return;
+	}
+
+	string condition = remove_parens(tokens[4]);
+
+	istringstream iss1(condition);
+	vector<string> conditionTokens{ istream_iterator<string>(iss1), istream_iterator<string>() };
+
+	if (conditionTokens.size() != 3) {
+		cerr << "ERROR: Invalid syntax." << endl;
+		return;
+	}
+
+	if (conditionTokens[1] != "=") {
+		cerr << "ERROR: Expected '='" << endl;
+		return;
+	}
+
+	string attributeConditionName = conditionTokens[0];
+	string attributeConditionValue = conditionTokens[2];
+
+	db.updateTable(relationName, attributeSetName, attributeSetValue, attributeConditionName, attributeConditionValue);
+}
+
 void Parser::evaluateQuery(string query)
 {
 	istringstream iss(query);
@@ -225,9 +283,11 @@ void Parser::evaulateCommand(string command)
 			executeCreate(createTokens);
 			break;
 		}
-		case update:
-			//not implemented
+		case update: {
+			vector<string> updateTokens(tokens.begin() + 1, tokens.end());
+			executeUpdate(updateTokens);
 			break;
+		}
 		case insert: {
 			vector<string> insertTokens(tokens.begin() + 1, tokens.end());
 			executeInsert(insertTokens);

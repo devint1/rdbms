@@ -22,6 +22,7 @@ private:
 	void executeCreate(vector<string> tokens);
 	void executeInsert(vector<string> tokens);
 	void executeDelete(vector<string> tokens);
+	void executeUpdate(vector<string> tokens);
 
 	//Evaluations
 	void evaluateQuery(string query);
