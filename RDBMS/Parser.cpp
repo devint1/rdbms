@@ -229,7 +229,8 @@ void Parser::evaulateCommand(string command)
 			break;
 		}
 		case del:
-			db.deleteFromTable(tokens[1], tokens[2], tokens[3]);
+			vector<string> deleteTokens(tokens.begin() + 1, tokens.end());
+			executeDelete(deleteTokens);
 			break;
 		default:
 			cerr << "ERROR: Command not implemented." << endl;
