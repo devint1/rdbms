@@ -43,7 +43,11 @@ int main()
 	system("PAUSE");*/
 	db.openTable("cars");
 	db.openTable("cars2");
-	TableOperations::combineTables(db.findTable("cars"), db.findTable("cars2"));
+
+	db.openTable("students");
+
+	db.showTable(TableOperations::select("Model", db.findTable("cars"), "Make", "toyota"));
+	db.showTable(TableOperations::select("Name", db.findTable("students"), "School", "Texas_A&M"));
 
 	cout << "Welcome to the RDBMS interpreter." << endl;
 	cout << ":: ";

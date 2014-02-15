@@ -402,12 +402,12 @@ Table TableOperations::project(Table table, string name)
 	attrtypes.push_back(table.getAttributes()[index].getType());
 	Table newtable(tablename, attrnames, attrtypes, attrnames);
 	vector<string> newrow;
-	vector<vector<string>> newdata = newtable.getTableData();
-	vector<vector<string>> olddata = table.getTableData();
-	for(size_t i = 0; i < olddata.size(); i++)
+
+	for(size_t i = 0; i < table.getTableData().size(); i++)
 	{
-		newrow.push_back(olddata[i][index]);
+		newrow.push_back(table.getTableData()[i][index]);
 		newtable.insert(newrow);
+		newrow.clear();
 	}
 	return newtable;
 }
@@ -416,18 +416,15 @@ Table TableOperations::combineTables(Table table1, Table table2)
 {
 	Table newtable = table1;
 	vector<TableAttribute> t2attr = table2.getAttributes();
+	
 	vector<vector<string>> t2data = table2.getTableData();
 	for (int i = 0; i < t2attr.size(); i++)
-	{
-		newtable.getAttributes().push_back(t2attr[i]);
-	}
+		newtable.addAttribute(t2attr);
+	
+
 	for (int i = 0; i < t2data.size(); i++)
-	{
-		for (int j = 0; j < table1.getAttributes().size(); j++)
-		{
-			(newtable.getTableData())[i].push_back(t2data[i][j]);
-		}
-	}
-	newtable.showTable();
+		for (int j = 0; j < table2.getAttributes().size(); j++)
+			newtable.appendToRow(i, t2data[i]);
+	
 	return newtable;
 }

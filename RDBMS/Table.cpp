@@ -60,6 +60,11 @@ string Table::getName() {
 	return name;
 }
 
+void Table::addAttribute(vector<TableAttribute> attributes){
+	for (size_t i = 0; i < attributes.size(); i++)
+		tableAttributes.push_back(attributes[i]);
+}
+
 vector<TableAttribute> Table::getAttributes(){
 	return tableAttributes;
 }
@@ -70,6 +75,13 @@ vector<string> Table::getPrimaryKeys(){
 
 vector< vector<string> > Table::getTableData(){
 	return tableData;
+}
+
+void Table::appendToRow(int row, vector<string> additions){
+	for (size_t i = 0; i < additions.size(); i++)
+	{
+		tableData[row].push_back(additions[i]);
+	}
 }
 
 void Table::writeTable()

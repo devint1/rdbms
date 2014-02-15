@@ -56,6 +56,11 @@ void Database::showTable(string tablename)
 	table.showTable();
 }
 
+void Database::showTable(Table table)
+{
+	table.showTable();
+}
+
 void Database::createTable(string name, vector<string> attributeNames, vector<string> dataTypeNames, vector<string> primaryKeyNames)
 {
 	tables.push_back(Table(name, attributeNames, dataTypeNames, primaryKeyNames));

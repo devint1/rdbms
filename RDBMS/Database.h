@@ -19,6 +19,7 @@ public:
 	void closeTable(string tablename); //Corey WORKS
 	void writeTable(string tablename); //Corey WORKS
 	void showTable(string tablename); //Devin WORKS
+	void showTable(Table table);
 	void createTable(string name, vector<string> attributeNames, vector<string> dataTypeNames, vector<string> primaryKeyNames); //Devin WORKS
 	void updateTable(string relationName, string attributeNameToChange, string valueToChange, string conditionAttributeName, string conditionValue); 	///MAKE SURE findtable() ACCOUNTS for not finding the relation/table used for argument.	   //Sergio
 	void deleteFromTable(string name, string attributeName, string dataName); //WORKS
