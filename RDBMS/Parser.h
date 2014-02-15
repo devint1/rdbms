@@ -10,7 +10,9 @@ private:
 	const static string COMMAND_NAMES[];
 	const enum command {open, close, write, exit, show, create, update, insert, del};
 
+	//Helper Functions
 	bool checkNumTokens(command cmd, int numTokens);
+	vector<string> infixToPostfix(vector<string> infixTokens);
 
 	void executeCreate(vector<string> tokens);
 	void executeInsert(vector<string> tokens);

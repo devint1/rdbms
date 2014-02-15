@@ -20,6 +20,11 @@ bool Parser::checkNumTokens(command cmd, int numTokens)
 	}
 }
 
+vector<string> Parser::infixToPostfix(vector<string> infixTokens)
+{
+	return vector<string>();
+}
+
 void Parser::executeCreate(vector<string> tokens)
 {
 	if (tokens[0] != "TABLE") {
