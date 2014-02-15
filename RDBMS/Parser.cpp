@@ -150,7 +150,7 @@ void Parser::executeCreate(vector<string> tokens)
 void Parser::executeInsert(vector<string> tokens)
 {
 	if (tokens[0] != "INTO" || tokens[2] != "VALUES" || tokens[3] != "FROM")
-		cerr << "Incorrect Input" << endl;
+		cerr << "ERROR: Incorrect Input" << endl;
 	string tablename = tokens[1];
 	if (tokens[5] == "RELATION")
 	{
@@ -161,7 +161,12 @@ void Parser::executeInsert(vector<string> tokens)
 
 void Parser::executeDelete(vector<string> tokens)
 {
-
+	if (tokens[0] != "FROM" || tokens[2] != "WHERE" || tokens[4] != "=")
+		cerr << "ERROR: Incorrect Input" << endl;
+	string tablename = tokens[1];
+	string attributename = tokens[3];
+	string dataname = tokens[5];
+	db.deleteFromTable(tablename, attributename, dataname);
 }
 
 void Parser::evaluateQuery(string query)
