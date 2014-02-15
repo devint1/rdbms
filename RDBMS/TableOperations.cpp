@@ -392,19 +392,22 @@ Table TableOperations::renamingAttributes(Table table, string attributeName, str
 	return newtable;
 }
 
-TableAttribute TableOperations::project(Table table, string name)
+Table TableOperations::project(Table table, string name)
 {
-	Table newtable = table;
-	int index = newtable.findAttributebyName(name);
-	vector<TableAttribute> attr = newtable.getAttributes();
-	return attr[index];
-}
-
-tuple<TableAttribute, TableAttribute> TableOperations::project(Table table, string name1, string name2)
-{
-	Table newtable = table;
-	int index1 = newtable.findAttributebyName(name1);
-	int index2 = newtable.findAttributebyName(name2);
-	vector<TableAttribute> attr = newtable.getAttributes();
-	return make_tuple(attr[index1], attr[index2]);
+	int index = table.findAttributebyName(name);
+	string tablename = table.getName() + "_project_" + name;
+	vector<string> attrnames;
+	attrnames.push_back(name);
+	vector<string> attrtypes;
+	attrtypes.push_back(table.getAttributes()[index].getType());
+	Table newtable(tablename, attrnames, attrtypes, attrnames);
+	vector<string> newrow;
+	vector<vector<string>> newdata = newtable.getTableData();
+	vector<vector<string>> olddata = table.getTableData();
+	for(int i = 0; i < olddata.size(); i++)
+	{
+		newrow.push_back(olddata[i][index]);
+		newtable.insert(newrow);
+	}
+	return newtable;
 }
