@@ -411,3 +411,23 @@ Table TableOperations::project(Table table, string name)
 	}
 	return newtable;
 }
+
+Table TableOperations::combineTables(Table table1, Table table2)
+{
+	Table newtable = table1;
+	vector<TableAttribute> t2attr = table2.getAttributes();
+	vector<vector<string>> t2data = table2.getTableData();
+	for (int i = 0; i < t2attr.size(); i++)
+	{
+		newtable.getAttributes().push_back(t2attr[i]);
+	}
+	for (int i = 0; i < t2data.size(); i++)
+	{
+		for (int j = 0; j < table1.getAttributes().size(); j++)
+		{
+			(newtable.getTableData())[i].push_back(t2data[i][j]);
+		}
+	}
+	newtable.showTable();
+	return newtable;
+}
