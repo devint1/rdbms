@@ -1,4 +1,5 @@
 #include <sstream>
+#include <algorithm>
 #include "Parser.h"
 
 const string Parser::COMMAND_NAMES[] = {"OPEN", "CLOSE", "WRITE", "EXIT", "SHOW", "CREATE", "UPDATE", "INSERT", "DELETE"};
@@ -21,7 +22,7 @@ bool Parser::checkNumTokens(command cmd, int numTokens)
 
 vector<string> Parser::infixToPostfix(vector<string> infixTokens)
 {
-
+	return vector<string>();
 }
 
 void Parser::executeCreate(vector<string> tokens)
@@ -38,6 +39,18 @@ void Parser::executeCreate(vector<string> tokens)
 	//Look for open parenthesis
 	//Remember all of the primary keys
 	//Look for closed parenthesis
+}
+
+void Parser::executeInsert(vector<string> tokens)
+{
+	if (tokens[0] != "INTO" || tokens[2] != "VALUES" || tokens[3] != "FROM")
+		cerr << "Incorrect Input" << endl;
+	string tablename = tokens[1];
+	if (tokens[5] == "RELATION")
+	{
+
+	}
+
 }
 
 void Parser::evaluateQuery(string query)
@@ -79,41 +92,41 @@ void Parser::evaulateCommand(string command)
 
 	if (checkNumTokens(cmd, tokens.size() - 1)) {
 		try {
-			switch (cmd) {
-			case open:
-				db.openTable(tokens[1]);
-				break;
-			case close:
-				db.closeTable(tokens[1]);
-				break;
-			case write:
-				db.writeTable(tokens[1]);
-				break;
-			case exit:
-				_exit(0);
-				break;
-			case show:
-				db.showTable(tokens[1]);
-				break;
-			case create: {
-				vector<string> createTokens(tokens.begin() + 1, tokens.end());
-				executeCreate(createTokens);
-				break;
-			}
-			case update:
-				db.updateTable(tokens[1], tokens[2], tokens[3], tokens[4],tokens[5]);
-				break;
-			case insert: {
-				vector<string> insertTokens(tokens.begin() + 1, tokens.end());
-				db.insertIntoTable(tokens[1], insertTokens);
-				break;
-			}
-			case del:
-				db.deleteFromTable(tokens[1], tokens[2], tokens[3]);
-				break;
-			default:
-				cerr << "ERROR: Command not implemented." << endl;
-			}
+		switch (cmd) {
+		case open:
+			db.openTable(tokens[1]);
+			break;
+		case close:
+			db.closeTable(tokens[1]);
+			break;
+		case write:
+			db.writeTable(tokens[1]);
+			break;
+		case exit:
+			_exit(0);
+			break;
+		case show:
+			db.showTable(tokens[1]);
+			break;
+		case create: {
+			vector<string> createTokens(tokens.begin() + 1, tokens.end());
+			executeCreate(createTokens);
+			break;
+		}
+		case update:
+			//not implemented
+			break;
+		case insert: {
+			vector<string> insertTokens(tokens.begin() + 1, tokens.end());
+			executeInsert(insertTokens);
+			break;
+		}
+		case del:
+			db.deleteFromTable(tokens[1], tokens[2], tokens[3]);
+			break;
+		default:
+			cerr << "ERROR: Command not implemented." << endl;
+		}
 		}
 		catch (exception e) {
 			cerr << "ERROR: " << e.what() << endl;
@@ -147,6 +160,8 @@ void Parser::evaluateStatement(string statement)
 
 	istringstream iss(statement);
 	vector<string> tokens{ istream_iterator<string>(iss), istream_iterator<string>() };
+	for (string line : parse_parens(tokens))
+		cout << "[" << line << "] " << endl;
 	bool isCommand = false;
 
 	for (int i = 0; i < sizeof(COMMAND_NAMES) / sizeof(string); ++i)
@@ -159,4 +174,58 @@ void Parser::evaluateStatement(string statement)
 		evaulateCommand(statement);
 	else
 		evaluateQuery(statement);
+}
+
+string Parser::remove_parens(string& s) {
+	s.erase(remove(s.begin(), s.end(), '\"'), s.end());
+	return s;
+}
+
+int number_of_open_parens(string str){
+	return count(str.begin(), str.end(), '(');
+}
+
+int number_of_close_parens(string str){
+	return count(str.begin(), str.end(), ')');
+}
+
+// function returns vector with all things in parentheses in the same index
+vector<string> Parser::parse_parens(vector<string> input) {
+	vector<string> result;
+	int count = 0;
+	int pushback_index = 0;
+	int end, opens, closes;
+	int start = 0;
+	int total = 0;
+	for (size_t i = 0; i < input.size(); i++) {
+		end = input[i].length() - 1;
+		opens = number_of_open_parens(input[i]);
+		closes = number_of_close_parens(input[i]);
+		total += (opens - closes);
+
+		if (total == 0 && (opens + closes) == 0)
+			result.push_back(input[i]);
+
+		else if (count == 0 && input[i][start] == '('){
+			result.push_back(input[i]);
+			pushback_index = result.size()-1;
+		}
+		
+		else if (total == 0 && input[i][end] == ')')
+			result[pushback_index] += (" " + input[i]);
+
+		else if (total > 0)
+			result[pushback_index] += (" " + input[i]);
+
+		else if (total == 0 && opens == closes) 
+			result.push_back(input[i]);
+		
+		count += opens;
+		if (total == 0)
+			count = 0;
+
+	}
+	if (count != 0)
+		cout << "Error: Missmatched parentheses!\n";
+	return result;
 }
