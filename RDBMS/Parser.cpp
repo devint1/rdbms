@@ -159,6 +159,11 @@ void Parser::executeInsert(vector<string> tokens)
 
 }
 
+void Parser::executeDelete(vector<string> tokens)
+{
+
+}
+
 void Parser::evaluateQuery(string query)
 {
 	istringstream iss(query);
@@ -228,9 +233,11 @@ void Parser::evaulateCommand(string command)
 			executeInsert(insertTokens);
 			break;
 		}
-		case del:
-			db.deleteFromTable(tokens[1], tokens[2], tokens[3]);
+		case del: {
+			vector<string> deleteTokens(tokens.begin() + 1, tokens.end());
+			executeDelete(deleteTokens);
 			break;
+		}
 		default:
 			cerr << "ERROR: Command not implemented." << endl;
 		}
