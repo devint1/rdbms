@@ -345,8 +345,8 @@ Table TableOperations::naturalJoin(Table table1, Table table2){
 		joinTable.writeTable();
 		return joinTable;
 		
-
-		return table1; // not sure what to return if not join-able
+		// not sure what to return if not join-able
+		return table1; 
 }
 
 Table TableOperations::crossProduct(Table table1, Table table2)
@@ -404,7 +404,7 @@ Table TableOperations::project(Table table, string name)
 	vector<string> newrow;
 	vector<vector<string>> newdata = newtable.getTableData();
 	vector<vector<string>> olddata = table.getTableData();
-	for(int i = 0; i < olddata.size(); i++)
+	for(size_t i = 0; i < olddata.size(); i++)
 	{
 		newrow.push_back(olddata[i][index]);
 		newtable.insert(newrow);

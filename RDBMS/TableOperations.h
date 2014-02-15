@@ -21,8 +21,7 @@ public:
 	static Table naturalJoin(Table table1, Table table2); // MIGUEL
 	//Projection
 	static Table naturalJoin(Table table1, Table table2, string keyAttribute); // MIGUEL
-	static TableAttribute project(Table table, string name);	//Corey, takes a name, returns new table
-	tuple<TableAttribute, TableAttribute> project(Table table, string name1, string name2);
+	static Table project(Table table, string name);	//Corey, takes a name, returns new table
 
 	static Table renamingAttributes(Table table, string attributeName, string rename);	//Corey, takes a table, the attribute name to be renamed, and the name to be changed to. returns the new table
 };

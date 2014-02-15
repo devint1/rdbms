@@ -94,7 +94,7 @@ namespace RDBMSTest
 			initDB();
 			string name1 = "Model";
 			string name2 = "my_model";
-			TableAttribute rename = TableOperations::project(db.findTable("cars"), name1);
+			Table rename = TableOperations::project(db.findTable("cars"), name1);
 			TableOperations::renamingAttributes(db.findTable("cars2"), name2, rename.getName());
 		}
 		//Need to complete
