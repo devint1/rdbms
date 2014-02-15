@@ -1,5 +1,6 @@
 #include <sstream>
 #include <algorithm>
+#include <stack>
 #include "Parser.h"
 
 const string Parser::COMMAND_NAMES[] = {"OPEN", "CLOSE", "WRITE", "EXIT", "SHOW", "CREATE", "UPDATE", "INSERT", "DELETE"};
@@ -22,7 +23,80 @@ bool Parser::checkNumTokens(command cmd, int numTokens)
 
 vector<string> Parser::infixToPostfix(vector<string> infixTokens)
 {
-	return vector<string>();
+	stack<string> opStack;
+	vector<string> postfixTokens;
+	const string OPERATORS[] = {"||", "&&", "==", "!=", "<", ">", "<=", ">="};
+	const int PRECEDENCE[] = {1,1,0,0,0,0,0,0}; //Larger numbers mean higher precedence
+
+	for (string token : infixTokens)
+	{
+		bool isOperator = false;
+
+		for (int i = 0; i < sizeof(OPERATORS) / sizeof(string); ++i)
+		{
+			if (token == OPERATORS[i])
+			{
+				isOperator = true;
+				break;
+			}
+		}
+
+		if (isOperator)
+		{
+			string lastOp;
+
+			if(!opStack.empty())
+				lastOp = opStack.top();
+
+			int lastOpPrecedence = INT_MIN;
+			int currentOpPrecedence = INT_MIN;
+
+			for (int i = 0; i < sizeof(OPERATORS) / sizeof(string); ++i)
+			{
+				if (OPERATORS[i] == lastOp)
+					lastOpPrecedence = PRECEDENCE[i];
+				if (OPERATORS[i] == token)
+					currentOpPrecedence = PRECEDENCE[i];
+			}
+
+			if (lastOpPrecedence < currentOpPrecedence)
+			{
+				opStack.push(token);
+			}
+			else
+			{
+				bool checkOpStack = true;
+				do
+				{
+					postfixTokens.push_back(opStack.top());
+					opStack.pop();
+
+					int nextOpPrecedence = INT_MIN;
+					for (int i = 0; i < sizeof(OPERATORS) / sizeof(string) && !opStack.empty(); ++i)
+					{
+						if (OPERATORS[i] == opStack.top())
+							nextOpPrecedence = PRECEDENCE[i];
+					}
+
+					checkOpStack = nextOpPrecedence >= currentOpPrecedence;
+				} while (checkOpStack);
+
+				opStack.push(token);
+			}
+		}
+		else
+		{
+			postfixTokens.push_back(token);
+		}
+	}
+
+	while (!opStack.empty())
+	{
+		postfixTokens.push_back(opStack.top());
+		opStack.pop();
+	}
+
+	return postfixTokens;
 }
 
 void Parser::executeCreate(vector<string> tokens)
@@ -57,7 +131,8 @@ void Parser::evaluateQuery(string query)
 {
 	istringstream iss(query);
 	vector<string> tokens{ istream_iterator<string>(iss), istream_iterator<string>() };
-	bool isCommand = false;
+
+	infixToPostfix(tokens);
 
 	string relationName = tokens[0];
 
@@ -160,8 +235,8 @@ void Parser::evaluateStatement(string statement)
 
 	istringstream iss(statement);
 	vector<string> tokens{ istream_iterator<string>(iss), istream_iterator<string>() };
-	for (string line : parse_parens(tokens))
-		cout << "[" << line << "] " << endl;
+	/*for (string line : parse_parens(tokens))
+		cout << "[" << line << "] " << endl;*/
 	bool isCommand = false;
 
 	for (int i = 0; i < sizeof(COMMAND_NAMES) / sizeof(string); ++i)
