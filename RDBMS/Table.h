@@ -20,6 +20,8 @@ public:
 	vector<TableAttribute> getAttributes();
 	vector<string> getPrimaryKeys();
 	vector< vector<string> > getTableData();
+	void appendToRow(int row, vector<string> additions);
+	void addAttribute(vector<TableAttribute> attributes);
 
 	void writeTable(); //Used in WRITE (write to file)
 	void showTable(); //Used in SHOW (print to screen)
