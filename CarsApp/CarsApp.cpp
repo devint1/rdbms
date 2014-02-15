@@ -3,8 +3,7 @@
 #include "../RDBMS/Database.h"
 #include "../RDBMS/TableOperations.h";
 
-int main()
-{
+int main() try {
 	Database db;
 	/*
 	db.openTable("cars");
@@ -60,4 +59,7 @@ int main()
 	}
 
 	return 0;
-}
+
+} catch (exception e) { cerr << "ERROR: " << e.what() << endl; }
+catch (...) { cerr << "ERROR: Unknown error." << endl; }
+

@@ -203,7 +203,7 @@ void Parser::evaulateCommand(string command)
 	}
 
 	if (checkNumTokens(cmd, tokens.size() - 1)) {
-		try {
+
 		switch (cmd) {
 		case open:
 			db.openTable(tokens[1]);
@@ -241,13 +241,8 @@ void Parser::evaulateCommand(string command)
 		default:
 			cerr << "ERROR: Command not implemented." << endl;
 		}
-		}
-		catch (exception e) {
-			cerr << "ERROR: " << e.what() << endl;
-		} 
-		catch (...) {
-			cerr << "ERROR: Unknown error." << endl;
-	}
+		
+		
 	}
  else
 	cerr << "ERROR: Invalid syntax." << endl;
