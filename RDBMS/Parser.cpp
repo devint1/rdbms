@@ -101,18 +101,50 @@ vector<string> Parser::infixToPostfix(vector<string> infixTokens)
 
 void Parser::executeCreate(vector<string> tokens)
 {
+	tokens = parse_parens(tokens);
+
+	if (tokens.size() != 6)
+	{
+		cerr << "ERROR: Invalid syntax." << endl;
+		return;
+	}
 	if (tokens[0] != "TABLE") {
 		cerr << "ERROR: Expected token \"TABLE\"" << endl;
 		return;
 	}
 	string relationName = tokens[1];
-	//Look for open parenthesis
-	//Remember all of the attribute list
-	//Look for closed parenthesis
-	//Look for PRIMARY and KEY
-	//Look for open parenthesis
-	//Remember all of the primary keys
-	//Look for closed parenthesis
+	string attributeList = remove_parens(remove_commas(tokens[2]));
+	if (tokens[3] != "PRIMARY") {
+		cerr << "ERROR: Expected token \"PRIMARY\"" << endl;
+		return;
+	}
+	if (tokens[4] != "KEY") {
+		cerr << "ERROR: Expected token \"PRIMARY\"" << endl;
+		return;
+	}
+	string primaryKeys = remove_parens(remove_commas(tokens[5]));
+
+	istringstream iss(attributeList);
+	vector<string> attributeTokens{ istream_iterator<string>(iss), istream_iterator<string>() };
+
+	istringstream iss1(primaryKeys);
+	vector<string> keyTokens{ istream_iterator<string>(iss1), istream_iterator<string>() };
+
+	if (attributeTokens.size() % 2 != 0) {
+		cerr << "ERROR: Invalid syntax." << endl;
+		return;
+	}
+
+	vector<string> attributeNames;
+	vector<string> attributeTypes;
+
+	for (int i = 0; i < attributeTokens.size(); i += 2)
+	{
+		attributeNames.push_back(attributeTokens[i]);
+		attributeTypes.push_back(attributeTokens[i + 1]);
+	}
+
+	db.createTable(relationName, attributeNames, attributeTypes, keyTokens);
 }
 
 void Parser::executeInsert(vector<string> tokens)
@@ -132,9 +164,9 @@ void Parser::evaluateQuery(string query)
 	istringstream iss(query);
 	vector<string> tokens{ istream_iterator<string>(iss), istream_iterator<string>() };
 
-	infixToPostfix(tokens);
-
 	string relationName = tokens[0];
+
+	infixToPostfix(tokens);
 
 	if (tokens.size() <= 1)
 	{
@@ -251,8 +283,19 @@ void Parser::evaluateStatement(string statement)
 		evaluateQuery(statement);
 }
 
-string Parser::remove_parens(string& s) {
+string Parser::remove_quotes(string s) {
 	s.erase(remove(s.begin(), s.end(), '\"'), s.end());
+	return s;
+}
+
+string Parser::remove_parens(string s) {
+	s.erase(remove(s.begin(), s.end(), '('), s.end());
+	s.erase(remove(s.begin(), s.end(), ')'), s.end());
+	return s;
+}
+
+string Parser::remove_commas(string s) {
+	s.erase(remove(s.begin(), s.end(), ','), s.end());
 	return s;
 }
 
