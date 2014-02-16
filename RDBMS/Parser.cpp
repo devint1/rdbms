@@ -256,7 +256,7 @@ void Parser::evaluateQuery(string query)
 
 	infixToPostfix(tokens);
 
-	if (tokens.size() <= 1)
+	if (tokens.size() < 3)
 	{
 		cerr << "ERROR: Expected <-" << endl;
 		return;
@@ -267,6 +267,19 @@ void Parser::evaluateQuery(string query)
 		cerr << "ERROR: Expected <-" << endl;
 		return;
 	}
+	Table result;
+	if (db.tableExists(relationName)){
+		char choice = ' ';
+		cout << "\nNotice: query operation will overwrite " << relationName << ", continue? (y/n)\n> ";
+		cin >> choice;
+		if (choice == 'n' || choice == 'N')
+			return;
+		else{
+			result;
+		}
+	}
+
+
 	cout << "Your input was interpreted as a query; queries are not yet implemented." << endl;
 }
 
