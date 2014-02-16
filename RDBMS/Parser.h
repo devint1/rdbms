@@ -8,7 +8,9 @@ private:
 	Database db;
 
 	const static string COMMAND_NAMES[];
+	const static string EXPRESSION_KEYWORD_NAMES[];
 	const enum command {open, close, write, exit, show, create, update, insert, del};
+	const enum exprKeyword {select, project, rename};
 
 	//Helper Functions
 	bool checkNumTokens(command cmd, int numTokens);
@@ -27,7 +29,7 @@ private:
 	//Evaluations
 	void evaluateQuery(string query);
 	void evaulateCommand(string command);
-	
+	Table evaluateExpression(vector<string> expr);
 public:
 	Parser();
 	~Parser();
