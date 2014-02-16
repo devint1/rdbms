@@ -9,6 +9,19 @@ Table& Database::findTable(string name)
 	}
 
 	throw exception("Table not found.");
+	return NULL;
+}
+
+bool Database::tableExists(string name)
+{
+	bool exists = false;
+	for (Table& t : tables) {
+		if (t.getName() == name) {
+			return true;
+		}
+	}
+
+	return false;
 }
 
 Database::Database()
