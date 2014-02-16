@@ -40,7 +40,7 @@ namespace RDBMSTest
 			vector<string> primKeys = { "email" };
 			db.createTable("users", attNames, attTypes, primKeys);
 		}
-		TEST_METHOD(DropTable)
+		TEST_METHOD(CloseTable)
 		{
 			initDB();
 			db.closeTable("cars");
@@ -121,5 +121,6 @@ namespace RDBMSTest
 			vector<TableAttribute> testAttributes = TableOperations::attributeUnion(db.findTable("students"), db.findTable("schoolLocations"));
 			Assert::AreEqual(testTable.getAttributes().size(), testAttributes.size());
 		}
+
 	};
 }
