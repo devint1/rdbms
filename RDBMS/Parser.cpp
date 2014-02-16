@@ -268,7 +268,6 @@ void Parser::evaluateQuery(string query)
 		cerr << "ERROR: Expected <-" << endl;
 		return;
 	}
-
 	cout << "Your input was interpreted as a query; queries are not yet implemented." << endl;
 }
 

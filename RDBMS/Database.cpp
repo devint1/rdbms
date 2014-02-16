@@ -7,8 +7,18 @@ Table& Database::findTable(string name)
 			return t;
 		}
 	}
+}
 
-	throw exception("Table not found.");
+bool Database::tableExists(string name)
+{
+	bool exists = false;
+	for (Table& t : tables) {
+		if (t.getName() == name) {
+			return true;
+		}
+	}
+
+	return false;
 }
 
 Database::Database()
