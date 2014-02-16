@@ -24,5 +24,6 @@ public:
 	void updateTable(string relationName, string attributeNameToChange, string valueToChange, string conditionAttributeName, string conditionValue); 	///MAKE SURE findtable() ACCOUNTS for not finding the relation/table used for argument.	   //Sergio
 	void deleteFromTable(string name, string attributeName, string dataName); //WORKS
 	void insertIntoTable(string tablename, vector<string> values); //WORKS
+	bool tableExists(string name);
 	Table& findTable(string name); //Helper function that returns the index of a table with a given name
 };
