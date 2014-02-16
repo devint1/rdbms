@@ -150,13 +150,33 @@ void Parser::executeCreate(vector<string> tokens)
 void Parser::executeInsert(vector<string> tokens)
 {
 	if (tokens[0] != "INTO" || tokens[2] != "VALUES" || tokens[3] != "FROM")
-		cerr << "ERROR: Incorrect Input" << endl;
+		cerr << "Incorrect Input" << endl;
+	//if (tokens[5] == "RELATION")
+	//{
+	//	// DO other thing
+	//
+	//}
+
+	if (tokens.size() != 5)
+		cerr << "Incorrect Input" << endl;
+
+	string tableName = tokens[1];
+
+	istringstream iss(tokens[4]);
+	vector<string> values{ istream_iterator<string>(iss), istream_iterator<string>() };
+	values[0] = remove_parens(values[0]);
+	values[values.size() - 1] = remove_parens(values[values.size() - 1]);
+
+	vector<string> newEntry;
+	cerr << "ERROR: Incorrect Input" << endl;
 	string tablename = tokens[1];
-	if (tokens[5] == "RELATION")
-	{
 
+	if (tokens[5] == "RELATION"){}
+
+	for (size_t i = 0; i < values.size(); i++){
+		values[i] = remove_commas(values[i]);
+		newEntry.push_back(values[i]);
 	}
-
 }
 
 void Parser::executeDelete(vector<string> tokens)
