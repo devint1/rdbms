@@ -4,6 +4,7 @@
 #include "Parser.h"
 
 const string Parser::COMMAND_NAMES[] = {"OPEN", "CLOSE", "WRITE", "EXIT", "SHOW", "CREATE", "UPDATE", "INSERT", "DELETE"};
+const string Parser::EXPRESSION_KEYWORD_NAMES[] = { "select", "project", "rename" };
 
 bool Parser::checkNumTokens(command cmd, int numTokens)
 {
@@ -343,6 +344,21 @@ void Parser::evaulateCommand(string command)
 	}
  else
 	cerr << "ERROR: Invalid syntax." << endl;
+}
+
+Table Parser::evaluateExpression(vector<string> expr)
+{
+	Table result("cars");
+
+	for (int i = 0; i < sizeof(EXPRESSION_KEYWORD_NAMES) / sizeof(string); ++i)
+	{
+		if (expr[0] == EXPRESSION_KEYWORD_NAMES[i])
+		{
+
+		}
+	}
+
+	return result;
 }
 
 Parser::Parser()
