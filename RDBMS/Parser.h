@@ -25,6 +25,7 @@ private:
 	void executeInsert(vector<string> tokens);
 	void executeDelete(vector<string> tokens);
 	void executeUpdate(vector<string> tokens);
+	Table executeProject(vector<string> attributeNames, vector<string> expr);
 
 	//Evaluations
 	void evaluateQuery(string query);

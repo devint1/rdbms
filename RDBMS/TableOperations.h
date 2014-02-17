@@ -24,6 +24,6 @@ public:
 	static Table naturalJoin(Table table1, Table table2, string keyAttribute); // MIGUEL
 	static Table project(Table table, string name);	//Corey, takes a name, returns new table
 	static Table combineTables(Table table1, Table table2);
-	static Table renamingAttributes(Table table, string attributeName, string rename);	//Corey, takes a table, the attribute name to be renamed, and the name to be changed to. returns the new table
+	static Table renamingAttributes(Table table, vector<string> attributeNames);	//Corey, takes a table, the attribute name to be renamed, and the name to be changed to. returns the new table
 };
 

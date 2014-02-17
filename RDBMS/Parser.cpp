@@ -171,6 +171,23 @@ void Parser::executeUpdate(vector<string> tokens)
 	db.updateTable(relationName, attributeSetName, attributeSetValue, attributeConditionName, attributeConditionValue);
 }
 
+Table Parser::executeProject(vector<string> attributeNames, vector<string> expr)
+{
+	if (attributeNames.size() < 1)
+		throw exception("No attributes provided.");
+
+	Table targetTable = evaluateExpression(expr); //This will be the table we are working on
+	Table result = TableOperations::project(targetTable, attributeNames[0]);
+	
+	//Build the table for each of the attributes provided
+	for (int i = 1; i < attributeNames.size(); ++i)
+	{
+		result = TableOperations::combineTables(result, TableOperations::project(targetTable, attributeNames[i]));
+	}
+
+	return result;
+}
+
 void Parser::evaluateQuery(string query)
 {
 	istringstream iss(query);
@@ -298,14 +315,46 @@ Table Parser::evaluateExpression(vector<string> expr)
 	//Evaluate as a keyword expression
 	if (keyword > -1)
 	{
-		switch(keyword)
+		expr = parse_parens(expr);
+
+		if (expr.size() >= 3)
 		{
-			case select:
-				break;
-			case project:
-				break;
-			case rename:
-				break;
+			//Get the inner tokens (condition or attribute list) ready for tokenization
+			expr[1] = remove_end_parens(expr[1]);
+			expr[1] = remove_commas(expr[1]);
+
+			//Tokenize inner tokens
+			istringstream iss(expr[1]);
+			vector<string> innerTokens{ istream_iterator<string>(iss), istream_iterator<string>() };
+
+			//Tokenize the atomic expression
+			vector<string> atomicExpr;
+
+			//If it is surrounded by parens, parse it again
+			if (expr[2][0] == '(' && expr[2][expr[2].length() - 1] == ')')
+			{
+				expr[2] = remove_end_parens(expr[2]);
+
+				istringstream iss2(expr[2]);
+				atomicExpr = { istream_iterator<string>(iss2), istream_iterator<string>() };
+			} 
+			//Othwerwise we can just use everything at the end of the expression
+			else
+				atomicExpr = vector<string>(expr.begin() + 2, expr.end());
+
+			switch(keyword)
+			{
+				case select:
+					break;
+				case project:
+					return executeProject(innerTokens, atomicExpr);
+				case rename:
+					return TableOperations::renamingAttributes(evaluateExpression(atomicExpr), innerTokens);
+			}
+		}
+		else
+		{
+			throw exception("Invalid syntax.");
 		}
 	}
 
