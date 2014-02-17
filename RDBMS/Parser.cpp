@@ -139,7 +139,7 @@ void Parser::executeCreate(vector<string> tokens)
 	vector<string> attributeNames;
 	vector<string> attributeTypes;
 
-	for (int i = 0; i < attributeTokens.size(); i += 2)
+	for (size_t i = 0; i < attributeTokens.size(); i += 2)
 	{
 		attributeNames.push_back(attributeTokens[i]);
 		attributeTypes.push_back(attributeTokens[i + 1]);
