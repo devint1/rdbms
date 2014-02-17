@@ -276,12 +276,17 @@ void Parser::evaluateQuery(string query)
 		if (choice == 'n' || choice == 'N')
 			return;
 		else{
-			result;
+			result = db.findTable(relationName);
 		}
 	}
 
+	vector<string> forward;
+	for (size_t i = 2; i < tokens.size(); i++)
+		forward.push_back(tokens[i]);
 
-	cout << "Your input was interpreted as a query; queries are not yet implemented." << endl;
+	result = evaluateExpression(forward);
+
+	cout << "Query completed" << endl;
 }
 
 void Parser::evaulateCommand(string command)
@@ -354,7 +359,7 @@ Table Parser::evaluateExpression(vector<string> expr)
 	{
 		if (expr[0] == EXPRESSION_KEYWORD_NAMES[i])
 		{
-
+			
 		}
 	}
 

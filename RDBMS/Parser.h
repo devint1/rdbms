@@ -39,4 +39,3 @@ public:
 	//This is the main interface between the parser and external applications
 	void evaluateStatement(string statement);
 };
-
