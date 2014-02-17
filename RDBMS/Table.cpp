@@ -114,12 +114,12 @@ void Table::showTable()
 	const int COL_WIDTH = 15;
 	for (int i = 0; i < (int)tableAttributes.size(); ++i)
 	{
-		cout << setw(COL_WIDTH) << tableAttributes[i].getName();
+		cout << left << setw(COL_WIDTH) << tableAttributes[i].getName();
 	}
 	cout << endl;
 	for (int i = 0; i < (int)tableAttributes.size(); ++i)
 	{
-		cout << setw(COL_WIDTH) << tableAttributes[i].getType();
+		cout << left << setw(COL_WIDTH) << tableAttributes[i].getType();
 	}
 	cout << endl;
 	for (size_t i = 0; i < tableAttributes.size(); ++i)
@@ -134,7 +134,7 @@ void Table::showTable()
 	{
 		for (int j = 0; j<(int)tableData[i].size(); j++)
 		{
-			cout << setw(COL_WIDTH) << tableData[i][j];
+			cout << left << setw(COL_WIDTH) << tableData[i][j];
 		}
 		cout << "\n";
 	}
