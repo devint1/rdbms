@@ -448,13 +448,13 @@ Table Parser::evaluateExpression(vector<string> expr)
 				case '-':
 					switch (caseVal) {
 					case literalLiteral:
-						return TableOperations::setDifference(db.findTable(expr[0]), db.findTable(expr[2]), "");
+						return TableOperations::setDifference(db.findTable(expr[0]), db.findTable(expr[2]));
 					case atomicAtomic:
-						return TableOperations::setDifference(evaluateExpression(leftTokens), evaluateExpression(rightTokens), "");
+						return TableOperations::setDifference(evaluateExpression(leftTokens), evaluateExpression(rightTokens));
 					case atomicLiteral:
-						return TableOperations::setDifference(evaluateExpression(leftTokens), db.findTable(expr[2]), "");
+						return TableOperations::setDifference(evaluateExpression(leftTokens), db.findTable(expr[2]));
 					case literalAtomic:
-						return TableOperations::setDifference(db.findTable(expr[0]), evaluateExpression(rightTokens), "");
+						return TableOperations::setDifference(db.findTable(expr[0]), evaluateExpression(rightTokens));
 					}
 				case '*':
 					switch (caseVal) {
