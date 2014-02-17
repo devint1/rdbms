@@ -268,7 +268,6 @@ void Parser::evaluateQuery(string query)
 		cerr << "ERROR: Expected <-" << endl;
 		return;
 	}
-	Table result;
 	if (db.tableExists(relationName)){
 		char choice = ' ';
 		cout << "\nNotice: query operation will overwrite " << relationName << ", continue? (y/n)\n> ";
@@ -276,7 +275,7 @@ void Parser::evaluateQuery(string query)
 		if (choice == 'n' || choice == 'N')
 			return;
 		else{
-			result = db.findTable(relationName);
+			//result = db.findTable(relationName);
 		}
 	}
 
@@ -284,7 +283,7 @@ void Parser::evaluateQuery(string query)
 	for (size_t i = 2; i < tokens.size(); i++)
 		forward.push_back(tokens[i]);
 
-	result = evaluateExpression(forward);
+	Table result = evaluateExpression(forward);
 
 	cout << "Query completed" << endl;
 }
