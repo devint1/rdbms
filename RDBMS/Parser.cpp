@@ -352,6 +352,10 @@ void Parser::evaulateCommand(string command)
 	cerr << "ERROR: Invalid syntax." << endl;
 }
 
+Table Parser::evaluateSelect(vector<string> expr){
+	expr = parse_parens(expr);
+}
+
 Table Parser::evaluateExpression(vector<string> expr)
 {
 	exprKeyword keyword = (exprKeyword) -1;
@@ -370,7 +374,7 @@ Table Parser::evaluateExpression(vector<string> expr)
 		switch(keyword)
 		{
 			case select:
-				return TableOperations::select(db.findTable(expr[1]), expr[2], expr[3], expr[4]);
+				return evaluateSelect(expr);
 				break;
 			case project:
 				break;

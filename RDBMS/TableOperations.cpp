@@ -9,9 +9,7 @@ bool TableOperations::isNumber(const string s)
 	return true;
 }
 
-Table TableOperations::select(Table targetTable, string conditionAttribute, string conditionOp, string condition)
-
-{
+Table TableOperations::select(Table targetTable, string conditionAttribute, string conditionOp, string condition){
 	
 	enum conditionOperator { equal, notEqual, lessThan, lessThanEqual, greaterThan, greaterThanEqual };
 	conditionOperator operation;
@@ -76,15 +74,15 @@ Table TableOperations::select(Table targetTable, string conditionAttribute, stri
 				selectTable.insert(targetData[i]);
 			break;
 		case lessThan:
-			if (stoi(entry) == stoi(condition) && isNumber(entry))
+			if (stoi(entry) < stoi(condition) && isNumber(entry))
 				selectTable.insert(targetData[i]);
 			break;
 		case greaterThanEqual:
-			if (stoi(entry) == stoi(condition) && isNumber(entry))
+			if (stoi(entry) >= stoi(condition) && isNumber(entry))
 				selectTable.insert(targetData[i]);
 			break;
 		case greaterThan:
-			if (stoi(entry) == stoi(condition) && isNumber(entry))
+			if (stoi(entry) > stoi(condition) && isNumber(entry))
 				selectTable.insert(targetData[i]);
 			break;
 		default:

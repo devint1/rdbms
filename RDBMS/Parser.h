@@ -31,6 +31,7 @@ private:
 	void evaluateQuery(string query);
 	void evaulateCommand(string command);
 	Table evaluateExpression(vector<string> expr);
+	Table evaluateSelect(vector<string> expr);
 public:
 	Parser();
 	~Parser();
