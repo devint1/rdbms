@@ -116,7 +116,7 @@ Table TableOperations::select(string attributesToInclude, Table targetTable)
 	return selectTable;
 }
 
-Table TableOperations::setUnion(Table table1, Table table2, string keyAttribute){
+Table TableOperations::setUnion(Table table1, Table table2){
 	bool attributesEqual = true;
 	int i = 0;
 
