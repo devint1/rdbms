@@ -23,84 +23,6 @@ bool Parser::checkNumTokens(command cmd, int numTokens)
 	}
 }
 
-vector<string> Parser::infixToPostfix(vector<string> infixTokens)
-{
-	stack<string> opStack;
-	vector<string> postfixTokens;
-	const string OPERATORS[] = {"||", "&&", "==", "!=", "<", ">", "<=", ">="};
-	const int PRECEDENCE[] = {1,1,0,0,0,0,0,0}; //Larger numbers mean higher precedence
-
-	for (string token : infixTokens)
-	{
-		bool isOperator = false;
-
-		for (int i = 0; i < sizeof(OPERATORS) / sizeof(string); ++i)
-		{
-			if (token == OPERATORS[i])
-			{
-				isOperator = true;
-				break;
-			}
-		}
-
-		if (isOperator)
-		{
-			string lastOp;
-
-			if(!opStack.empty())
-				lastOp = opStack.top();
-
-			int lastOpPrecedence = INT_MIN;
-			int currentOpPrecedence = INT_MIN;
-
-			for (int i = 0; i < sizeof(OPERATORS) / sizeof(string); ++i)
-			{
-				if (OPERATORS[i] == lastOp)
-					lastOpPrecedence = PRECEDENCE[i];
-				if (OPERATORS[i] == token)
-					currentOpPrecedence = PRECEDENCE[i];
-			}
-
-			if (lastOpPrecedence < currentOpPrecedence)
-			{
-				opStack.push(token);
-			}
-			else
-			{
-				bool checkOpStack = true;
-				do
-				{
-					postfixTokens.push_back(opStack.top());
-					opStack.pop();
-
-					int nextOpPrecedence = INT_MIN;
-					for (int i = 0; i < sizeof(OPERATORS) / sizeof(string) && !opStack.empty(); ++i)
-					{
-						if (OPERATORS[i] == opStack.top())
-							nextOpPrecedence = PRECEDENCE[i];
-					}
-
-					checkOpStack = nextOpPrecedence >= currentOpPrecedence;
-				} while (checkOpStack);
-
-				opStack.push(token);
-			}
-		}
-		else
-		{
-			postfixTokens.push_back(token);
-		}
-	}
-
-	while (!opStack.empty())
-	{
-		postfixTokens.push_back(opStack.top());
-		opStack.pop();
-	}
-
-	return postfixTokens;
-}
-
 void Parser::executeCreate(vector<string> tokens)
 {
 	tokens = parse_parens(tokens);
@@ -249,6 +171,23 @@ void Parser::executeUpdate(vector<string> tokens)
 	db.updateTable(relationName, attributeSetName, attributeSetValue, attributeConditionName, attributeConditionValue);
 }
 
+Table Parser::executeProject(vector<string> attributeNames, vector<string> expr)
+{
+	if (attributeNames.size() < 1)
+		throw exception("No attributes provided.");
+
+	Table targetTable = evaluateExpression(expr); //This will be the table we are working on
+	Table result = TableOperations::project(targetTable, attributeNames[0]);
+	
+	//Build the table for each of the attributes provided
+	for (int i = 1; i < attributeNames.size(); ++i)
+	{
+		result = TableOperations::combineTables(result, TableOperations::project(targetTable, attributeNames[i]));
+	}
+
+	return result;
+}
+
 void Parser::evaluateQuery(string query)
 {
 	istringstream iss(query);
@@ -256,9 +195,7 @@ void Parser::evaluateQuery(string query)
 
 	string relationName = tokens[0];
 
-	infixToPostfix(tokens);
-
-	if (tokens.size() < 3)
+	if (tokens.size() < 2)
 	{
 		cerr << "ERROR: Expected <-" << endl;
 		return;
@@ -267,6 +204,12 @@ void Parser::evaluateQuery(string query)
 	else if (tokens[1] != "<-") 
 	{
 		cerr << "ERROR: Expected <-" << endl;
+		return;
+	}
+
+	else if (tokens.size() < 3)
+	{
+		cerr << "ERROR: Expected expression after <-" << endl;
 		return;
 	}
 
@@ -296,9 +239,9 @@ void Parser::evaulateCommand(string command)
 {
 	istringstream iss(command);
 	vector<string> tokens{ istream_iterator<string>(iss), istream_iterator<string>() };
-	bool isCommand = false;
 	Parser::command cmd;
 
+	//Convert the command string to an enumerated form
 	for (int i = 0; i < sizeof(COMMAND_NAMES) / sizeof(string); ++i) {
 		if (tokens[0] == COMMAND_NAMES[i]) {
 			cmd = (Parser::command) i;
@@ -306,8 +249,8 @@ void Parser::evaulateCommand(string command)
 		}
 	}
 
+	//If the number of tokens is valid at this point, find the command and execute it
 	if (checkNumTokens(cmd, tokens.size() - 1)) {
-
 		switch (cmd) {
 		case open:
 			db.openTable(tokens[1]);
@@ -349,7 +292,10 @@ void Parser::evaulateCommand(string command)
 		}		
 	}
  else
+	{
+		//The user did not follow the correct syntax for the command.
 	cerr << "ERROR: Invalid syntax." << endl;
+}
 }
 
 Table Parser::evaluateSelect(vector<string> expr){
@@ -360,6 +306,7 @@ Table Parser::evaluateExpression(vector<string> expr)
 {
 	exprKeyword keyword = (exprKeyword) -1;
 
+	//Find the enumerated version of the keyword string
 	for (int i = 0; i < sizeof(EXPRESSION_KEYWORD_NAMES) / sizeof(string); ++i)
 	{
 		if (expr[0] == EXPRESSION_KEYWORD_NAMES[i])
@@ -369,40 +316,93 @@ Table Parser::evaluateExpression(vector<string> expr)
 		}
 	}
 
+	//Evaluate as a keyword expression
 	if (keyword > -1)
 	{
+		expr = parse_parens(expr);
+
+		if (expr.size() >= 3)
+		{
+			//Get the inner tokens (condition or attribute list) ready for tokenization
+			expr[1] = remove_end_parens(expr[1]);
+			expr[1] = remove_commas(expr[1]);
+
+			//Tokenize inner tokens
+			istringstream iss(expr[1]);
+			vector<string> innerTokens{ istream_iterator<string>(iss), istream_iterator<string>() };
+
+			//Tokenize the atomic expression
+			vector<string> atomicExpr;
+
+			//If it is surrounded by parens, parse it again
+			if (expr[2][0] == '(' && expr[2][expr[2].length() - 1] == ')')
+			{
+				expr[2] = remove_end_parens(expr[2]);
+
+				istringstream iss2(expr[2]);
+				atomicExpr = { istream_iterator<string>(iss2), istream_iterator<string>() };
+			} 
+			//Othwerwise we can just use everything at the end of the expression
+			else
+				atomicExpr = vector<string>(expr.begin() + 2, expr.end());
+
 		switch(keyword)
 		{
 			case select:
 				return evaluateSelect(expr);
 				break;
 			case project:
-				break;
+					return executeProject(innerTokens, atomicExpr);
 			case rename:
-				break;
+					return TableOperations::renamingAttributes(evaluateExpression(atomicExpr), innerTokens);
 		}
 	}
 	else
 	{
-		enum operationCase { literalLiteral, atomicAtomic, atomicLiteral, literalAtomic };
-		operationCase caseVal;
+			throw exception("Invalid syntax.");
+		}
+	}
+
+	//Either need to evaluate as a literal, atomic expression, or operation
+	else
+	{
 		vector<string> leftTokens;
 		vector<string> rightTokens;
 
+		//We know the expression is of the form literal op literal
 		if (expr.size() == 3)
 		{
-			caseVal = literalLiteral;
+			leftTokens.push_back(expr[0]);
+			rightTokens.push_back(expr[2]);
 		}
 		else
 		{
+			//Need to parse the parens
 			expr = parse_parens(expr);
+
+			//If the size is not 3 after parsing, the expression must either be a literal or atomic expression
 			if (expr.size() != 3)
 			{
-				throw("Invalid syntax.");
+				//We should not have more than one token after parsing parens
+				if (expr.size() != 1)
+					throw exception("Invalid syntax.");
+
+				//If the token is surrounded by parens, we know it is an atomic expression
+				if (expr[0][0] == '(' && expr[0][expr[0].length() - 1] == ')')
+				{
+					expr[0] = remove_end_parens(expr[0]);
+					expr = parse_parens(expr);
+					return evaluateExpression(expr);
 			}
+				//Otherwise, we will simply treat it as a literal
+				else
+					return db.findTable(expr[0]);
+			}
+
+			//If we get here, we know it must be an operation. We must find out if either the left or right operand is an atomic expression
+			//Atomic op atomic
 			if ((expr[0][0] == '(' && expr[0][expr[0].size() - 1] == ')') && (expr[2][0] == '(' && expr[2][expr[2].size() - 1] == ')'))
 			{
-				caseVal = atomicAtomic;
 				expr[0] = remove_end_parens(expr[0]);
 				expr[2] = remove_end_parens(expr[2]);
 
@@ -412,96 +412,58 @@ Table Parser::evaluateExpression(vector<string> expr)
 				istringstream iss1(expr[2]);
 				rightTokens = { istream_iterator<string>(iss1), istream_iterator<string>() };
 			}
+			//Atomic op literal
 			else if ((expr[0][0] == '(' && expr[0][expr[0].size() - 1] == ')') && (expr[2][0] != '(' && expr[2][expr[2].size() - 1] != ')'))
 			{
-				caseVal = atomicLiteral;
 				expr[0] = remove_end_parens(expr[0]);
 
 				istringstream iss(expr[0]);
 				leftTokens = { istream_iterator<string>(iss), istream_iterator<string>() };
+
+				rightTokens.push_back(expr[2]);
 			}
+			//Literal op atomic
 			else if ((expr[0][0] != '(' && expr[0][expr[0].size() - 1] != ')') && (expr[2][0] == '(' && expr[2][expr[2].size() - 1] == ')'))
 			{
-				caseVal = literalAtomic;
 				expr[2] = remove_end_parens(expr[2]);
+
+				leftTokens.push_back(expr[0]);
 
 				istringstream iss(expr[2]);
 				rightTokens = { istream_iterator<string>(iss), istream_iterator<string>() };
 			}
 			else
 			{
-				throw("Invalid syntax.");
+				throw exception("Invalid syntax.");
 			}
 		}
+
+		//Evaluate the operation
 		if (expr.size() == 3)
 		{
 			if (expr[1].size() == 1) {
 				switch (expr[1][0]) {
 				case '+':
-					switch (caseVal) {
-					case literalLiteral:
-						return TableOperations::setUnion(db.findTable(expr[0]), db.findTable(expr[2]));
-					case atomicAtomic:
 						return TableOperations::setUnion(evaluateExpression(leftTokens), evaluateExpression(rightTokens));
-					case atomicLiteral:
-						return TableOperations::setUnion(evaluateExpression(leftTokens), db.findTable(expr[2]));
-					case literalAtomic:
-						return TableOperations::setUnion(db.findTable(expr[0]), evaluateExpression(rightTokens));
-					}
 				case '-':
-					switch (caseVal) {
-					case literalLiteral:
-						return TableOperations::setDifference(db.findTable(expr[0]), db.findTable(expr[2]));
-					case atomicAtomic:
 						return TableOperations::setDifference(evaluateExpression(leftTokens), evaluateExpression(rightTokens));
-					case atomicLiteral:
-						return TableOperations::setDifference(evaluateExpression(leftTokens), db.findTable(expr[2]));
-					case literalAtomic:
-						return TableOperations::setDifference(db.findTable(expr[0]), evaluateExpression(rightTokens));
-					}
 				case '*':
-					switch (caseVal) {
-					case literalLiteral:
-						return TableOperations::crossProduct(db.findTable(expr[0]), db.findTable(expr[2]));
-					case atomicAtomic:
 						return TableOperations::crossProduct(evaluateExpression(leftTokens), evaluateExpression(rightTokens));
-					case atomicLiteral:
-						return TableOperations::crossProduct(evaluateExpression(leftTokens), db.findTable(expr[2]));
-					case literalAtomic:
-						return TableOperations::crossProduct(db.findTable(expr[0]), evaluateExpression(rightTokens));
-					}
 				}
 			}
 			else if (expr[1] == "JOIN")
-			{
-				switch (caseVal) {
-				case literalLiteral:
-					return TableOperations::naturalJoin(db.findTable(expr[0]), db.findTable(expr[2]));
-				case atomicAtomic:
 					return TableOperations::naturalJoin(evaluateExpression(leftTokens), evaluateExpression(rightTokens));
-				case atomicLiteral:
-					return TableOperations::naturalJoin(evaluateExpression(leftTokens), db.findTable(expr[2]));
-				case literalAtomic:
-					return TableOperations::naturalJoin(db.findTable(expr[0]), evaluateExpression(rightTokens));
-				}
+			else {
+				//The user entered an unknown operator
+				string error = "Unknown operator " + expr[1] + ".";
+				throw exception(error.c_str());
 			}
-			else
-				throw("Unknown operator " + expr[1] + ".");
 		}
-		else 
-		{
-			if (expr.size() != 1)
-				throw("Invalid syntax.");
-			if (expr[0][0] == '(' && expr[0][expr[0].length() - 1] == ')')
-			{
-				expr[0] = remove_end_parens(expr[0]);
-				expr = parse_parens(expr);
-				return evaluateExpression(expr);
-			}
-			else
-				return db.findTable(expr[0]);
-		}
+		//We should not ever reach here
+		throw exception("Invalid syntax.");
 	}
+	//Or here
+	throw exception("Invalid syntax.");
 }
 
 Parser::Parser()

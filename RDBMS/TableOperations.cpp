@@ -421,10 +421,15 @@ Table TableOperations::crossProduct(Table table1, Table table2)
 	return result;
 }
 
-Table TableOperations::renamingAttributes(Table table, string attributeName, string rename)
+Table TableOperations::renamingAttributes(Table table, vector<string> attributeNames)
 {
 	Table newtable = table;
-	newtable.changeAttributeName(attributeName, rename);
+	if (attributeNames.size() > table.getAttributes().size())
+		throw exception("Too many attributes.");
+	for (int i = 0; i < attributeNames.size(); ++i)
+	{
+		newtable.getAttributes()[i].setName(attributeNames[i]);
+	}
 	return newtable;
 }
 

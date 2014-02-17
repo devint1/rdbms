@@ -70,7 +70,7 @@ void Table::addAttribute(vector<TableAttribute> attributes){
 		tableAttributes.push_back(attributes[i]);
 }
 
-vector<TableAttribute> Table::getAttributes(){
+vector<TableAttribute>& Table::getAttributes(){
 	return tableAttributes;
 }
 

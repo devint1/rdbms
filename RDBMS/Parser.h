@@ -14,7 +14,6 @@ private:
 
 	//Helper Functions
 	bool checkNumTokens(command cmd, int numTokens);
-	vector<string> infixToPostfix(vector<string> infixTokens);
 	string remove_parens(string s);
 	string remove_end_parens(string s);
 	string remove_quotes(string s);
@@ -26,6 +25,7 @@ private:
 	void executeInsert(vector<string> tokens);
 	void executeDelete(vector<string> tokens);
 	void executeUpdate(vector<string> tokens);
+	Table executeProject(vector<string> attributeNames, vector<string> expr);
 
 	//Evaluations
 	void evaluateQuery(string query);
