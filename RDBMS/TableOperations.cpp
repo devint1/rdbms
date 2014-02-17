@@ -116,6 +116,18 @@ Table TableOperations::select(string attributesToInclude, Table targetTable)
 	return selectTable;
 }
 
+bool TableOperations::entriesAreEqual(vector<string> entry1, vector<string> entry2){
+	bool areEqual = true;
+	for (size_t i = 0; i < entry1.size(); i++){
+		if (entry1[i] != entry2[i]){
+			areEqual = false;
+			break;
+		}
+	}
+	return areEqual;
+}
+
+
 Table TableOperations::setUnion(Table table1, Table table2){
 	bool attributesEqual = true;
 	int i = 0;
@@ -130,20 +142,9 @@ Table TableOperations::setUnion(Table table1, Table table2){
 		cout << "\nError: Tables do not have same attributes! (cannot compute Union)";
 
 	else{
-		int attributeIndex1 = table1.findAttributebyName(keyAttribute);
-		int attributeIndex2 = table2.findAttributebyName(keyAttribute);
-
-		if (attributeIndex1 == -1)
-			cout << "\nError: " << keyAttribute << " not found in " << table1.getName();
-		
-		else if (attributeIndex2 == -1)
-			cout << "\nError: " << keyAttribute << " not found in " << table2.getName();
-
-		else{
 			string unionTableName = table1.getName() + "_" + table2.getName() + "_union";
 			vector<string> attributeNames;
 			vector<string> dataTypeNames;
-			int keyAttributeIndex = table1.findAttributebyName(keyAttribute);
 
 			for (TableAttribute attrib : table1.getAttributes()){
 				attributeNames.push_back(attrib.getName());
@@ -160,17 +161,20 @@ Table TableOperations::setUnion(Table table1, Table table2){
 			// insert contents of table 2 into unionTable excluding duplicates
 			bool duplicate = false;
 			for (size_t j = 0; j < table2.getTableData().size(); j++){
-				for (size_t k = 0; k < table1.getTableData().size(); k++){
-					if (table2.getTableData()[j][keyAttributeIndex] == table1.getTableData()[k][keyAttributeIndex])
-						duplicate = true;
-				}
-				if (!duplicate)
-					unionTable.insert(table2.getTableData()[j]);
 				duplicate = false;
+				for (size_t k = 0; k < table1.getTableData().size(); k++){
+					if (entriesAreEqual(table2.getTableData()[j], table1.getTableData()[k])){
+						duplicate = true;
+						break;
+					}
+				}
+				if (!duplicate){
+					unionTable.insert(table2.getTableData()[j]);
+				}
 			}
 			return unionTable;
 		}
-	}
+	
 	return table1; // not sure what to return if not unionable
 }
 

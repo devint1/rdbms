@@ -1,12 +1,13 @@
-#include "../RDBMS/Parser.h"
 #pragma once
-//#include "../RDBMS/Database.h"
-//#include "../RDBMS/TableOperations.h";
+#include "../RDBMS/Parser.h"
+
+#include "../RDBMS/Database.h"
+#include "../RDBMS/TableOperations.h";
 
 int main(){
 	
-	/*Database db;
-	db.openTable("cars");
+	/*
+	
 	//db.UpdateTable("cars", "")
 	vector<string> vals = { "646", "Lamborghini", "Gallardo", "11" };
 	db.insertIntoTable("cars", vals);
@@ -39,10 +40,16 @@ int main(){
 	TableOperations::naturalJoin(db.findTable("cars"), db.findTable("makeLocations"));
 	TableOperations::select("Model", db.findTable("cars"), "Make", "toyota");
 	db.openTable("cars");
-	db.openTable("cars2");
+	
 	system("PAUSE");*/
 	
+	Database db;
+	db.openTable("cars");
+	db.openTable("cars2");
 
+	db.showTable(TableOperations::setUnion(db.findTable("cars"), db.findTable("cars2")));
+
+	//TableOperations::setDifference(db.findTable("cars"), db.findTable("cars2"), "car_id");
 
 	cout << "Welcome to the RDBMS interpreter." << endl;
 	cout << ":: ";
