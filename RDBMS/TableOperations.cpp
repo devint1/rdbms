@@ -72,19 +72,19 @@ Table TableOperations::select(Table targetTable, string conditionAttribute, stri
 				selectTable.insert(targetData[i]);
 			break;
 		case lessThanEqual:
-			if (entry <= condition && isNumber(entry))
+			if (stoi(entry) <= stoi(condition) && isNumber(entry))
 				selectTable.insert(targetData[i]);
 			break;
 		case lessThan:
-			if (entry == condition && isNumber(entry))
+			if (stoi(entry) == stoi(condition) && isNumber(entry))
 				selectTable.insert(targetData[i]);
 			break;
 		case greaterThanEqual:
-			if (entry == condition && isNumber(entry))
+			if (stoi(entry) == stoi(condition) && isNumber(entry))
 				selectTable.insert(targetData[i]);
 			break;
 		case greaterThan:
-			if (entry == condition && isNumber(entry))
+			if (stoi(entry) == stoi(condition) && isNumber(entry))
 				selectTable.insert(targetData[i]);
 			break;
 		default:
