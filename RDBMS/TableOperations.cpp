@@ -60,7 +60,6 @@ Table TableOperations::select(string attributesToInclude, Table targetTable, str
 		selectTable.insert(data);
 	}
 
-	selectTable.writeTable();
 	return selectTable;
 }
 
@@ -114,8 +113,6 @@ Table TableOperations::select(string attributesToInclude, Table targetTable)
 		data.push_back(newTableData[i]);
 		selectTable.insert(data);
 	}
-
-	selectTable.writeTable();
 	return selectTable;
 }
 
@@ -171,8 +168,6 @@ Table TableOperations::setUnion(Table table1, Table table2, string keyAttribute)
 					unionTable.insert(table2.getTableData()[j]);
 				duplicate = false;
 			}
-
-			unionTable.writeTable();
 			return unionTable;
 		}
 	}
@@ -218,7 +213,6 @@ Table TableOperations::setDifference(Table table1, Table table2, string keyAttri
 			inTable1 = false;
 		}
 
-		differenceTable.writeTable();
 		return differenceTable;
 	}
 	return table1; // not sure what to return if not difference-able
@@ -342,7 +336,6 @@ Table TableOperations::naturalJoin(Table table1, Table table2){
 				}
 			}
 		}
-		joinTable.writeTable();
 		return joinTable;
 		
 		// not sure what to return if not join-able
@@ -379,8 +372,6 @@ Table TableOperations::crossProduct(Table table1, Table table2)
 			result.insert(rowToInsert); //Add the row to the result table
 		}
 	}
-
-	result.writeTable();
 
 	return result;
 }
