@@ -17,6 +17,7 @@ public:
 
 	//Getters
 	string getName();
+	void setName(string s);
 	vector<TableAttribute> getAttributes();
 	vector<string> getPrimaryKeys();
 	vector< vector<string> > getTableData();

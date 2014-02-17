@@ -60,6 +60,11 @@ string Table::getName() {
 	return name;
 }
 
+void Table::setName(string s)
+{
+	name = s;
+}
+
 void Table::addAttribute(vector<TableAttribute> attributes){
 	for (size_t i = 0; i < attributes.size(); i++)
 		tableAttributes.push_back(attributes[i]);

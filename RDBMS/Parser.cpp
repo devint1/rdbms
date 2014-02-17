@@ -270,23 +270,19 @@ void Parser::evaluateQuery(string query)
 		return;
 	}
 
-	istringstream iss1(remove_end_parens(tokens[2]));
-	vector<string> exprTokens{ istream_iterator<string>(iss), istream_iterator<string>() };
+	vector<string> exprTokens(tokens.begin() + 2, tokens.end());
 
-	if (db.tableExists(relationName)) {
-		char choice = ' ';
-		cout << "\nNotice: query operation will overwrite " << relationName << ", continue? (y/n)\n> ";
-		cin >> choice;
-		if (choice == 'n' || choice == 'N')
-			return;
-		else {
-			db.findTable(relationName) = evaluateExpression(exprTokens);
-		}
+	if (db.tableExists(relationName))
+	{
+		Table result = evaluateExpression(exprTokens);
+		result.setName(relationName);
+		db.findTable(relationName) = result;
 	}
 	else {
-		db.addTable(evaluateExpression(exprTokens));
+		Table result = evaluateExpression(exprTokens);
+		result.setName(relationName);
+		db.addTable(result);
 	}
-
 	/*vector<string> forward;
 	for (size_t i = 2; i < tokens.size(); i++)
 		forward.push_back(tokens[i]);
@@ -410,8 +406,8 @@ Table Parser::evaluateExpression(vector<string> expr)
 				istringstream iss(expr[0]);
 				leftTokens = { istream_iterator<string>(iss), istream_iterator<string>() };
 
-				istringstream iss1(expr[0]);
-				rightTokens = { istream_iterator<string>(iss), istream_iterator<string>() };
+				istringstream iss1(expr[2]);
+				rightTokens = { istream_iterator<string>(iss1), istream_iterator<string>() };
 			}
 			else if ((expr[0][0] == '(' && expr[0][expr[0].size() - 1] == ')') && (expr[2][0] != '(' && expr[2][expr[2].size() - 1] != ')'))
 			{
@@ -452,13 +448,13 @@ Table Parser::evaluateExpression(vector<string> expr)
 				case '-':
 					switch (caseVal) {
 					case literalLiteral:
-						return TableOperations::setDifference(db.findTable(expr[0]), db.findTable(expr[2]));
+						return TableOperations::setDifference(db.findTable(expr[0]), db.findTable(expr[2]), "");
 					case atomicAtomic:
-						return TableOperations::setDifference(evaluateExpression(leftTokens), evaluateExpression(rightTokens));
+						return TableOperations::setDifference(evaluateExpression(leftTokens), evaluateExpression(rightTokens), "");
 					case atomicLiteral:
-						return TableOperations::setDifference(evaluateExpression(leftTokens), db.findTable(expr[2]));
+						return TableOperations::setDifference(evaluateExpression(leftTokens), db.findTable(expr[2]), "");
 					case literalAtomic:
-						return TableOperations::setDifference(db.findTable(expr[0]), evaluateExpression(rightTokens));
+						return TableOperations::setDifference(db.findTable(expr[0]), evaluateExpression(rightTokens), "");
 					}
 				case '*':
 					switch (caseVal) {
@@ -556,8 +552,8 @@ string Parser::remove_parens(string s) {
 string Parser::remove_end_parens(string s) {
 	if (s[0] == '(' && s[s.length() - 1] == ')')
 	{
-		s.erase(0);
-		s.erase(s.length() - 1);
+		s.erase(0, 1);
+		s.erase(s.length() - 1, 1);
 	}
 	return s;
 }
