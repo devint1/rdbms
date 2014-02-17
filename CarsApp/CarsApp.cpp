@@ -1,11 +1,11 @@
-#pragma once
 #include "../RDBMS/Parser.h"
-#include "../RDBMS/Database.h"
-#include "../RDBMS/TableOperations.h";
+#pragma once
+//#include "../RDBMS/Database.h"
+//#include "../RDBMS/TableOperations.h";
 
-int main() try {
-	Database db;
-	/*
+int main(){
+	
+	/*Database db;
 	db.openTable("cars");
 	//db.UpdateTable("cars", "")
 	vector<string> vals = { "646", "Lamborghini", "Gallardo", "11" };
@@ -38,10 +38,10 @@ int main() try {
 	TableOperations::naturalJoin(db.findTable("students"), db.findTable("schoolLocations"));
 	TableOperations::naturalJoin(db.findTable("cars"), db.findTable("makeLocations"));
 	TableOperations::select("Model", db.findTable("cars"), "Make", "toyota");
-	
-	system("PAUSE");*/
 	db.openTable("cars");
 	db.openTable("cars2");
+	system("PAUSE");*/
+	
 
 
 	cout << "Welcome to the RDBMS interpreter." << endl;
@@ -56,6 +56,5 @@ int main() try {
 
 	return 0;
 
-} catch (exception e) { cerr << "ERROR: " << e.what() << endl; }
-catch (...) { cerr << "ERROR: Unknown error." << endl; }
+}
 

@@ -140,7 +140,7 @@ void Parser::executeCreate(vector<string> tokens)
 	vector<string> attributeNames;
 	vector<string> attributeTypes;
 
-	for (int i = 0; i < attributeTokens.size(); i += 2)
+	for (size_t i = 0; i < attributeTokens.size(); i += 2)
 	{
 		attributeNames.push_back(attributeTokens[i]);
 		attributeTypes.push_back(attributeTokens[i + 1]);
@@ -258,7 +258,7 @@ void Parser::evaluateQuery(string query)
 
 	infixToPostfix(tokens);
 
-	if (tokens.size() <= 1)
+	if (tokens.size() < 3)
 	{
 		cerr << "ERROR: Expected <-" << endl;
 		return;
@@ -269,7 +269,24 @@ void Parser::evaluateQuery(string query)
 		cerr << "ERROR: Expected <-" << endl;
 		return;
 	}
-	cout << "Your input was interpreted as a query; queries are not yet implemented." << endl;
+	if (db.tableExists(relationName)){
+		char choice = ' ';
+		cout << "\nNotice: query operation will overwrite " << relationName << ", continue? (y/n)\n> ";
+		cin >> choice;
+		if (choice == 'n' || choice == 'N')
+			return;
+		else{
+			//result = db.findTable(relationName);
+		}
+	}
+
+	vector<string> forward;
+	for (size_t i = 2; i < tokens.size(); i++)
+		forward.push_back(tokens[i]);
+
+	Table result = evaluateExpression(forward);
+
+	cout << "Query completed" << endl;
 }
 
 void Parser::evaulateCommand(string command)

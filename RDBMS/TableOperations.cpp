@@ -60,7 +60,6 @@ Table TableOperations::select(string attributesToInclude, Table targetTable, str
 		selectTable.insert(data);
 	}
 
-	selectTable.writeTable();
 	return selectTable;
 }
 
@@ -114,12 +113,10 @@ Table TableOperations::select(string attributesToInclude, Table targetTable)
 		data.push_back(newTableData[i]);
 		selectTable.insert(data);
 	}
-
-	selectTable.writeTable();
 	return selectTable;
 }
 
-Table TableOperations::setUnion(Table table1, Table table2, string keyAttribute){
+Table TableOperations::setUnion(Table table1, Table table2){
 	bool attributesEqual = true;
 	int i = 0;
 
@@ -171,8 +168,6 @@ Table TableOperations::setUnion(Table table1, Table table2, string keyAttribute)
 					unionTable.insert(table2.getTableData()[j]);
 				duplicate = false;
 			}
-
-			unionTable.writeTable();
 			return unionTable;
 		}
 	}
@@ -218,7 +213,6 @@ Table TableOperations::setDifference(Table table1, Table table2, string keyAttri
 			inTable1 = false;
 		}
 
-		differenceTable.writeTable();
 		return differenceTable;
 	}
 	return table1; // not sure what to return if not difference-able
@@ -342,7 +336,6 @@ Table TableOperations::naturalJoin(Table table1, Table table2){
 				}
 			}
 		}
-		joinTable.writeTable();
 		return joinTable;
 		
 		// not sure what to return if not join-able
@@ -380,8 +373,6 @@ Table TableOperations::crossProduct(Table table1, Table table2)
 		}
 	}
 
-	result.writeTable();
-
 	return result;
 }
 
@@ -418,12 +409,12 @@ Table TableOperations::combineTables(Table table1, Table table2)
 	vector<TableAttribute> t2attr = table2.getAttributes();
 	
 	vector<vector<string>> t2data = table2.getTableData();
-	for (int i = 0; i < t2attr.size(); i++)
+	for (size_t i = 0; i < t2attr.size(); i++)
 		newtable.addAttribute(t2attr);
 	
 
-	for (int i = 0; i < t2data.size(); i++)
-		for (int j = 0; j < table2.getAttributes().size(); j++)
+	for (size_t i = 0; i < t2data.size(); i++)
+		for (size_t j = 0; j < table2.getAttributes().size(); j++)
 			newtable.appendToRow(i, t2data[i]);
 	
 	return newtable;
