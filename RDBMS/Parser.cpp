@@ -346,7 +346,7 @@ void Parser::evaulateCommand(string command)
 		}
 		default:
 			cerr << "ERROR: Command not implemented." << endl;
-		}
+		}		
 	}
  else
 	cerr << "ERROR: Invalid syntax." << endl;
