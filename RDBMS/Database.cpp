@@ -7,6 +7,7 @@ Table& Database::findTable(string name)
 			return t;
 		}
 	}
+	throw exception("Table not found.");
 }
 
 bool Database::tableExists(string name)

@@ -57,7 +57,15 @@ int main(){
 	Parser parser;
 
 	while (getline(cin, statement)) {
-		parser.evaluateStatement(statement);
+		try {
+			parser.evaluateStatement(statement);
+		}
+		catch (exception e) {
+			cerr << "ERROR: " << e.what() << endl;
+		}
+		catch (...) {
+			cerr << "ERROR: Unknown error." << endl;
+		}
 		cout << endl << ":: ";
 	}
 

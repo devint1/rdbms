@@ -347,8 +347,6 @@ void Parser::evaulateCommand(string command)
 		default:
 			cerr << "ERROR: Command not implemented." << endl;
 		}
-		
-		
 	}
  else
 	cerr << "ERROR: Invalid syntax." << endl;
@@ -420,7 +418,7 @@ Table Parser::evaluateExpression(vector<string> expr)
 			else if ((expr[0][0] != '(' && expr[0][expr[0].size() - 1] != ')') && (expr[2][0] == '(' && expr[2][expr[2].size() - 1] == ')'))
 			{
 				caseVal = literalAtomic;
-				expr[2] = remove_end_parens(expr[0]);
+				expr[2] = remove_end_parens(expr[2]);
 
 				istringstream iss(expr[2]);
 				rightTokens = { istream_iterator<string>(iss), istream_iterator<string>() };
@@ -448,13 +446,13 @@ Table Parser::evaluateExpression(vector<string> expr)
 				case '-':
 					switch (caseVal) {
 					case literalLiteral:
-						return TableOperations::setDifference(db.findTable(expr[0]), db.findTable(expr[2]), "");
+						return TableOperations::setDifference(db.findTable(expr[0]), db.findTable(expr[2]));
 					case atomicAtomic:
-						return TableOperations::setDifference(evaluateExpression(leftTokens), evaluateExpression(rightTokens), "");
+						return TableOperations::setDifference(evaluateExpression(leftTokens), evaluateExpression(rightTokens));
 					case atomicLiteral:
-						return TableOperations::setDifference(evaluateExpression(leftTokens), db.findTable(expr[2]), "");
+						return TableOperations::setDifference(evaluateExpression(leftTokens), db.findTable(expr[2]));
 					case literalAtomic:
-						return TableOperations::setDifference(db.findTable(expr[0]), evaluateExpression(rightTokens), "");
+						return TableOperations::setDifference(db.findTable(expr[0]), evaluateExpression(rightTokens));
 					}
 				case '*':
 					switch (caseVal) {
