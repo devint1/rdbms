@@ -16,6 +16,7 @@ private:
 	bool checkNumTokens(command cmd, int numTokens);
 	vector<string> infixToPostfix(vector<string> infixTokens);
 	string remove_parens(string s);
+	string remove_end_parens(string s);
 	string remove_quotes(string s);
 	string remove_commas(string s);
 	vector<string> parse_parens(vector<string> input);

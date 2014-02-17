@@ -269,24 +269,27 @@ void Parser::evaluateQuery(string query)
 		cerr << "ERROR: Expected <-" << endl;
 		return;
 	}
-	if (db.tableExists(relationName)){
-		char choice = ' ';
-		cout << "\nNotice: query operation will overwrite " << relationName << ", continue? (y/n)\n> ";
-		cin >> choice;
-		if (choice == 'n' || choice == 'N')
-			return;
-		else{
-			//result = db.findTable(relationName);
-		}
-	}
 
-	vector<string> forward;
+	vector<string> exprTokens(tokens.begin() + 2, tokens.end());
+
+	if (db.tableExists(relationName))
+	{
+		Table result = evaluateExpression(exprTokens);
+		result.setName(relationName);
+		db.findTable(relationName) = result;
+	}
+	else {
+		Table result = evaluateExpression(exprTokens);
+		result.setName(relationName);
+		db.addTable(result);
+	}
+	/*vector<string> forward;
 	for (size_t i = 2; i < tokens.size(); i++)
 		forward.push_back(tokens[i]);
 
 	Table result = evaluateExpression(forward);
 
-	cout << "Query completed" << endl;
+	cout << "Query completed" << endl;*/
 }
 
 void Parser::evaulateCommand(string command)
@@ -353,7 +356,6 @@ void Parser::evaulateCommand(string command)
 
 Table Parser::evaluateExpression(vector<string> expr)
 {
-	Table result("cars");
 	exprKeyword keyword = (exprKeyword) -1;
 
 	for (int i = 0; i < sizeof(EXPRESSION_KEYWORD_NAMES) / sizeof(string); ++i)
@@ -377,26 +379,111 @@ Table Parser::evaluateExpression(vector<string> expr)
 				break;
 		}
 	}
-	else 
+	else
 	{
-		expr = parse_parens(expr);
+		enum operationCase { literalLiteral, atomicAtomic, atomicLiteral, literalAtomic };
+		operationCase caseVal;
+		vector<string> leftTokens;
+		vector<string> rightTokens;
+
+		if (expr.size() == 3)
+		{
+			caseVal = literalLiteral;
+		}
+		else
+		{
+			expr = parse_parens(expr);
+			if (expr.size() != 3)
+			{
+				throw("Invalid syntax.");
+			}
+			if ((expr[0][0] == '(' && expr[0][expr[0].size() - 1] == ')') && (expr[2][0] == '(' && expr[2][expr[2].size() - 1] == ')'))
+			{
+				caseVal = atomicAtomic;
+				expr[0] = remove_end_parens(expr[0]);
+				expr[2] = remove_end_parens(expr[2]);
+
+				istringstream iss(expr[0]);
+				leftTokens = { istream_iterator<string>(iss), istream_iterator<string>() };
+
+				istringstream iss1(expr[2]);
+				rightTokens = { istream_iterator<string>(iss1), istream_iterator<string>() };
+			}
+			else if ((expr[0][0] == '(' && expr[0][expr[0].size() - 1] == ')') && (expr[2][0] != '(' && expr[2][expr[2].size() - 1] != ')'))
+			{
+				caseVal = atomicLiteral;
+				expr[0] = remove_end_parens(expr[0]);
+
+				istringstream iss(expr[0]);
+				leftTokens = { istream_iterator<string>(iss), istream_iterator<string>() };
+			}
+			else if ((expr[0][0] != '(' && expr[0][expr[0].size() - 1] != ')') && (expr[2][0] == '(' && expr[2][expr[2].size() - 1] == ')'))
+			{
+				caseVal = literalAtomic;
+				expr[2] = remove_end_parens(expr[0]);
+
+				istringstream iss(expr[2]);
+				rightTokens = { istream_iterator<string>(iss), istream_iterator<string>() };
+			}
+			else
+			{
+				throw("Invalid syntax.");
+			}
+		}
 		if (expr.size() == 3)
 		{
 			if (expr[1].size() == 1) {
 				switch (expr[1][0]) {
 				case '+':
-					return TableOperations::setUnion(db.findTable(expr[0]), db.findTable(expr[2]));
+					switch (caseVal) {
+					case literalLiteral:
+						return TableOperations::setUnion(db.findTable(expr[0]), db.findTable(expr[2]));
+					case atomicAtomic:
+						return TableOperations::setUnion(evaluateExpression(leftTokens), evaluateExpression(rightTokens));
+					case atomicLiteral:
+						return TableOperations::setUnion(evaluateExpression(leftTokens), db.findTable(expr[2]));
+					case literalAtomic:
+						return TableOperations::setUnion(db.findTable(expr[0]), evaluateExpression(rightTokens));
+					}
 				case '-':
-					return TableOperations::setDifference(db.findTable(expr[0]), db.findTable(expr[2]));
+					switch (caseVal) {
+					case literalLiteral:
+						return TableOperations::setDifference(db.findTable(expr[0]), db.findTable(expr[2]), "");
+					case atomicAtomic:
+						return TableOperations::setDifference(evaluateExpression(leftTokens), evaluateExpression(rightTokens), "");
+					case atomicLiteral:
+						return TableOperations::setDifference(evaluateExpression(leftTokens), db.findTable(expr[2]), "");
+					case literalAtomic:
+						return TableOperations::setDifference(db.findTable(expr[0]), evaluateExpression(rightTokens), "");
+					}
 				case '*':
-					return TableOperations::crossProduct(db.findTable(expr[0]), db.findTable(expr[2]));
+					switch (caseVal) {
+					case literalLiteral:
+						return TableOperations::crossProduct(db.findTable(expr[0]), db.findTable(expr[2]));
+					case atomicAtomic:
+						return TableOperations::crossProduct(evaluateExpression(leftTokens), evaluateExpression(rightTokens));
+					case atomicLiteral:
+						return TableOperations::crossProduct(evaluateExpression(leftTokens), db.findTable(expr[2]));
+					case literalAtomic:
+						return TableOperations::crossProduct(db.findTable(expr[0]), evaluateExpression(rightTokens));
+					}
 				}
 			}
 			else if (expr[1] == "JOIN")
 			{
+				switch (caseVal) {
+				case literalLiteral:
+					return TableOperations::naturalJoin(db.findTable(expr[0]), db.findTable(expr[2]));
+				case atomicAtomic:
+					return TableOperations::naturalJoin(evaluateExpression(leftTokens), evaluateExpression(rightTokens));
+				case atomicLiteral:
+					return TableOperations::naturalJoin(evaluateExpression(leftTokens), db.findTable(expr[2]));
+				case literalAtomic:
+					return TableOperations::naturalJoin(db.findTable(expr[0]), evaluateExpression(rightTokens));
+				}
 			}
 			else
-				throw("Unknown operator.");
+				throw("Unknown operator " + expr[1] + ".");
 		}
 		else 
 		{
@@ -404,8 +491,7 @@ Table Parser::evaluateExpression(vector<string> expr)
 				throw("Invalid syntax.");
 			if (expr[0][0] == '(' && expr[0][expr[0].length() - 1] == ')')
 			{
-				expr[0].erase(0);
-				expr[0].erase(expr[0].length() - 1);
+				expr[0] = remove_end_parens(expr[0]);
 				expr = parse_parens(expr);
 				return evaluateExpression(expr);
 			}
@@ -413,8 +499,6 @@ Table Parser::evaluateExpression(vector<string> expr)
 				return db.findTable(expr[0]);
 		}
 	}
-
-	return result;
 }
 
 Parser::Parser()
@@ -462,6 +546,15 @@ string Parser::remove_quotes(string s) {
 string Parser::remove_parens(string s) {
 	s.erase(remove(s.begin(), s.end(), '('), s.end());
 	s.erase(remove(s.begin(), s.end(), ')'), s.end());
+	return s;
+}
+
+string Parser::remove_end_parens(string s) {
+	if (s[0] == '(' && s[s.length() - 1] == ')')
+	{
+		s.erase(0, 1);
+		s.erase(s.length() - 1, 1);
+	}
 	return s;
 }
 

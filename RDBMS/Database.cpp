@@ -95,3 +95,8 @@ void Database::updateTable(string relationName, string attributeNameToChange, st
 	
 	relation.update(changeAttributePos, conditionAttributePos, conditionValue, valueToChange);
 }
+
+void Database::addTable(Table table)
+{
+	tables.push_back(table);
+}
