@@ -370,6 +370,7 @@ Table Parser::evaluateExpression(vector<string> expr)
 		switch(keyword)
 		{
 			case select:
+				return TableOperations::select(db.findTable(expr[1]), expr[2], expr[3], expr[4]);
 				break;
 			case project:
 				break;

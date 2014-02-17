@@ -8,9 +8,9 @@ class TableOperations //All relational algebra logic is handled by this class
 {
 public:
 	//These are close to what the assignment requires, but not exactly
-	static Table select(string attributesToInclude, Table targetTable, string conditionAttribute, string condition); //Sergio //User provided a WHERE clause
+	static Table select(Table targetTable, string conditionAttribute, string condition, string conditionOp); //Sergio //User provided a WHERE clause
 	static Table select(string attributesToInclude, Table targetTable); //Sergio //User did not provide a WHERE clause
-
+	static bool isNumber(const string s);
 	//Calculates set union of two tables, returns the the result as a new table
 	static bool entriesAreEqual(vector<string> entry1, vector<string> entry2);
 	static Table setUnion(Table table1, Table table2); // MIGUEL

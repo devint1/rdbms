@@ -1,63 +1,97 @@
 #include "TableOperations.h"
 
-
-Table TableOperations::select(string attributesToInclude, Table targetTable, string conditionAttribute, string condition)
+bool TableOperations::isNumber(const string s)
 {
+	for (size_t i = 0; i < s.size(); i++){
+		if (!isdigit(s[i]))
+			return false;
+	}
+	return true;
+}
 
-	int conditionAttributeIndex;
-	int attributesToIncludeIndex;
-	vector< vector<string> > targetData;
-	vector<TableAttribute> targetAttributes;
+Table TableOperations::select(Table targetTable, string conditionAttribute, string conditionOp, string condition)
 
-	string newTableName;
-	vector<string> newTableData;
+{
+	
+	enum conditionOperator { equal, notEqual, lessThan, lessThanEqual, greaterThan, greaterThanEqual };
+	conditionOperator operation;
+	if (conditionOp == "==")
+		operation = equal;
+	else if (conditionOp == "!=")
+		operation = notEqual;
+	else if (conditionOp == "<=")
+		operation = lessThanEqual;
+	else if (conditionOp == "<")
+		operation = lessThan;
+	else if (conditionOp == ">=")
+		operation = greaterThanEqual;
+	else if (conditionOp == ">")
+		operation = greaterThan;
+
+	int conditionAttributeIndex = targetTable.findAttributebyName(conditionAttribute);
+	if (conditionAttributeIndex == -1){
+		cout << "ERROR: " << conditionAttribute << " not found in " << targetTable.getName() << " table\n";
+	}
+
+
+	vector< vector<string> > targetData = targetTable.getTableData();
+	vector<TableAttribute> targetAttributes = targetTable.getAttributes();
+
+	string newTableName = "SELECT_" + condition + "_FROM_" + targetTable.getName();
 	vector<string> newTableDataTypeNames;
 	vector<string> newTableAttributeNames;
 	vector<string> newTablePrimaryKeyNames;
 
 	for (size_t i = 0; i < targetTable.getPrimaryKeys().size(); i++)
-	{
-		if (attributesToInclude == targetTable.getPrimaryKeys()[i])
-			newTablePrimaryKeyNames.push_back(targetTable.getPrimaryKeys()[i]);
-	}
-
-	targetData = targetTable.getTableData();
-	targetAttributes = targetTable.getAttributes();
-	newTableName = ("Cars_select_") + attributesToInclude; //Check if literals and non-literals can be concatenated
-
+		newTablePrimaryKeyNames.push_back(targetTable.getPrimaryKeys()[i]);
+	
 
 	for (size_t i = 0; i < targetAttributes.size(); i++)   //Finds the attributes to include index within a table attributes to later relate it to TableData
 	{
-		if (targetAttributes[i].getName() == attributesToInclude)	 //had == condition (I think  == condition is wrong)
-		{
-			attributesToIncludeIndex = i;
-			newTableAttributeNames.push_back(targetAttributes[i].getName());
-			newTableDataTypeNames.push_back(targetAttributes[i].getType());
-		}
-	}
-
-	for (size_t i = 0; i < targetAttributes.size(); i++)   //Finds the condition attribute index within a table attributes to later relate it to TableData
-	{
-		if (targetAttributes[i].getName() == conditionAttribute)	 //had == condition (I think  == condition is wrong)
-		{
-			conditionAttributeIndex = i;
-		}
-	}
-	for (size_t i = 0; i < targetData.size(); i++)
-	{
-		if (targetData[i][conditionAttributeIndex] == condition)
-			newTableData.push_back(targetData[i][attributesToIncludeIndex]); //Inputs attribute desired that met condition from old, original table, into the new table Data
-	
-
+		newTableAttributeNames.push_back(targetAttributes[i].getName());
+		newTableDataTypeNames.push_back(targetAttributes[i].getType());
 	}
 
 	Table selectTable(newTableName, newTableAttributeNames, newTableDataTypeNames, newTablePrimaryKeyNames);
 
-	for (size_t i = 0; i < newTableData.size(); i++)	 //Inserts Attribute Data into Table
+	for (size_t i = 0; i < targetData.size(); i++)
 	{
-		vector<string>data;
-		data.push_back(newTableData[i]);
-		selectTable.insert(data);
+		string entry = targetData[i][conditionAttributeIndex];
+		if (operation != equal && operation != notEqual && !isNumber(entry)){
+			cout << "ERROR: cannot apply condition to non-numeric attribute.\n";
+				break;
+		}
+
+		switch (operation){
+		case equal:
+			if (entry == condition)
+				selectTable.insert(targetData[i]);
+			break;
+		case notEqual:
+			if (entry != condition)
+				selectTable.insert(targetData[i]);
+			break;
+		case lessThanEqual:
+			if (entry <= condition && isNumber(entry))
+				selectTable.insert(targetData[i]);
+			break;
+		case lessThan:
+			if (entry == condition && isNumber(entry))
+				selectTable.insert(targetData[i]);
+			break;
+		case greaterThanEqual:
+			if (entry == condition && isNumber(entry))
+				selectTable.insert(targetData[i]);
+			break;
+		case greaterThan:
+			if (entry == condition && isNumber(entry))
+				selectTable.insert(targetData[i]);
+			break;
+		default:
+			break;
+		}
+		
+
 	}
 
 	return selectTable;
