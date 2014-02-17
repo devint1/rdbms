@@ -1,10 +1,5 @@
 car_id int Make varchar(255) Model varchar(255) Mpg int
-641	toyota	rav4	23	
-742 ford F-250 19
-646	hyundai	elantra	40	
-677	honda	civic	35	
-678	audi	R8	4	
-741 toyota celica 23
+999 Buggatti Veyron 5
 678 audi R8 4
 743 mazda rx8 25
 646 hyundai elantra 40

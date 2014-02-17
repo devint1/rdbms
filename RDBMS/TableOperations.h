@@ -14,7 +14,7 @@ public:
 	//Calculates set union of two tables, returns the the result as a new table
 	static bool entriesAreEqual(vector<string> entry1, vector<string> entry2);
 	static Table setUnion(Table table1, Table table2); // MIGUEL
-	static Table setDifference(Table table1, Table table2, string keyAttribute); //Calculates set difference of two tables, returns the the result as a new table
+	static Table setDifference(Table table1, Table table2); //Calculates set difference of two tables, returns the the result as a new table
 	static Table crossProduct(Table table1, Table table2); //Calculates cartesian product of two tables, returns the result as a new table
 	static vector<TableAttribute> attributeUnion(Table table1, Table table2);
 	static vector<TableAttribute> attributeIntersection(Table table1, Table table2);

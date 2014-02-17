@@ -127,7 +127,6 @@ bool TableOperations::entriesAreEqual(vector<string> entry1, vector<string> entr
 	return areEqual;
 }
 
-
 Table TableOperations::setUnion(Table table1, Table table2){
 	bool attributesEqual = true;
 	int i = 0;
@@ -139,47 +138,55 @@ Table TableOperations::setUnion(Table table1, Table table2){
 	}
 
 	if (table1.getAttributes().size() != table2.getAttributes().size() || !attributesEqual)
-		cout << "\nError: Tables do not have same attributes! (cannot compute Union)";
+		throw exception("Tables are not Difference compatible");
 
 	else{
-			string unionTableName = table1.getName() + "_" + table2.getName() + "_union";
-			vector<string> attributeNames;
-			vector<string> dataTypeNames;
+		string unionTableName = table1.getName() + "_" + table2.getName() + "_union";
+		vector<string> attributeNames;
+		vector<string> dataTypeNames;
 
-			for (TableAttribute attrib : table1.getAttributes()){
-				attributeNames.push_back(attrib.getName());
-				dataTypeNames.push_back(attrib.getType());
-			}
-
-			Table unionTable(unionTableName, attributeNames, dataTypeNames, table1.getPrimaryKeys());
-
-			// insert contents of table 1 into unionTable
-			for (size_t k = 0; k < table1.getTableData().size(); k++){
-				unionTable.insert(table1.getTableData()[k]);
-			}
-
-			// insert contents of table 2 into unionTable excluding duplicates
-			bool duplicate = false;
-			for (size_t j = 0; j < table2.getTableData().size(); j++){
-				duplicate = false;
-				for (size_t k = 0; k < table1.getTableData().size(); k++){
-					if (entriesAreEqual(table2.getTableData()[j], table1.getTableData()[k])){
-						duplicate = true;
-						break;
-					}
-				}
-				if (!duplicate){
-					unionTable.insert(table2.getTableData()[j]);
-				}
-			}
-			return unionTable;
+		for (TableAttribute attrib : table1.getAttributes()){
+			attributeNames.push_back(attrib.getName());
+			dataTypeNames.push_back(attrib.getType());
 		}
-	
+
+		Table unionTable(unionTableName, attributeNames, dataTypeNames, table1.getPrimaryKeys());
+		bool duplicate = false;
+		// insert contents of table 1 into unionTable
+		for (size_t j = 0; j < table1.getTableData().size(); j++){
+			duplicate = false;
+			for (size_t k = 0; k < unionTable.getTableData().size(); k++){
+				if (entriesAreEqual(table1.getTableData()[j], unionTable.getTableData()[k])){
+					duplicate = true;
+					break;
+				}
+			}
+			if (!duplicate){
+				unionTable.insert(table1.getTableData()[j]);
+			}
+		}
+
+
+		for (size_t j = 0; j < table2.getTableData().size(); j++){
+			duplicate = false;
+			for (size_t k = 0; k < table1.getTableData().size(); k++){
+				if (entriesAreEqual(table2.getTableData()[j], table1.getTableData()[k])){
+					duplicate = true;
+					break;
+				}
+			}
+			if (!duplicate){
+				unionTable.insert(table2.getTableData()[j]);
+			}
+		}
+		return unionTable;
+	}
+
 	return table1; // not sure what to return if not unionable
 }
 
 // returns table of elements in table 2 that are not in table 1
-Table TableOperations::setDifference(Table table1, Table table2, string keyAttribute){
+Table TableOperations::setDifference(Table table1, Table table2){
 	bool attributesEqual = true;
 	int i = 0;
 
@@ -190,13 +197,13 @@ Table TableOperations::setDifference(Table table1, Table table2, string keyAttri
 	}
 
 	if (table1.getAttributes().size() != table2.getAttributes().size() || !attributesEqual)
-		cout << "\nError: Tables do not have same attributes! (cannot compute difference)";
+		throw exception("Tables are not Difference compatible");
 
 	else{
 		string differenceTableName = table1.getName() + "_" + table2.getName() + "_difference";
 		vector<string> attributeNames;
 		vector<string> dataTypeNames;
-		int keyAttributeIndex = table1.findAttributebyName(keyAttribute);
+	
 
 		for (TableAttribute attrib : table1.getAttributes()){
 			attributeNames.push_back(attrib.getName());
@@ -205,16 +212,18 @@ Table TableOperations::setDifference(Table table1, Table table2, string keyAttri
 
 		Table differenceTable(differenceTableName, attributeNames, dataTypeNames, table1.getPrimaryKeys());
 
-		// insert contents of table 2 into differenceTable excluding table1 elements
-		bool inTable1 = false;
-		for (size_t j = 0; j < table2.getTableData().size(); j++){
-			for (size_t k = 0; k < table1.getTableData().size(); k++){
-				if (table2.getTableData()[j][keyAttributeIndex] == table1.getTableData()[k][keyAttributeIndex])
-					inTable1 = true;
+		// insert contents of table 1 that are not in table 2
+		bool duplicate = false;
+		for (size_t j = 0; j < table1.getTableData().size(); j++){
+			duplicate = false;
+			for (size_t k = 0; k < table2.getTableData().size(); k++){
+				if (entriesAreEqual(table1.getTableData()[j], table2.getTableData()[k])){
+					duplicate = true;
+					break;
+				}
 			}
-			if (!inTable1)
-				differenceTable.insert(table2.getTableData()[j]);
-			inTable1 = false;
+			if (!duplicate)
+				differenceTable.insert(table1.getTableData()[j]);
 		}
 
 		return differenceTable;

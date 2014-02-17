@@ -47,7 +47,7 @@ int main(){
 	db.openTable("cars");
 	db.openTable("cars2");
 
-	db.showTable(TableOperations::setUnion(db.findTable("cars"), db.findTable("cars2")));
+	db.showTable(TableOperations::setDifference(db.findTable("cars"), db.findTable("cars2")));
 
 	//TableOperations::setDifference(db.findTable("cars"), db.findTable("cars2"), "car_id");
 
