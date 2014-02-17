@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <stack>
 #include "Parser.h"
+#include "TableOperations.h"
 
 const string Parser::COMMAND_NAMES[] = {"OPEN", "CLOSE", "WRITE", "EXIT", "SHOW", "CREATE", "UPDATE", "INSERT", "DELETE"};
 const string Parser::EXPRESSION_KEYWORD_NAMES[] = { "select", "project", "rename" };
@@ -353,12 +354,63 @@ void Parser::evaulateCommand(string command)
 Table Parser::evaluateExpression(vector<string> expr)
 {
 	Table result("cars");
+	exprKeyword keyword = (exprKeyword) -1;
 
 	for (int i = 0; i < sizeof(EXPRESSION_KEYWORD_NAMES) / sizeof(string); ++i)
 	{
 		if (expr[0] == EXPRESSION_KEYWORD_NAMES[i])
 		{
-			
+			keyword = (exprKeyword) i;
+			break;
+		}
+	}
+
+	if (keyword > -1)
+	{
+		switch(keyword)
+		{
+			case select:
+				break;
+			case project:
+				break;
+			case rename:
+				break;
+		}
+	}
+	else 
+	{
+		expr = parse_parens(expr);
+		if (expr.size() == 3)
+		{
+			if (expr[1].size() == 1) {
+				switch (expr[1][0]) {
+				case '+':
+					return TableOperations::setUnion(db.findTable(expr[0]), db.findTable(expr[2]));
+				case '-':
+					return TableOperations::setDifference(db.findTable(expr[0]), db.findTable(expr[2]));
+				case '*':
+					return TableOperations::crossProduct(db.findTable(expr[0]), db.findTable(expr[2]));
+				}
+			}
+			else if (expr[1] == "JOIN")
+			{
+			}
+			else
+				throw("Unknown operator.");
+		}
+		else 
+		{
+			if (expr.size() != 1)
+				throw("Invalid syntax.");
+			if (expr[0][0] == '(' && expr[0][expr[0].length() - 1] == ')')
+			{
+				expr[0].erase(0);
+				expr[0].erase(expr[0].length() - 1);
+				expr = parse_parens(expr);
+				return evaluateExpression(expr);
+			}
+			else
+				return db.findTable(expr[0]);
 		}
 	}
 
