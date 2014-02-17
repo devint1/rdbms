@@ -2,7 +2,7 @@
 #include "../RDBMS/Parser.h"
 
 #include "../RDBMS/Database.h"
-#include "../RDBMS/TableOperations.h";
+#include "../RDBMS/TableOperations.h"
 
 int main(){
 	
