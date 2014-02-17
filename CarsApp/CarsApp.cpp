@@ -42,15 +42,6 @@ int main(){
 	db.openTable("cars");
 	
 	system("PAUSE");*/
-	
-	Database db;
-	db.openTable("cars");
-	db.openTable("cars2");
-
-	db.showTable(TableOperations::setDifference(db.findTable("cars2"), db.findTable("cars")));
-
-	//TableOperations::setDifference(db.findTable("cars"), db.findTable("cars2"), "car_id");
-
 	cout << "Welcome to the RDBMS interpreter." << endl;
 	cout << ":: ";
 	string statement;
