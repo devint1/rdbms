@@ -409,12 +409,12 @@ Table TableOperations::combineTables(Table table1, Table table2)
 	vector<TableAttribute> t2attr = table2.getAttributes();
 	
 	vector<vector<string>> t2data = table2.getTableData();
-	for (int i = 0; i < t2attr.size(); i++)
+	for (size_t i = 0; i < t2attr.size(); i++)
 		newtable.addAttribute(t2attr);
 	
 
-	for (int i = 0; i < t2data.size(); i++)
-		for (int j = 0; j < table2.getAttributes().size(); j++)
+	for (size_t i = 0; i < t2data.size(); i++)
+		for (size_t j = 0; j < table2.getAttributes().size(); j++)
 			newtable.appendToRow(i, t2data[i]);
 	
 	return newtable;

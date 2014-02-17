@@ -1,4 +1,5 @@
 #include "../RDBMS/Parser.h"
+#pragma once
 //#include "../RDBMS/Database.h"
 //#include "../RDBMS/TableOperations.h";
 
