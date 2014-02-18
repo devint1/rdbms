@@ -243,13 +243,6 @@ void Parser::evaluateQuery(string query)
 		result.setName(relationName);
 		db.addTable(result);
 	}
-	/*vector<string> forward;
-	for (size_t i = 2; i < tokens.size(); i++)
-		forward.push_back(tokens[i]);
-
-	Table result = evaluateExpression(forward);
-
-	cout << "Query completed" << endl;*/
 }
 
 void Parser::evaulateCommand(string command)

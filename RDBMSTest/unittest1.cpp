@@ -99,11 +99,11 @@ namespace RDBMSTest
 		//Need to complete
 		TEST_METHOD(Select)
 		{
-			/*initDB();
-			Table testTable1 = TableOperations::select("Model", db.findTable("cars"));
-			Table testTable2 = TableOperations::select("Make", db.findTable("cars"), "Make", "hyundai");
-			Assert::AreEqual((int)testTable1.getAttributes().size(), 1);
-			Assert::AreEqual((int)testTable2.getAttributes().size(), 1);*/
+			initDB();
+			Table testTable1 = TableOperations::select(db.findTable("cars"), "car_id", ">", "645");
+			Table testTable2 = TableOperations::select(db.findTable("cars"), "Make", "==", "hyundai");
+			Assert::AreEqual((int)testTable1.getTableData().size(), 3);
+			Assert::AreEqual((int)testTable2.getTableData().size(), 1);
 		}
 		TEST_METHOD(Rename)
 		{
