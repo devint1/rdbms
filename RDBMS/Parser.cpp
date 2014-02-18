@@ -308,6 +308,25 @@ void Parser::evaulateCommand(string command)
 }
 }
 
+string Parser::inverseOp(string op){
+	if (op == "==")
+		return "!=";
+	else if (op == "!=")
+		return "==";
+	else if (op == "<=")
+		return ">";
+	else if (op == ">=")
+		return "<";
+	else if (op == ">")
+		return "<=";
+	else if (op == "<")
+		return ">=";
+	else{
+		throw exception("Invalid select condition operator.");
+		return " ";
+	}
+}
+
 Table Parser::evaluateSelect(vector<string> expr){
 	string condition = expr[1];
 	string tableName = expr[2];
@@ -345,8 +364,7 @@ Table Parser::evaluateSelect(vector<string> expr){
 			break;
 		case 4:
 			if (condTokens[i-4] == "&&"){
-			
-				syntax_error = true;
+				result = TableOperations::setDifference(result, TableOperations::select(db.findTable(tableName), attrib, inverseOp(condOp), condition));
 			}
 			else if (condTokens[i-4] == "||"){
 				result = TableOperations::setUnion(result, TableOperations::select(db.findTable(tableName), attrib, condOp, condition));

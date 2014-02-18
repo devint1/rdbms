@@ -19,6 +19,7 @@ private:
 	string remove_quotes(string s);
 	string remove_commas(string s);
 	vector<string> parse_parens(vector<string> input);
+	string inverseOp(string op);
 
 	//Executions
 	void executeCreate(vector<string> tokens);
