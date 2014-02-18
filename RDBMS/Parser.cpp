@@ -180,7 +180,7 @@ Table Parser::executeProject(vector<string> attributeNames, vector<string> expr)
 	Table result = TableOperations::project(targetTable, attributeNames[0]);
 	
 	//Build the table for each of the attributes provided
-	for (int i = 1; i < attributeNames.size(); ++i)
+	for (size_t i = 1; i < attributeNames.size(); ++i)
 	{
 		result = TableOperations::combineTables(result, TableOperations::project(targetTable, attributeNames[i]));
 	}
@@ -299,7 +299,55 @@ void Parser::evaulateCommand(string command)
 }
 
 Table Parser::evaluateSelect(vector<string> expr){
-	expr = parse_parens(expr);
+	string condition = expr[1];
+	string tableName = expr[2];
+	condition = remove_parens(condition);
+	istringstream iss(condition);
+	vector<string> condTokens{ istream_iterator<string>(iss), istream_iterator<string>() };
+	condTokens = parse_parens(condTokens);
+	
+	string attrib, condOp;
+	
+	bool syntax_error = false;
+	
+	Table result = TableOperations::select(db.findTable(tableName), condTokens[0], condTokens[1], remove_quotes(condTokens[2]));
+
+	int counter = 4;
+	for (size_t i = 3; i < condTokens.size(); i++){
+		switch (counter)
+		{
+		case 1:
+			attrib = condTokens[i];
+			break;
+		case 2:
+			condOp = condTokens[i];
+			break;
+		case 3:
+			condition = remove_quotes(condTokens[i]);
+			break;
+		case 4:
+			if (condTokens[i] == "&&"){
+				result = TableOperations::setUnion(result, TableOperations::select(db.findTable(tableName), attrib, condOp, condition));
+			}
+			else if (condTokens[i] == "||"){
+				result = TableOperations::setUnion(result, TableOperations::select(db.findTable(tableName), attrib, condOp, condition));
+			}
+			else{
+				syntax_error = true;
+			}
+			counter = 1;
+			break;
+		default:
+			syntax_error = true;
+		}
+		if (syntax_error){
+			cout << "ERROR: invalid select condition syntax.";
+			break;
+		}
+		
+	}
+
+	return result;
 }
 
 Table Parser::evaluateExpression(vector<string> expr)
