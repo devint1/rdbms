@@ -126,22 +126,24 @@ namespace RDBMSTest
 		}
 		TEST_METHOD(Parser)
 		{
-			parser.evaluateStatement("CREATE TABLE animals (name VARCHAR(20), kind VARCHAR(8), years INTEGER) PRIMARY KEY (name, kind)");
+			//This is the code on the assignment page, with some minor changes
+			parser.evaluateStatement("CREATE TABLE animals (name VARCHAR(20), kind VARCHAR(8), age int) PRIMARY KEY (name, kind)");
 			parser.evaluateStatement("INSERT INTO animals VALUES FROM (Joe, cat, 4)");
 			parser.evaluateStatement("INSERT INTO animals VALUES FROM (Spot, dog, 10)");
 			parser.evaluateStatement("INSERT INTO animals VALUES FROM (Snoopy, dog, 3)");
 			parser.evaluateStatement("INSERT INTO animals VALUES FROM (Tweety, bird, 1)");
 			parser.evaluateStatement("INSERT INTO animals VALUES FROM (Joe, bird, 2)");
 			parser.evaluateStatement("SHOW animals");
-			//parser.evaluateStatement("dogs <- select (kind == dog) animals");
-			//parser.evaluateStatement("old_dogs <- select (age > 10) dogs");
-			//parser.evaluateStatement("cats_or_dogs <- dogs + (select (kind == cat) animals)");
+			parser.evaluateStatement("dogs <- select (kind == \"dog\") animals");
+			parser.evaluateStatement("old_dogs <- select (age > 10) dogs");
+			parser.evaluateStatement("cats_or_dogs <- dogs + (select (kind == cat) animals)");
 			parser.evaluateStatement("CREATE TABLE species (kind VARCHAR(10)) PRIMARY KEY (kind)");
 			parser.evaluateStatement("INSERT INTO species VALUES FROM RELATION project (kind) animals");
 			parser.evaluateStatement("a <- rename (aname, akind) (project (name, kind) animals)");
-			//parser.evaluateStatement("common_names <- project (name) (select (aname == name && akind != kind) (a * animals))");
-			//parser.evaluateStatement("answer <- common_names");
-			//parser.evaluateStatement("SHOW answer");
+			parser.evaluateStatement("answer <- a * animals");
+			parser.evaluateStatement("common_names <- project (name) (select (aname == name || akind != kind) answer)");
+			parser.evaluateStatement("answer <- common_names");
+			parser.evaluateStatement("SHOW answer");
 			parser.evaluateStatement("WRITE animals");
 			parser.evaluateStatement("CLOSE animals");
 		}
