@@ -46,5 +46,8 @@
     <None Include="..\Debug\users.db">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="Make.db">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

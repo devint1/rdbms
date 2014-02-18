@@ -1,5 +1,5 @@
-car_id int	Make varchar(255)	Model varchar(255)	Mpg int	
-641	toyota	rav4	23	
+car_id int	MakeID varchar(255)	ModelID varchar(255)	Mpg int	
+641	1	500	23	
 642	ford	F-150	19	
 643	mazda	protege	25	
 644	toyota	corolla	28	

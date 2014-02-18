@@ -79,7 +79,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
-    <Text Include="Text.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CarsApp.cpp" />
@@ -91,10 +90,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="cars.db" />
-    <None Include="cars2.db" />
-    <None Include="schoolLocations.db" />
-    <None Include="students.db" />
-    <None Include="users.db" />
+    <None Include="Make.db" />
+    <None Include="MakeLocation.db" />
+    <None Include="Model.db" />
+    <None Include="User.db" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
