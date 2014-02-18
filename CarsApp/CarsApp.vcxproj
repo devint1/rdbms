@@ -81,7 +81,9 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ActionHandler.cpp" />
     <ClCompile Include="CarsApp.cpp" />
+    <ClCompile Include="MenuHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RDBMS\RDBMS.vcxproj">
@@ -94,6 +96,10 @@
     <None Include="MakeLocation.db" />
     <None Include="Model.db" />
     <None Include="User.db" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ActionHandler.h" />
+    <ClInclude Include="MenuHandler.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
