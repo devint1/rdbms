@@ -426,7 +426,7 @@ Table TableOperations::renamingAttributes(Table table, vector<string> attributeN
 	Table newtable = table;
 	if (attributeNames.size() > table.getAttributes().size())
 		throw exception("Too many attributes.");
-	for (int i = 0; i < attributeNames.size(); ++i)
+	for (size_t i = 0; i < attributeNames.size(); ++i)
 	{
 		newtable.getAttributes()[i].setName(attributeNames[i]);
 	}
