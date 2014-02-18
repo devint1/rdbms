@@ -103,10 +103,18 @@ void Parser::executeInsert(vector<string> tokens)
 		if (tokens[4] != "RELATION")
 			throw exception("Expected token \"RELATION\"");
 
-		tokens[5] = remove_end_parens(tokens[5]);
+		vector<string> exprTokens;
 
-		istringstream iss(tokens[5]);
-		vector<string> exprTokens{ istream_iterator<string>(iss), istream_iterator<string>() };
+		if (tokens.size() > 6)
+		{
+			exprTokens = vector<string>(tokens.begin() + 5, tokens.end());
+		}
+		else 
+		{
+			tokens[5] = remove_end_parens(tokens[5]);
+			istringstream iss(tokens[5]);
+			exprTokens = { istream_iterator<string>(iss), istream_iterator<string>() };
+		}
 
 		db.insertIntoTable(relationName, evaluateExpression(exprTokens));
 	}

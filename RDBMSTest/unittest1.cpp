@@ -77,17 +77,17 @@ namespace RDBMSTest
 		}
 		TEST_METHOD(Union)
 		{
-			/*initDB();
-			Table testTable = TableOperations::setUnion(db.findTable("cars2"), db.findTable("cars"), "car_id");
+			initDB();
+			Table testTable = TableOperations::setUnion(db.findTable("cars2"), db.findTable("cars"));
 			vector<TableAttribute> testAttributes = TableOperations::attributeUnion(db.findTable("cars"), db.findTable("cars2"));
-			Assert::AreEqual(testTable.getAttributes().size(), testAttributes.size());*/
+			Assert::AreEqual(testTable.getAttributes().size(), testAttributes.size());
 		}
 		TEST_METHOD(Difference)
 		{
-			//initDB();
-			//Table testTable = TableOperations::setDifference(db.findTable("cars"), db.findTable("cars"), "car_id");
-			//int testCols = testTable.getTableData().size();
-			//Assert::AreEqual(testCols, 0); //Difference of a table with itself should be zero
+			initDB();
+			Table testTable = TableOperations::setDifference(db.findTable("cars"), db.findTable("cars"));
+			int testCols = testTable.getTableData().size();
+			Assert::AreEqual(testCols, 0); //Difference of a table with itself should be zero
 		}
 		TEST_METHOD(Project)
 		{
@@ -95,7 +95,6 @@ namespace RDBMSTest
 			string name1 = "Model";
 			string name2 = "my_model";
 			Table rename = TableOperations::project(db.findTable("cars"), name1);
-			TableOperations::renamingAttributes(db.findTable("cars2"), name2, rename.getName());
 		}
 		//Need to complete
 		TEST_METHOD(Select)
@@ -113,6 +112,10 @@ namespace RDBMSTest
 			table.changeAttributeName("School", "my_school");
 			string testString = "my_school";
 			Assert::AreEqual(table.getAttributes()[0].getName(), testString);
+
+			vector<string> newNames = {"super_school", "super_location"};
+
+			Table renamedTable = TableOperations::renamingAttributes(table, newNames);
 		}
 		TEST_METHOD(NaturalJoin)
 		{
@@ -121,6 +124,26 @@ namespace RDBMSTest
 			vector<TableAttribute> testAttributes = TableOperations::attributeUnion(db.findTable("students"), db.findTable("schoolLocations"));
 			Assert::AreEqual(testTable.getAttributes().size(), testAttributes.size());
 		}
-
+		TEST_METHOD(Parser)
+		{
+			parser.evaluateStatement("CREATE TABLE animals (name VARCHAR(20), kind VARCHAR(8), years INTEGER) PRIMARY KEY (name, kind)");
+			parser.evaluateStatement("INSERT INTO animals VALUES FROM (Joe, cat, 4)");
+			parser.evaluateStatement("INSERT INTO animals VALUES FROM (Spot, dog, 10)");
+			parser.evaluateStatement("INSERT INTO animals VALUES FROM (Snoopy, dog, 3)");
+			parser.evaluateStatement("INSERT INTO animals VALUES FROM (Tweety, bird, 1)");
+			parser.evaluateStatement("INSERT INTO animals VALUES FROM (Joe, bird, 2)");
+			parser.evaluateStatement("SHOW animals");
+			//parser.evaluateStatement("dogs <- select (kind == dog) animals");
+			//parser.evaluateStatement("old_dogs <- select (age > 10) dogs");
+			//parser.evaluateStatement("cats_or_dogs <- dogs + (select (kind == cat) animals)");
+			parser.evaluateStatement("CREATE TABLE species (kind VARCHAR(10)) PRIMARY KEY (kind)");
+			parser.evaluateStatement("INSERT INTO species VALUES FROM RELATION project (kind) animals");
+			parser.evaluateStatement("a <- rename (aname, akind) (project (name, kind) animals)");
+			//parser.evaluateStatement("common_names <- project (name) (select (aname == name && akind != kind) (a * animals))");
+			//parser.evaluateStatement("answer <- common_names");
+			//parser.evaluateStatement("SHOW answer");
+			parser.evaluateStatement("WRITE animals");
+			parser.evaluateStatement("CLOSE animals");
+		}
 	};
 }
