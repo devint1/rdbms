@@ -103,6 +103,7 @@
     <None Include="..\Debug\schoolLocations.db" />
     <None Include="..\Debug\students.db" />
     <None Include="..\Debug\users.db" />
+    <None Include="Make.db" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

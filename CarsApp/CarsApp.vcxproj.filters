@@ -16,12 +16,15 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
-    <Text Include="Text.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CarsApp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -29,17 +32,25 @@
     <None Include="cars.db">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="cars2.db">
+    <None Include="Make.db">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="schoolLocations.db">
+    <None Include="Model.db">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="students.db">
+    <None Include="MakeLocation.db">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="users.db">
+    <None Include="User.db">
       <Filter>Resource Files</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MenuHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
