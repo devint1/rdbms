@@ -8,7 +8,6 @@ car_id int	Make varchar(255)	Model varchar(255)	Mpg int
 744			toyota				camry				28
 644			toyota				corolla				28	
 645			ford				escape				29	
-646			hyundai				elantra				40	
 677			honda				civic				35	
 998			honda				element				43
 997			maserati			entre				35

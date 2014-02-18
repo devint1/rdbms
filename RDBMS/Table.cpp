@@ -109,6 +109,7 @@ void Table::writeTable()
 	file.close();
 }
 
+
 void Table::showTable()
 {
 	const int COL_WIDTH = 15;
