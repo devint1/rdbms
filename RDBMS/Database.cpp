@@ -85,6 +85,18 @@ void Database::insertIntoTable(string tablename, vector<string> values)
 	t.insert(values);
 }
 
+void Database::insertIntoTable(string tablename, Table relation)
+{
+	Table& t = findTable(tablename);
+	if (relation.getAttributes().size() != t.getAttributes().size())
+		throw exception("Tables have different number of columns.");
+
+	for (vector<string> str : relation.getTableData())
+	{
+		t.insert(str);
+	}
+}
+
 void Database::updateTable(string relationName, string attributeNameToChange, string valueToChange, string conditionAttributeName, string conditionValue)
 {
 	int changeAttributePos;
