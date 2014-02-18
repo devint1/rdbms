@@ -4,63 +4,111 @@
 #include "../RDBMS/Database.h"
 #include "../RDBMS/TableOperations.h"
 
-int main(){
-	
-	/*
-	
-	//db.UpdateTable("cars", "")
-	vector<string> vals = { "646", "Lamborghini", "Gallardo", "11" };
-	db.insertIntoTable("cars", vals);
-	db.deleteFromTable("cars", "Make", "ford");
-	db.updateTable("cars", "Model", "Celica", "Model", "corolla");
-	vector<string> attNames = { "firstName", "lastName", "email", "cars" };
-	vector<string> attTypes = { "varchar(255)", "varchar(255)", "varchar(255)", "varchar(255)" };
-	vector<string> primKeys = { "email" };
-	db.createTable("users", attNames, attTypes, primKeys);
-	db.showTable("cars");
-	db.showTable("users");
-	db.writeTable("users");
-	db.closeTable("users");
-	db.openTable("cars2");
-	db.openTable("students");
-	db.openTable("schoolLocations");
-	db.openTable("makeLocations");
+void printMenu()
+{
+	//Car operations	
+	cout << "1)  Add car" << endl;
+	cout << "2)  Add car location" << endl;
+	cout << "3)  Modify car" << endl;
+	cout << "4)  Modify car location" << endl;
+	cout << "5)  Delete car" << endl;
+	cout << "6)  Delete car location" << endl;
+	cout << "7)  List all cars" << endl;
+	cout << "8)  List all car locations" << endl;
+	cout << "9)  List all cars with locations" << endl;
+	cout << "10) Find cars" << endl;
+	//User operations
+	cout << "11) Add user" << endl;
+	cout << "12) Modify user" << endl;
+	cout << "13) Delete user" << endl;
+	cout << "14) Show all users" << endl;
+	cout << "15) Find users" << endl;
+	//Utilities
+	cout << "16) Remove duplicates" << endl;
+	cout << "17) Display duplicates" << endl;
+	cout << "18) Display all ownership combonations" << endl;
+	cout << "19) Exit program" << endl;
+	cout << endl;
+}
 
-	TableOperations::setUnion(db.findTable("cars"), db.findTable("cars2"), "car_id");
-	TableOperations::setDifference(db.findTable("cars"), db.findTable("cars2"), "car_id");
-	TableOperations::setDifference(db.findTable("cars2"), db.findTable("cars2"), "car_id");
-	TableOperations::setDifference(db.findTable("cars2"), db.findTable("cars"), "car_id");
-	TableOperations::crossProduct(db.findTable("cars2"), db.findTable("cars"));
+void init()
+{
+	//Try to open all tables
+	//If table DNE, create it
+}
 
-	string name1 = "Model";
-	string name2 = "my_model";
-	TableAttribute rename = TableOperations::project(db.findTable("cars"), name1);
-	TableOperations::renamingAttributes(db.findTable("cars2"), name2, rename.getName());
-	TableOperations::naturalJoin(db.findTable("students"), db.findTable("schoolLocations"));
-	TableOperations::naturalJoin(db.findTable("cars"), db.findTable("makeLocations"));
-	TableOperations::select("Model", db.findTable("cars"), "Make", "toyota");
-	db.openTable("cars");
-	
-	system("PAUSE");*/
-	cout << "Welcome to the RDBMS interpreter." << endl;
-	cout << ":: ";
-	string statement;
-	Parser parser;
-
-	while (getline(cin, statement)) {
-		try {
-			parser.evaluateStatement(statement);
-		}
-		catch (exception e) {
-			cerr << "ERROR: " << e.what() << endl;
-		}
-		catch (...) {
-			cerr << "ERROR: Unknown error." << endl;
-		}
-		cout << endl << ":: ";
+void executeOption(int option)
+{
+	switch (option)
+	{
+	case 1:
+		break;
+	case 2:
+		break;
+	case 3:
+		break;
+	case 4:
+		break;
+	case 5:
+		break;
+	case 6:
+		break;
+	case 7:
+		break;
+	case 8:
+		break;
+	case 9:
+		break;
+	case 10:
+		break;
+	case 11:
+		break;
+	case 12:
+		break;
+	case 13:
+		break;
+	case 14:
+		break;
+	case 15:
+		break;
+	case 16:
+		break;
+	case 17:
+		break;
+	case 18:
+		break;
+	case 19:
+		break;
+	default:
+		cerr << endl << "ERROR: Unknown option." << endl;
 	}
+}
 
+int main()
+{
+	cout << "Welcome to our Cars App!" << endl;
+	cout << ":: ";
+	Parser parser;
+	string option;
+
+	while (true) {
+		printMenu();
+		cout << "Choose option: ";
+		getline(cin, option);
+		try
+		{
+			executeOption(stoi(option));
+		}
+		catch (invalid_argument e)
+		{
+			cerr << endl << "ERROR: Value is non-numeric." << endl;
+		}
+		catch (out_of_range e)
+		{
+			cerr << endl << "ERROR: The value is out of range." << endl;
+		}
+		cout << endl;
+	}
 	return 0;
-
 }
 
