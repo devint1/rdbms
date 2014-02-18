@@ -417,11 +417,10 @@ Table Parser::evaluateExpression(vector<string> expr)
 		{
 			case select:
 				return evaluateSelect(expr);
-				break;
 			case project:
-					return executeProject(innerTokens, atomicExpr);
+				return executeProject(innerTokens, atomicExpr);
 			case rename:
-					return TableOperations::renamingAttributes(evaluateExpression(atomicExpr), innerTokens);
+				return TableOperations::renamingAttributes(evaluateExpression(atomicExpr), innerTokens);
 		}
 	}
 	else
