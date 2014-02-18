@@ -325,28 +325,37 @@ Table Parser::evaluateSelect(vector<string> expr){
 	
 	string attrib, condOp;
 	
+	attrib = condTokens[0];
+	condOp = condTokens[1];
+	condition = remove_quotes(condTokens[2]);
+
 	bool syntax_error = false;
 	
-	Table result = TableOperations::select(db.findTable(tableName), condTokens[0], condTokens[1], remove_quotes(condTokens[2]));
+	//if (condTokens.size() == 3) sel <- select (Make == toyota && Mpg >= 28) cars
+		Table result = TableOperations::select(db.findTable(tableName), condTokens[0], condTokens[1], remove_quotes(condTokens[2]));
 
-	int counter = 4;
-	for (size_t i = 3; i < condTokens.size(); i++){
+	int counter = 1;
+	for (size_t i = 4; i < condTokens.size()+1; i++){
 		switch (counter)
 		{
 		case 1:
 			attrib = condTokens[i];
+			counter++;
 			break;
 		case 2:
 			condOp = condTokens[i];
+			counter++;
 			break;
 		case 3:
 			condition = remove_quotes(condTokens[i]);
+			counter++;
 			break;
 		case 4:
-			if (condTokens[i] == "&&"){
-				result = TableOperations::setUnion(result, TableOperations::select(db.findTable(tableName), attrib, condOp, condition));
+			if (condTokens[i-4] == "&&"){
+			
+				syntax_error = true;
 			}
-			else if (condTokens[i] == "||"){
+			else if (condTokens[i-4] == "||"){
 				result = TableOperations::setUnion(result, TableOperations::select(db.findTable(tableName), attrib, condOp, condition));
 			}
 			else{
@@ -358,7 +367,7 @@ Table Parser::evaluateSelect(vector<string> expr){
 			syntax_error = true;
 		}
 		if (syntax_error){
-			cout << "ERROR: invalid select condition syntax.";
+			throw exception("invalid select condition syntax.");
 			break;
 		}
 		
