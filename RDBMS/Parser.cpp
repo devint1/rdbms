@@ -327,9 +327,14 @@ string Parser::inverseOp(string op){
 	}
 }
 
+
 Table Parser::evaluateSelect(vector<string> expr){
 	string condition = expr[1];
 	string tableName = expr[2];
+
+	for (size_t i = 3; i < expr.size(); i++)
+		tableName += " " + expr[i];
+
 	condition = remove_parens(condition);
 	istringstream iss(condition);
 	vector<string> condTokens{ istream_iterator<string>(iss), istream_iterator<string>() };
@@ -343,9 +348,18 @@ Table Parser::evaluateSelect(vector<string> expr){
 
 	bool syntax_error = false;
 	
+	// This code allows select to select from table returned by another expresion
+	if (!db.tableExists(tableName)){
+		istringstream iss(tableName);
+		vector<string> condTokens{ istream_iterator<string>(iss), istream_iterator<string>() };
+		Table atomicTable = evaluateExpression(condTokens);
+		db.addTable(atomicTable);
+		tableName = atomicTable.getName();
+	} 
+	
 	//if (condTokens.size() == 3) sel <- select (Make == toyota && Mpg >= 28) cars
 		Table result = TableOperations::select(db.findTable(tableName), condTokens[0], condTokens[1], remove_quotes(condTokens[2]));
-
+		
 	int counter = 1;
 	for (size_t i = 4; i < condTokens.size()+1; i++){
 		switch (counter)
