@@ -30,3 +30,17 @@ void ActionHandler::startInterpreter()
 		cout << endl << ":: ";
 	}
 }
+
+void ActionHandler::addCar(){
+	Database db = parser.getDb();
+	vector< vector<string> > carData = db.findTable("cars").getTableData();
+	string carID = (carData[carData.size-1][0])+1;
+	string MakeID, ModelID, Mpg;
+	cout << "Enter car Make: " << endl;
+	cin >> MakeID;
+
+	Table make = db.findTable("Make"); 
+	
+
+	cout << "Enter Make Id" << endl;
+}
