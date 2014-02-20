@@ -155,7 +155,8 @@ void ActionHandler::addLocation()
 	}
 	else
 	{
-
+		//Check if make Id is in MakeLocation.db, if so, just modify the location, if not, add it completely.
+		//parser.evaluateStatement("INSERT ");
 	}
 
 
