@@ -9,4 +9,5 @@ private:
 public:
 	static void init();
 	static void startInterpreter();
+	static void addLocation();
 };

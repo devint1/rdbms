@@ -30,3 +30,44 @@ void ActionHandler::startInterpreter()
 		cout << endl << ":: ";
 	}
 }
+
+void ActionHandler::addLocation()
+{
+	Database db = parser.getDb();
+	string make;
+	int	makeTableNamePos;
+	int makeTableMakeIDPos;
+	string makeID;
+	vector< vector<string> >makeData;
+
+	cout << "Please input the Make of the car you want to change a location for: " << endl;
+	cin >> make;
+
+	makeTableNamePos = db.findTable("Make").findAttributebyName("Name");
+	makeTableMakeIDPos = db.findTable("Make").findAttributebyName("MakeID");
+
+	makeData = db.findTable("Make").getTableData();
+
+	for (int i = 0; i < makeData.size(); i++)
+	{
+		if (makeData[makeTableNamePos][i] == make)
+		{
+			makeID = makeData[makeTableMakeIDPos][i];
+		}
+		else
+		{
+			makeID = "NoMakeFound";
+		}
+	}
+
+	if (makeID == "NoMakeFound")
+	{
+		cout << "No such make was found!" << endl;
+	}
+	else
+	{
+
+	}
+
+
+}
