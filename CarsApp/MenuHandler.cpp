@@ -1,3 +1,4 @@
+#include "ActionHandler.h"
 #include "MenuHandler.h"
 #include "../RDBMS/Parser.h"
 using namespace std;
@@ -31,7 +32,6 @@ void MenuHandler::printMenu()
 
 void MenuHandler::executeOption(int option)
 {
-	Parser parser;
 	string statement;
 	switch (option)
 	{
@@ -74,22 +74,7 @@ void MenuHandler::executeOption(int option)
 	case 19:
 		break;
 	case 20:
-		// I'm just using this for more testing. just ignore.
-		cout << "Welcome to the RDBMS interpreter." << endl;
-		cout << ":: ";		
-
-		while (getline(cin, statement)) {
-			try {
-				parser.evaluateStatement(statement);
-			}
-			catch (exception e) {
-				cerr << "ERROR: " << e.what() << endl;
-			}
-			catch (...) {
-				cerr << "ERROR: Unknown error." << endl;
-			}
-			cout << endl << ":: ";
-		}
+		ActionHandler::startInterpreter();
 		break;
 	default:
 		cerr << endl << "ERROR: Unknown option." << endl;
