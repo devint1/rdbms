@@ -8,5 +8,6 @@ private:
 	static Parser parser;
 public:
 	static void init();
+	static void modifyCar();
 	static void startInterpreter();
 };
