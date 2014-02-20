@@ -8,6 +8,9 @@ private:
 	static Parser parser;
 public:
 	static void init();
+	static void modifyCar();
+	static void deleteCar();
+	static void listAllCars();
 	static void startInterpreter();
 	static void modifyCarLocation();
 };
