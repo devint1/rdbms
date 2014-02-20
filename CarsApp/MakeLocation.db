@@ -1,0 +1,1 @@
+LocationID int	MakeID int	Location varchar(255)
