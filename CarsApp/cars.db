@@ -1,4 +1,4 @@
-car_id int	MakeID int		ModelID int			Mpg int	
+CarID int	MakeID int		ModelID int			Mpg int	
 0			500				1000				23	
 1			501				1001				19	
 2			502				1002				25	

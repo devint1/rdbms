@@ -1,4 +1,4 @@
-ModelId int		Name varchar(255)
+ModelID int		Name varchar(255)
 1000			Rav4
 1001			F-150
 1002			Protege
