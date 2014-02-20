@@ -5,26 +5,26 @@ using namespace std;
 void MenuHandler::printMenu()
 {
 	//Car operations	
-	cout << "1)  Add car" << endl;
-	cout << "2)  Add car location" << endl;
+	cout << "1)  Add car" << endl; // mig
+	cout << "2)  Add car location" << endl; 
 	cout << "3)  Modify car" << endl;
 	cout << "4)  Modify car location" << endl;
-	cout << "5)  Delete car" << endl;
+	cout << "5)  Delete car" << endl; // mig
 	cout << "6)  Delete car location" << endl;
 	cout << "7)  List all cars" << endl;
 	cout << "8)  List all car locations" << endl;
-	cout << "9)  List all cars with locations" << endl;
+	cout << "9)  List all cars with locations" << endl; // mig
 	cout << "10) Find cars" << endl;
 	//User operations
 	cout << "11) Add user" << endl;
 	cout << "12) Modify user" << endl;
-	cout << "13) Delete user" << endl;
+	cout << "13) Delete user" << endl; // mig
 	cout << "14) Show all users" << endl;
 	cout << "15) Find users" << endl;
 	//Utilities
 	cout << "16) Remove duplicates" << endl;
-	cout << "17) Display duplicates" << endl;
-	cout << "18) Display all ownership combonations" << endl;
+	cout << "17) Display duplicates" << endl; // mig
+	cout << "18) Display all ownership combonations" << endl; 
 	cout << "19) Exit program" << endl;
 	cout << endl;
 }
