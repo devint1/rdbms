@@ -6,28 +6,29 @@ using namespace std;
 void MenuHandler::printMenu()
 {
 	//Car operations	
-	cout << "1)  Add car" << endl;						 // mig
+	cout << "1)  Add car" << endl;						 //Mig
 	cout << "2)  Add car location" << endl;				 //Sergio
-	cout << "3)  Modify car" << endl;					//Devin
+	cout << "3)  Modify car" << endl;					 //Devin
 	cout << "4)  Modify car location" << endl;			 //Corey
-	cout << "5)  Delete car" << endl;					//Devin
+	cout << "5)  Delete car" << endl;					 //Devin
 	cout << "6)  Delete car location" << endl;			 //Sergio
-	cout << "7)  List all cars" << endl;				//Devin
-	cout << "8)  List all car locations" << endl;		//Devin
-	cout << "9)  List all cars with locations" << endl; // mig
+	cout << "7)  List all cars" << endl;				 //Devin
+	cout << "8)  List all car locations" << endl;		 //Corey
+	cout << "9)  List all cars with locations" << endl;  //Mig
 	cout << "10) Find cars" << endl;
 
 	//User operations
-	cout << "11) Add user" << endl;						//Devin
-	cout << "12) Modify user" << endl;					//Corey
-	cout << "13) Delete user" << endl;					//Devin
-	cout << "14) Show all users" << endl;				//Sergio
-	cout << "15) Find users" << endl;					//Devin
+	cout << "11) Add user" << endl;						 //Devin
+	cout << "12) Modify user" << endl;					 //Corey
+	cout << "13) Delete user" << endl;                   //Miguel
+	cout << "14) Show all users" << endl;                //Sergio
+	cout << "15) Find users" << endl;					 //Devin
+
 	//Utilities
-	cout << "16) Remove duplicates" << endl;			//Corey
-	cout << "17) Display duplicates" << endl;			//Devin
+	cout << "16) Remove duplicates" << endl;			 //Corey
+	cout << "17) Display duplicates" << endl;            //Miguel
 	cout << "18) Display all ownership combonations" << endl;	 //Sergio
-	cout << "19) Exit program" << endl;					//Devin
+	cout << "19) Exit program" << endl;					 //Devin
 	cout << endl;
 }
 
@@ -41,7 +42,6 @@ void MenuHandler::executeOption(int option)
 	case 2:
 		break;
 	case 3:
-		ActionHandler::modifyCar();
 		break;
 	case 4:
 		break;

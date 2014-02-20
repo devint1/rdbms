@@ -10,6 +10,7 @@ void ActionHandler::init()
 	parser.evaluateStatement("OPEN cars");
 	parser.evaluateStatement("OPEN Make");
 	parser.evaluateStatement("OPEN Model");
+	parser.evaluateStatement("OPEN MakeLocation");
 }
 
 void ActionHandler::modifyCar()
