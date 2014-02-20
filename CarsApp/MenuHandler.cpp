@@ -52,6 +52,7 @@ void MenuHandler::executeOption(int option)
 	case 6:
 		break;
 	case 7:
+		ActionHandler::listAllCars();
 		break;
 	case 8:
 		break;

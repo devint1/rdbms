@@ -66,6 +66,13 @@ void ActionHandler::deleteCar()
 	parser.evaluateStatement("DELETE FROM cars WHERE CarID = " + carId + "");
 }
 
+void ActionHandler::listAllCars()
+{
+	parser.evaluateStatement("temp <- (cars JOIN (rename (MakeID, Make) Make)) JOIN (rename (ModelID, Model) Model)");
+	parser.evaluateStatement("temp <- project (CarID, Make, Model, Mpg) temp");
+	parser.evaluateStatement("SHOW temp");
+}
+
 void ActionHandler::startInterpreter()
 {
 	cout << "Welcome to the RDBMS interpreter." << endl;
