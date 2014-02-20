@@ -42,6 +42,7 @@ void MenuHandler::executeOption(int option)
 	case 3:
 		break;
 	case 4:
+		ActionHandler::modifyCarLocation();
 		break;
 	case 5:
 		break;

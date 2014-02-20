@@ -1,1 +1,2 @@
 LocationID int	MakeID int	Location varchar(255)
+1				500			College_Station

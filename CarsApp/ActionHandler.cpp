@@ -7,7 +7,7 @@ Parser ActionHandler::parser;
 
 void ActionHandler::init()
 {
-	
+	parser.evaluateStatement("OPEN MakeLocation");
 }
 
 void ActionHandler::startInterpreter()
@@ -29,4 +29,16 @@ void ActionHandler::startInterpreter()
 		}
 		cout << endl << ":: ";
 	}
+}
+
+void ActionHandler::modifyCarLocation()
+{
+	string locID;
+	string locName;
+	cout << "Please enter location ID: ";
+	cin >> locID;
+	cout << "Now enter new location name: ";
+	cin >> locName;
+	parser.evaluateStatement("UPDATE MakeLocation SET (Location = " + locName + ") WHERE (LocationID = " + locID + ")");
+
 }
