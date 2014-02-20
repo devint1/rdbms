@@ -42,10 +42,12 @@ void MenuHandler::executeOption(int option)
 	case 2:
 		break;
 	case 3:
+		ActionHandler::modifyCar();
 		break;
 	case 4:
 		break;
 	case 5:
+		ActionHandler::deleteCar();
 		break;
 	case 6:
 		break;

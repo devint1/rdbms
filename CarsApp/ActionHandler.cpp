@@ -57,6 +57,15 @@ void ActionHandler::modifyCar()
 	}
 }
 
+void ActionHandler::deleteCar()
+{
+	string carId;
+
+	cout << endl << "Enter car ID to delete: ";
+	getline(cin, carId);
+	parser.evaluateStatement("DELETE FROM cars WHERE CarID = " + carId + "");
+}
+
 void ActionHandler::startInterpreter()
 {
 	cout << "Welcome to the RDBMS interpreter." << endl;

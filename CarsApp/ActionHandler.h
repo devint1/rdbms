@@ -9,5 +9,6 @@ private:
 public:
 	static void init();
 	static void modifyCar();
+	static void deleteCar();
 	static void startInterpreter();
 };
