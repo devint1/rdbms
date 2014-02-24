@@ -84,9 +84,9 @@ void ActionHandler::modifyUser()
 	string userID;
 	string choice;
 	string newinput;
+	parser.evaluateStatement("SHOW User");
 	cout << "Enter user ID: ";
 	cin >> userID;
-
 	cout << endl << "Select a value to modify:" << endl;
 	cout << "1) Username" << endl;
 	cout << "2) Firstname" << endl;
