@@ -13,4 +13,6 @@ public:
 	static void listAllCars();
 	static void startInterpreter();
 	static void modifyCarLocation();
+	static void listAllCarLocations();
+	static void modifyUser();
 };

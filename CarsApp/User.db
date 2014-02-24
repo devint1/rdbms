@@ -1,1 +1,3 @@
-UserId int	Username varchar(255)	Firstname varchar(255)	Lastname varchar(255)	email varchar(255)
+UserID int	Username varchar(255)	Firstname varchar(255)	Lastname varchar(255)	Email varchar(255)
+1			CoreyH					Corey					Hall					corey_hall@live.com
+2			MiguelC					Miguel					Clement					clement300@neo.tamu.edu

@@ -57,6 +57,51 @@ void ActionHandler::modifyCar()
 	}
 }
 
+void ActionHandler::modifyUser()
+{
+	string userID;
+	string choice;
+	string newinput;
+	cout << "Enter user ID: ";
+	cin >> userID;
+
+	cout << endl << "Select a value to modify:" << endl;
+	cout << "1) Username" << endl;
+	cout << "2) Firstname" << endl;
+	cout << "3) Lastname" << endl;
+	cout << "4) Email" << endl << endl;
+	cout << "Enter choice: ";
+	cin >> choice;
+	switch (stoi(choice))
+	{
+	case 1:
+		cout << "Enter new Username: ";
+		cin >> newinput;
+		parser.evaluateStatement("UPDATE User SET (Username = " + newinput + ") WHERE (UserID = " + userID + ")");
+		break;
+	case 2:
+		cout << "Enter new Firstname: ";
+		cin >> newinput;
+		parser.evaluateStatement("UPDATE User SET (Firstname = " + newinput + ") WHERE (UserID = " + userID + ")");
+		break;
+	case 3:
+		cout << "Enter new Lastname: ";
+		cin >> newinput;
+		parser.evaluateStatement("UPDATE User SET (Lastname = " + newinput + ") WHERE (UserID = " + userID + ")");
+		break;
+	case 4:
+		cout << "Enter new Email: ";
+		cin >> newinput;
+		parser.evaluateStatement("UPDATE User SET (Email = " + newinput + ") WHERE (UserID = " + userID + ")");
+		break;
+	default:
+		cerr << "ERROR: Invalid option." << endl;
+		break;
+	}
+
+
+}
+
 void ActionHandler::deleteCar()
 {
 	string carId;
@@ -104,4 +149,11 @@ void ActionHandler::modifyCarLocation()
 	cin >> locName;
 	parser.evaluateStatement("UPDATE MakeLocation SET (Location = " + locName + ") WHERE (LocationID = " + locID + ")");
 
+}
+
+void ActionHandler::listAllCarLocations()
+{
+	parser.evaluateStatement("temp1 <- project (Location) MakeLocation");
+	parser.evaluateStatement("temp2 <- (project (Name) Make) JOIN temp1");
+	parser.evaluateStatement("SHOW temp2");
 }
