@@ -241,59 +241,54 @@ void ActionHandler::addLocation()
 	Database db = parser.getDb();
 	string make;
 	string location;
-	int	makeTableNamePos;
-	int makeTableMakeIDPos;
-	int makeLocationTableLocPos;
-	int makeLocationTableMakeIDPos;
-	string makeID;
+	string MakeID;
+	bool makeIDFound = false;
 	vector< vector<string> >makeData;
-	vector< vector<string> >makeLocationData;
 
-	cout << "Please input the Make of the car you want to change a location for: " << endl;
+	cout << "Please input the Make of the car you want to add a location for: " << endl;
 	cin >> make;
 
-	makeTableNamePos = db.findTable("Make").findAttributebyName("Name");
-	makeTableMakeIDPos = db.findTable("Make").findAttributebyName("MakeID");
-	makeLocationTableLocPos = db.findTable("MakeLocation").findAttributebyName("Location");
-	makeLocationTableMakeIDPos = db.findTable("MakeLocation").findAttributebyName("MakeID");
-
 	makeData = db.findTable("Make").getTableData();
-	makeLocationData = db.findTable("MakeLocation").getTableData();
 
-	for (size_t i = 0; i < makeData.size(); i++)
+	Table makes = db.findTable("Make");
+	for (size_t i = 0; i < makes.getTableData().size(); i++)
 	{
-		if (makeData[makeTableNamePos][i] == make)
+		if (toLower(makes.getTableData()[i][1]) == toLower(make))
 		{
-			makeID = makeData[makeTableMakeIDPos][i];
+			MakeID = makes.getTableData()[i][0];
+			makeIDFound = true;
+			break;
 		}
+	}
+		if (makeIDFound == false)
+		{
+			cout << "Make not found!" << endl;
+		}
+
 		else
 		{
-			makeID = "NoMakeFound";
-		}
-	}
-
-	if (makeID == "NoMakeFound")
-	{
-		cout << "No such make was found!" << endl;
-	}
-	else
-	{
-		cout << "Please input the new Location desired: " << endl;
-		cin >> location;
-
-		int i = 0;
-		for (i; i < makeLocationData.size(); i++)			 //MIGHT NOT NEED FOR LOOP SINCE UPDATE MIGHT ALREADY DO IT!
-		{
-			if (makeID == makeLocationData[makeLocationTableMakeIDPos][i])
+		
+			Table makeLoc = db.findTable("MakeLocation");
+			for (size_t i = 0; i < makeLoc.getTableData().size(); i++)
 			{
-				//if MakeID is in location file, update location with update command in parser?
+				if (toLower(makes.getTableData()[i][0]) == toLower(MakeID))
+				{
+					cout << "Please input the new Location desired: " << endl;
+					cin >> location;
+					parser.evaluateStatement("UPDATE MakeLocation SET (Location = " + location + ") WHERE (MakeID = " + MakeID + ")");
+				}
+				else
+				{
+					cout << "Please input the new Location desired: " << endl;
+					cin >> location;
+
+					int locationID1 = stoi(makeData[makeData.size() - 1][0]) + 1;
+					string locationID2 = to_string(locationID1);
+					parser.evaluateStatement("INSERT INTO MakeLocation VALUES FROM (" + locationID2 + ", " + MakeID + ", " + location + ")");
+					break;
+				}
 			}
 		}
-		
-		//if make id is not in location file but it is in makeid file, create a location and a location id for that make with update?
-	}
-
-
 }
 
 void ActionHandler::showUsers(){
@@ -378,19 +373,21 @@ void ActionHandler::findCars()
 		cout << "Please input the model of the car you want to be shown: ";
 		cin >> model;
 
+		parser.evaluateStatement("temp <- (cars JOIN (rename (MakeID, Make) Make)) JOIN (rename (ModelID, Model) Model)");
+		parser.evaluateStatement("temp <- select (Model == " + model + ") temp");
+		parser.evaluateStatement("temp <- project (CarID, Make, Model, Mpg) temp");
+		parser.evaluateStatement("SHOW temp");
 
-		parser.evaluateStatement("sel <- select (Name == " + model + ") Model");
-		//parser.evaluateStatement("sel2 <- select ( ==")
-		parser.evaluateStatement("SHOW sel");
 	}
 	if (makeOrModel == 2)
 	{
 		cout << "Please input the make of the cars you want to be shown: ";
 		cin >> make;
 
-		parser.evaluateStatement("sel <- select (Name == " + make + ") Make");
-		parser.evaluateStatement("SHOW sel");
-		
+		parser.evaluateStatement("temp <- (cars JOIN (rename (MakeID, Make) Make)) JOIN (rename (ModelID, Model) Model)");
+		parser.evaluateStatement("temp <- select (Make == " + make + ") temp");
+		parser.evaluateStatement("temp <- project (CarID, Make, Model, Mpg) temp");
+		parser.evaluateStatement("SHOW temp");	
 	}
 	else
 	{
@@ -401,8 +398,19 @@ void ActionHandler::findCars()
 
 void ActionHandler::ownerCombination()
 {
-	parser.evaluateStatement("temp1 <- project (Username) Users");
+	/*Database db = parser.getDb();
+	Table user = db.findTable("User");
+	Table cars = db.findTable("Model");
+
+	Table crossProd = user.getTableData * cars;	*/
+	parser.evaluateStatement("temp <- select (User) UserId");
+	parser.evaluateStatement("temp <- Model JOIN  temp");
+	//parser.evaluateStatement("temp <- project (Make, Location) temp");
+	parser.evaluateStatement("SHOW temp");
+
+
+	/*parser.evaluateStatement("temp1 <- JOIN (Username) Users");
 	parser.evaluateStatement("temp2 <- (project (Name) Model) JOIN temp1");
-	parser.evaluateStatement("SHOW temp2");
+	parser.evaluateStatement("SHOW temp2");			*/
 
 }
