@@ -15,7 +15,7 @@ void MenuHandler::printMenu()
 	cout << "7)  List all cars" << endl;				 //Devin
 	cout << "8)  List all car locations" << endl;		 //Corey
 	cout << "9)  List all cars with locations" << endl;  //Miguel
-	cout << "10) Find cars" << endl;
+	cout << "10) Find cars" << endl;					 //Sergio
 
 	//User operations
 	cout << "11) Add user" << endl;						 //Devin
@@ -41,6 +41,7 @@ void MenuHandler::executeOption(int option)
 		ActionHandler::addCar();
 		break;
 	case 2:
+		ActionHandler::addLocation();
 		break;
 	case 3:
 		ActionHandler::modifyCar();
@@ -52,6 +53,7 @@ void MenuHandler::executeOption(int option)
 		ActionHandler::deleteCar();
 		break;
 	case 6:
+		ActionHandler::deleteLocation();
 		break;
 	case 7:
 		ActionHandler::listAllCars();
@@ -63,6 +65,7 @@ void MenuHandler::executeOption(int option)
 		ActionHandler::listAllCarLocations();
 		break;
 	case 10:
+		ActionHandler::findCars();
 		break;
 	case 11:
 		break;
@@ -82,6 +85,7 @@ void MenuHandler::executeOption(int option)
 	case 17:
 		break;
 	case 18:
+		ActionHandler::ownerCombination();
 		break;
 	case 19:
 		break;

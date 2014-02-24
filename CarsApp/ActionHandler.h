@@ -20,6 +20,9 @@ public:
 	static void listLocations();
 	static void listAllCarLocations();
 	static void modifyUser();
+	static void deleteLocation();
+	static void findCars();
+	static void ownerCombination();
 };
 
 
