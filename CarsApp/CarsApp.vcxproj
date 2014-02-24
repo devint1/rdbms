@@ -92,6 +92,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="cars.db" />
+    <None Include="Cart.db" />
     <None Include="Make.db" />
     <None Include="MakeLocation.db" />
     <None Include="Model.db" />

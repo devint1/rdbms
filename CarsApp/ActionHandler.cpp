@@ -31,6 +31,7 @@ void ActionHandler::init()
 	parser.evaluateStatement("OPEN Make");
 	parser.evaluateStatement("OPEN Model");
 	parser.evaluateStatement("OPEN User");
+	parser.evaluateStatement("OPEN Cart");
 	parser.evaluateStatement("OPEN MakeLocation");
 }
 
@@ -447,5 +448,28 @@ void ActionHandler::removeDuplicates()
 	cout << "Enter table name: ";
 	cin >> tablename;
 	parser.evaluateStatement("temp <- " + tablename + " + " + tablename);
+	parser.evaluateStatement("SHOW temp");
+}
+
+void ActionHandler::addToCart(){
+	string carID;
+	parser.evaluateStatement("SHOW cars");
+	cout << "Enter car ID of desired car: ";
+	cin >> carID;
+	parser.evaluateStatement("addedCar <- select (CarID == "+ carID +") cars");
+	parser.evaluateStatement("Cart <- Cart + addedCar");
+	parser.evaluateStatement("Cart <- Cart + Cart");
+	cout << "Car has been added to cart." << endl;
+}
+
+void ActionHandler::displayCart(){
+	parser.evaluateStatement("temp <- (Cart JOIN (rename (MakeID, Make) Make)) JOIN (rename (ModelID, Model) Model)");
+	parser.evaluateStatement("temp <- project (CarID, Make, Model, Mpg) temp");
+	parser.evaluateStatement("SHOW temp");
+}
+
+void ActionHandler::displayNotInCart(){
+	parser.evaluateStatement("temp <- ((cars - Cart) JOIN (rename (MakeID, Make) Make)) JOIN (rename (ModelID, Model) Model)");
+	parser.evaluateStatement("temp <- project (CarID, Make, Model, Mpg) temp");
 	parser.evaluateStatement("SHOW temp");
 }
