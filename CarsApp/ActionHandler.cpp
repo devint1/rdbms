@@ -281,7 +281,7 @@ void ActionHandler::addLocation()
 		cout << "Please input the new Location desired: " << endl;
 		cin >> location;
 
-		int i = 0;
+		size_t i = 0;
 		for (i; i < makeLocationData.size(); i++)			 //MIGHT NOT NEED FOR LOOP SINCE UPDATE MIGHT ALREADY DO IT!
 		{
 			if (makeID == makeLocationData[makeLocationTableMakeIDPos][i])
