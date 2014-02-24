@@ -23,6 +23,9 @@ public:
 	static void modifyUser();
 	static void deleteLocation();
 	static void findCars();
+	static void addToCart();
+	static void displayCart();
+	static void displayNotInCart();
 	static void ownerCombination();
 	static void findUsers();
 };
