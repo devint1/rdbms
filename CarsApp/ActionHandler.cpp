@@ -41,15 +41,17 @@ void ActionHandler::modifyCar()
 	string choiceStr;
 	string modifiedValue;
 
+	listAllCars();
+
 	cout << endl << "Car ID to modify: ";
-	getline(cin, carId);
+	cin >> carId;
 
 	cout << endl << "Select a value to modify:" << endl;
 	cout << "1) Make" << endl;
 	cout << "2) Model" << endl;
 	cout << "3) Mpg" << endl << endl;
 	cout << "Enter choice: ";
-	getline(cin, choiceStr);
+	cin >> choiceStr;
 
 	switch (stoi(choiceStr))
 	{
@@ -57,20 +59,20 @@ void ActionHandler::modifyCar()
 		cout << endl;
 		parser.evaluateStatement("SHOW Make");
 		cout << "Enter new ID: ";
-		getline(cin, modifiedValue);
+		cin >> modifiedValue;
 		parser.evaluateStatement("UPDATE cars SET (MakeID = " + modifiedValue + ") WHERE (CarID = " + carId + ")");
 		break;
 	case 2:
 		cout << endl;
 		parser.evaluateStatement("SHOW Model");
 		cout << "Enter new ID: ";
-		getline(cin, modifiedValue);
+		cin >> modifiedValue;
 		parser.evaluateStatement("UPDATE cars SET (ModelID = " + modifiedValue + ") WHERE (CarID = " + carId + ")");
 		break;
 	case 3:
 		cout << endl;
 		cout << "Enter new value: ";
-		getline(cin, modifiedValue);
+		cin >> modifiedValue;
 		parser.evaluateStatement("UPDATE cars SET (Mpg = " + modifiedValue + ") WHERE (CarID = " + carId + ")");
 		break;
 	default:
@@ -84,7 +86,6 @@ void ActionHandler::modifyUser()
 	string userID;
 	string choice;
 	string newinput;
-	parser.evaluateStatement("SHOW User");
 	cout << "Enter user ID: ";
 	cin >> userID;
 	cout << endl << "Select a value to modify:" << endl;
@@ -126,11 +127,12 @@ void ActionHandler::modifyUser()
 
 void ActionHandler::deleteCar()
 {
+	listAllCars();
 	string carId;
 
 	cout << endl << "Enter car ID to delete: ";
-	getline(cin, carId);
-	parser.evaluateStatement("DELETE FROM cars WHERE CarID = " + carId + "");
+	cin >> carId;
+	parser.evaluateStatement("DELETE FROM cars WHERE CarID = " + carId);
 }
 
 void ActionHandler::listAllCars()
@@ -325,12 +327,15 @@ void ActionHandler::deleteLocation()
 	int makeTableMakeIDPos;
 	int makeLocationTableLocPos;
 	int makeLocationTableMakeIDPos;
-	string makeID;
+	string makeID = "NoMakeFound";
 	vector< vector<string> >makeData;
 	vector< vector<string> >makeLocationData;
 
-	cout << "Please input the Make of the car you want to delete the location for: " << endl;
+	listLocations();
+
+	cout << "Please input the Make of the car you want to delete the location for: ";
 	cin >> make;
+
 
 	makeTableNamePos = db.findTable("Make").findAttributebyName("Name");
 	makeTableMakeIDPos = db.findTable("Make").findAttributebyName("MakeID");
@@ -340,27 +345,19 @@ void ActionHandler::deleteLocation()
 	makeData = db.findTable("Make").getTableData();
 	makeLocationData = db.findTable("MakeLocation").getTableData();
 
-	for (size_t i = 0; i < makeData.size(); i++)
-	{
-		if (makeData[makeTableNamePos][i] == make)
-		{
-			makeID = makeData[makeTableMakeIDPos][i];
-		}
-		else
-		{
-			makeID = "NoMakeFound";
+	for (size_t i = 0; i < makeData.size(); i++){
+		if (toLower(makeData[i][1]) == toLower(make)){
+			makeID = makeData[i][0];
+			break;
 		}
 	}
 
 	if (makeID == "NoMakeFound")
-	{
 		cout << "No such make was found!" << endl;
-	}
 	else
-	{
-		parser.evaluateStatement("DELETE FROM MakeLocation WHERE MakeID == " + makeID);	// is it where "==" or "=" ..... Does it delete the whole row or it deletes the make ID and I should instead put where Location = location?
+		parser.evaluateStatement("DELETE FROM MakeLocation WHERE MakeID == " + makeID);	
 
-	}
+	cout << make + " Removed from MakeLocation table" << endl;
 }
 
 void ActionHandler::findCars()
