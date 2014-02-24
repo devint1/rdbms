@@ -398,3 +398,43 @@ void ActionHandler::findCars()
 	}
 
 }
+
+void ActionHandler::findUsers()
+{
+	string choiceStr;
+	string conditionValue;
+
+	cout << endl << "Select a value to modify:" << endl;
+	cout << "1) Username" << endl;
+	cout << "2) First Name" << endl;
+	cout << "3) Last Name" << endl;
+	cout << "4) Email" << endl;
+	cout << "Enter choice: ";
+	getline(cin, choiceStr);
+
+	switch (stoi(choiceStr))
+	{
+		case 1:
+			cout << "Enter username to find: ";
+			getline(cin, conditionValue);
+			parser.evaluateStatement("temp <- select (Username == " + conditionValue + ") User");
+			break;
+		case 2:
+			cout << "Enter first name to find: ";
+			getline(cin, conditionValue);
+			parser.evaluateStatement("temp <- select (Firstname == " + conditionValue + ") User");
+			break;
+		case 3:
+			cout << "Enter last name to find: ";
+			getline(cin, conditionValue);
+			parser.evaluateStatement("temp <- select (Lastname == " + conditionValue + ") User");
+			break;
+		case 4:
+			cout << "Enter email to find: ";
+			getline(cin, conditionValue);
+			parser.evaluateStatement("temp <- select (email == " + conditionValue + ") User");
+			break;
+		default:
+			return;
+	}
+}

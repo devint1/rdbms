@@ -22,6 +22,7 @@ public:
 	static void modifyUser();
 	static void deleteLocation();
 	static void findCars();
+	static void findUsers();
 };
 
 
