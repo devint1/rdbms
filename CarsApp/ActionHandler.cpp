@@ -398,3 +398,11 @@ void ActionHandler::findCars()
 	}
 
 }
+
+void ActionHandler::ownerCombination()
+{
+	parser.evaluateStatement("temp1 <- project (Username) Users");
+	parser.evaluateStatement("temp2 <- (project (Name) Model) JOIN temp1");
+	parser.evaluateStatement("SHOW temp2");
+
+}

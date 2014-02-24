@@ -84,6 +84,7 @@ void MenuHandler::executeOption(int option)
 	case 17:
 		break;
 	case 18:
+		ActionHandler::ownerCombination();
 		break;
 	case 19:
 		break;
