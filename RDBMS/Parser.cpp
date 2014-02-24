@@ -122,7 +122,7 @@ void Parser::executeInsert(vector<string> tokens)
 
 void Parser::executeDelete(vector<string> tokens)
 {
-	if (tokens[0] != "FROM" || tokens[2] != "WHERE" || tokens[4] != "=")
+	if (tokens[0] != "FROM" || tokens[2] != "WHERE" || !(tokens[4] == "=" || tokens[4] == "=="))
 		cerr << "ERROR: Incorrect Input" << endl;
 	string tablename = tokens[1];
 	string attributename = tokens[3];

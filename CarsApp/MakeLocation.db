@@ -1,2 +1,9 @@
 LocationID int	MakeID int	Location varchar(255)
-1				500			College_Station
+1				501			USA				
+2				502			Japan			
+3				503			Germany							
+4				504			South_Korea							
+5				500			Japan											
+7				505			Japan							
+8				506			Italy			
+9				507			Italy				

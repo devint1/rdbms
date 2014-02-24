@@ -1,15 +1,36 @@
 #include "ActionHandler.h"
 #include <iostream>
+#include <algorithm>
 
 using namespace std;
 
 Parser ActionHandler::parser;
 
+
+// ----------------------Helper Functions-----------------------
+bool isNumber(const string s)
+{
+	for (size_t i = 0; i < s.size(); i++){
+		if (!isdigit(s[i]))
+			return false;
+	}
+	return true;
+}
+
+string toLower(const string s){
+	string data = s;
+	transform(data.begin(), data.end(), data.begin(), ::tolower);
+	return data;
+}
+
+
+// ------------------Action Handler Functions------------------
 void ActionHandler::init()
 {
 	parser.evaluateStatement("OPEN cars");
 	parser.evaluateStatement("OPEN Make");
 	parser.evaluateStatement("OPEN Model");
+	parser.evaluateStatement("OPEN User");
 	parser.evaluateStatement("OPEN MakeLocation");
 }
 
@@ -139,6 +160,63 @@ void ActionHandler::startInterpreter()
 	}
 }
 
+void ActionHandler::addCar(){
+	Database db = parser.getDb();
+	vector< vector<string> > carData = db.findTable("cars").getTableData();
+	vector< vector<string> > modelData = db.findTable("Model").getTableData();
+	vector< vector<string> > makeData = db.findTable("Make").getTableData();
+
+	int carID1 = stoi(carData[carData.size() - 1][0]) + 1;
+	string carID = to_string(carID1);
+	string MakeID, MakeName, ModelID, ModelName, Mpg;
+	MakeID = "-1";
+	ModelID = "-1";
+
+	cout << "Enter car Make: ";
+	cin >> MakeName;
+	
+	Table makes = db.findTable("Make");
+	for (size_t i = 0; i < makes.getTableData().size(); i++){
+		if (toLower(makes.getTableData()[i][1]) == toLower(MakeName)){
+			MakeID = makes.getTableData()[i][0];
+			break;
+		}
+	}
+	if (MakeID == "-1"){
+		int makeID1 = stoi(makeData[makeData.size() - 1][0]) + 1;
+		MakeID = to_string(makeID1);
+		parser.evaluateStatement("INSERT INTO Make VALUES FROM (" + MakeID + ", " + MakeName + ")");
+	}
+
+	cout << "Enter car Model: ";
+	cin >> ModelName;
+
+	Table models = db.findTable("Model");
+	for (size_t i = 0; i < models.getTableData().size(); i++){
+		if (toLower(models.getTableData()[i][1]) == toLower(ModelName)){
+			ModelID = models.getTableData()[i][0];
+			break;
+		}
+	}
+
+	if (ModelID == "-1"){
+		int modelID1 = stoi(modelData[modelData.size() - 1][0]) + 1;
+		ModelID = to_string(modelID1);
+		parser.evaluateStatement("INSERT INTO Model VALUES FROM (" + ModelID + ", " + ModelName + ")");
+	}
+
+	cout << "Enter car Mpg: ";
+	cin >> Mpg;
+	
+	if (!isNumber(Mpg)){
+		throw exception("Invalid Mpg (non-numeric)");
+		return;
+	}
+	
+	parser.evaluateStatement("INSERT INTO cars VALUES FROM (" + carID + ", " + MakeID + ", " + ModelID + ", " + Mpg + ")");
+	cout << "Make: " + MakeName + "   Model: " + ModelName + " Added to database." << endl;
+}
+
 void ActionHandler::modifyCarLocation()
 {
 	string locID;
@@ -156,4 +234,65 @@ void ActionHandler::listAllCarLocations()
 	parser.evaluateStatement("temp1 <- project (Location) MakeLocation");
 	parser.evaluateStatement("temp2 <- (project (Name) Make) JOIN temp1");
 	parser.evaluateStatement("SHOW temp2");
+}
+
+void ActionHandler::addLocation()
+{
+	Database db = parser.getDb();
+	string make;
+	int	makeTableNamePos;
+	int makeTableMakeIDPos;
+	string makeID;
+	vector< vector<string> >makeData;
+
+	cout << "Please input the Make of the car you want to change a location for: " << endl;
+	cin >> make;
+
+	makeTableNamePos = db.findTable("Make").findAttributebyName("Name");
+	makeTableMakeIDPos = db.findTable("Make").findAttributebyName("MakeID");
+
+	makeData = db.findTable("Make").getTableData();
+
+	for (size_t i = 0; i < makeData.size(); i++)
+	{
+		if (makeData[makeTableNamePos][i] == make)
+		{
+			makeID = makeData[makeTableMakeIDPos][i];
+		}
+		else
+		{
+			makeID = "NoMakeFound";
+		}
+	}
+
+	if (makeID == "NoMakeFound")
+	{
+		cout << "No such make was found!" << endl;
+	}
+	else
+	{
+		//Check if make Id is in MakeLocation.db, if so, just modify the location, if not, add it completely.
+		//parser.evaluateStatement("INSERT ");
+	}
+
+
+}
+
+void ActionHandler::showUsers(){
+	parser.evaluateStatement("SHOW User");
+}
+
+void ActionHandler::deleteUser(){
+	Database db = parser.getDb();
+	string username = "-1";
+	cout << "Enter Username to be deleted: ";
+	cin >> username;
+
+	parser.evaluateStatement("DELETE FROM User WHERE Username == " + username);
+}
+
+void ActionHandler::listAllCarLocations(){
+	parser.evaluateStatement("temp <- (cars JOIN (rename (MakeID, Make) Make)) JOIN (rename (ModelID, Model) Model)");
+	parser.evaluateStatement("temp <- project (CarID, Make, Model, Mpg, Location) (temp JOIN MakeLocation)");
+	parser.evaluateStatement("SHOW temp");
 }

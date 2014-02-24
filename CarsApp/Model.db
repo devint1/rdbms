@@ -6,7 +6,7 @@ ModelID int		Name varchar(255)
 1004			Rx8
 1005			Elantra
 1006			Camry
-1007			corolla
+1007			Corolla
 1008			Escape
 1005			Elantra
 1009			Civic

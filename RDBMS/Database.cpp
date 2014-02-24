@@ -49,11 +49,18 @@ void Database::closeTable(string tablename)
 
 void Database::deleteFromTable(string name, string attributeName, string dataName)
 {
+	bool found = false;
 	for (int i = 0; i<(int)tables.size(); i++)
 	{
-		if (tables[i].getName() == name)
+		if (tables[i].getName() == name){
 			tables[i].deleteFromTable(attributeName, dataName);
+			found = true;
+		}
 	}
+
+	if (!found)
+		cout << "Error: " + dataName + " not found in table." << endl;
+
 }
 
 void Database::writeTable(string tablename)

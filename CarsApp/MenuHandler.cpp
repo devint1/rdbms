@@ -6,7 +6,7 @@ using namespace std;
 void MenuHandler::printMenu()
 {
 	//Car operations	
-	cout << "1)  Add car" << endl;						 //Mig
+	cout << "1)  Add car" << endl;						 //Miguel
 	cout << "2)  Add car location" << endl;				 //Sergio
 	cout << "3)  Modify car" << endl;					 //Devin
 	cout << "4)  Modify car location" << endl;			 //Corey
@@ -14,7 +14,7 @@ void MenuHandler::printMenu()
 	cout << "6)  Delete car location" << endl;			 //Sergio
 	cout << "7)  List all cars" << endl;				 //Devin
 	cout << "8)  List all car locations" << endl;		 //Corey
-	cout << "9)  List all cars with locations" << endl;  //Mig
+	cout << "9)  List all cars with locations" << endl;  //Miguel
 	cout << "10) Find cars" << endl;
 
 	//User operations
@@ -27,7 +27,7 @@ void MenuHandler::printMenu()
 	//Utilities
 	cout << "16) Remove duplicates" << endl;			 //Corey
 	cout << "17) Display duplicates" << endl;            //Miguel
-	cout << "18) Display all ownership combonations" << endl;	 //Sergio
+	cout << "18) Display all ownership combinations" << endl;	 //Sergio
 	cout << "19) Exit program" << endl;					 //Devin
 	cout << endl;
 }
@@ -38,6 +38,7 @@ void MenuHandler::executeOption(int option)
 	switch (option)
 	{
 	case 1:
+		ActionHandler::addCar();
 		break;
 	case 2:
 		break;
@@ -68,8 +69,10 @@ void MenuHandler::executeOption(int option)
 		ActionHandler::modifyUser();
 		break;
 	case 13:
+		ActionHandler::deleteUser();
 		break;
 	case 14:
+		ActionHandler::showUsers();
 		break;
 	case 15:
 		break;
