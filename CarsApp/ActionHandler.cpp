@@ -98,22 +98,22 @@ void ActionHandler::modifyUser()
 	case 1:
 		cout << "Enter new Username: ";
 		cin >> newinput;
-		parser.evaluateStatement("UPDATE User SET (Username = " + newinput + ") WHERE (UserID = " + userID + ")");
+		parser.evaluateStatement("UPDATE User SET (Username = " + newinput + ") WHERE (UserId = " + userID + ")");
 		break;
 	case 2:
 		cout << "Enter new Firstname: ";
 		cin >> newinput;
-		parser.evaluateStatement("UPDATE User SET (Firstname = " + newinput + ") WHERE (UserID = " + userID + ")");
+		parser.evaluateStatement("UPDATE User SET (Firstname = " + newinput + ") WHERE (UserId = " + userID + ")");
 		break;
 	case 3:
 		cout << "Enter new Lastname: ";
 		cin >> newinput;
-		parser.evaluateStatement("UPDATE User SET (Lastname = " + newinput + ") WHERE (UserID = " + userID + ")");
+		parser.evaluateStatement("UPDATE User SET (Lastname = " + newinput + ") WHERE (UserId = " + userID + ")");
 		break;
 	case 4:
 		cout << "Enter new Email: ";
 		cin >> newinput;
-		parser.evaluateStatement("UPDATE User SET (Email = " + newinput + ") WHERE (UserID = " + userID + ")");
+		parser.evaluateStatement("UPDATE User SET (email = " + newinput + ") WHERE (UserId = " + userID + ")");
 		break;
 	default:
 		cerr << "ERROR: Invalid option." << endl;
