@@ -470,3 +470,22 @@ void ActionHandler::displayNotInCart(){
 	parser.evaluateStatement("temp <- project (CarID, Make, Model, Mpg) temp");
 	parser.evaluateStatement("SHOW temp");
 }
+
+void ActionHandler::exit()
+{
+	string yesNo;
+	cout << "Would you like to save your changes? (Y/N): ";
+	getline(cin, yesNo);
+	getline(cin, yesNo);
+
+	if (yesNo == "y" || yesNo == "Y")
+	{
+		parser.evaluateStatement("WRITE cars");
+		parser.evaluateStatement("WRITE Make");
+		parser.evaluateStatement("WRITE Model");
+		parser.evaluateStatement("WRITE User");
+		parser.evaluateStatement("WRITE Cart");
+		parser.evaluateStatement("WRITE MakeLocation");
+	}
+	_exit(0);
+}

@@ -28,6 +28,7 @@ public:
 	static void displayNotInCart();
 	static void ownerCombination();
 	static void findUsers();
+	static void exit();
 };
 
 

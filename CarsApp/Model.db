@@ -1,15 +1,15 @@
-ModelID int		Name varchar(255)
-1000			Rav4
-1001			F-150
-1002			Protege
-1003			R8
-1004			Rx8
-1005			Elantra
-1006			Camry
-1007			Corolla
-1008			Escape
-1005			Elantra
-1009			Civic
-1010			Element
-1011			Entre
-1012			Galardo
+ModelID int	Name varchar(255)	
+1000	Rav4	
+1001	F-150	
+1002	Protege	
+1003	R8	
+1004	Rx8	
+1005	Elantra	
+1006	Camry	
+1007	Corolla	
+1008	Escape	
+1005	Elantra	
+1009	Civic	
+1010	Element	
+1011	Entre	
+1012	Galardo	

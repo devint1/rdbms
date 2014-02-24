@@ -100,7 +100,7 @@ void MenuHandler::executeOption(int option)
 		ActionHandler::displayNotInCart();
 		break;
 	case 21:
-		exit(0);
+		ActionHandler::exit();
 		break;
 	case 22:
 		ActionHandler::startInterpreter();
