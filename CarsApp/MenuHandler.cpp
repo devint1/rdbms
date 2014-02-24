@@ -25,10 +25,11 @@ void MenuHandler::printMenu()
 	cout << "15) Find users" << endl;					 //Devin
 
 	//Utilities
-	cout << "16) Remove duplicates" << endl;			 //Corey
-	cout << "17) Display duplicates" << endl;            //Miguel
-	cout << "18) Display all ownership combinations" << endl;	 //Sergio
-	cout << "19) Exit program" << endl;					 //Devin
+	cout << "16) Remove duplicates" << endl;			       //Corey
+	cout << "17) Add car to shopping cart" << endl;            //Miguel
+	cout << "18) Display all ownership combinations" << endl;  //Sergio
+	cout << "17) Display cars not in Shopping cart" << endl;   //Miguel
+	cout << "19) Exit program" << endl;					       //Devin
 	cout << endl;
 }
 
