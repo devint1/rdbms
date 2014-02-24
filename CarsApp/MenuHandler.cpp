@@ -68,6 +68,7 @@ void MenuHandler::executeOption(int option)
 	case 11:
 		break;
 	case 12:
+		ActionHandler::modifyUser();
 		break;
 	case 13:
 		ActionHandler::deleteUser();
