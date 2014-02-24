@@ -188,18 +188,25 @@ void ActionHandler::addLocation()
 {
 	Database db = parser.getDb();
 	string make;
+	string location;
 	int	makeTableNamePos;
 	int makeTableMakeIDPos;
+	int makeLocationTableLocPos;
+	int makeLocationTableMakeIDPos;
 	string makeID;
 	vector< vector<string> >makeData;
+	vector< vector<string> >makeLocationData;
 
 	cout << "Please input the Make of the car you want to change a location for: " << endl;
 	cin >> make;
 
 	makeTableNamePos = db.findTable("Make").findAttributebyName("Name");
 	makeTableMakeIDPos = db.findTable("Make").findAttributebyName("MakeID");
+	makeLocationTableLocPos = db.findTable("MakeLocation").findAttributebyName("Location");
+	makeLocationTableMakeIDPos = db.findTable("MakeLocation").findAttributebyName("MakeID");
 
 	makeData = db.findTable("Make").getTableData();
+	makeLocationData = db.findTable("MakeLocation").getTableData();
 
 	for (size_t i = 0; i < makeData.size(); i++)
 	{
@@ -219,8 +226,19 @@ void ActionHandler::addLocation()
 	}
 	else
 	{
-		//Check if make Id is in MakeLocation.db, if so, just modify the location, if not, add it completely.
-		//parser.evaluateStatement("INSERT ");
+		cout << "Please input the new Location desired: " << endl;
+		cin >> location;
+
+		int i = 0;
+		for (i; i < makeLocationData.size(); i++)			 //MIGHT NOT NEED FOR LOOP SINCE UPDATE MIGHT ALREADY DO IT!
+		{
+			if (makeID == makeLocationData[makeLocationTableMakeIDPos][i])
+			{
+				//if MakeID is in location file, update location with update command in parser?
+			}
+		}
+		
+		//if make id is not in location file but it is in makeid file, create a location and a location id for that make with update?
 	}
 
 
@@ -243,4 +261,51 @@ void ActionHandler::listAllCarLocations(){
 	parser.evaluateStatement("temp <- (cars JOIN (rename (MakeID, Make) Make)) JOIN (rename (ModelID, Model) Model)");
 	parser.evaluateStatement("temp <- project (CarID, Make, Model, Mpg, Location) (temp JOIN MakeLocation)");
 	parser.evaluateStatement("SHOW temp");
+}
+
+void ActionHandler::deleteLocation()
+{
+	Database db = parser.getDb();
+	string make;
+
+	int	makeTableNamePos;
+	int makeTableMakeIDPos;
+	int makeLocationTableLocPos;
+	int makeLocationTableMakeIDPos;
+	string makeID;
+	vector< vector<string> >makeData;
+	vector< vector<string> >makeLocationData;
+
+	cout << "Please input the Make of the car you want to delete the location for: " << endl;
+	cin >> make;
+
+	makeTableNamePos = db.findTable("Make").findAttributebyName("Name");
+	makeTableMakeIDPos = db.findTable("Make").findAttributebyName("MakeID");
+	makeLocationTableLocPos = db.findTable("MakeLocation").findAttributebyName("Location");
+	makeLocationTableMakeIDPos = db.findTable("MakeLocation").findAttributebyName("MakeID");
+
+	makeData = db.findTable("Make").getTableData();
+	makeLocationData = db.findTable("MakeLocation").getTableData();
+
+	for (size_t i = 0; i < makeData.size(); i++)
+	{
+		if (makeData[makeTableNamePos][i] == make)
+		{
+			makeID = makeData[makeTableMakeIDPos][i];
+		}
+		else
+		{
+			makeID = "NoMakeFound";
+		}
+	}
+
+	if (makeID == "NoMakeFound")
+	{
+		cout << "No such make was found!" << endl;
+	}
+	else
+	{
+		parser.evaluateStatement("DELETE FROM MakeLocation WHERE MakeID == " + makeID);	// is it where "==" or "=" ..... Does it delete the whole row or it deletes the make ID and I should instead put where Location = location?
+
+	}
 }

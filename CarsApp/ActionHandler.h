@@ -18,6 +18,7 @@ public:
 	static void addCar();
 	static void modifyCarLocation();
 	static void addLocation();
+	static void deleteLocation();
 };
 
 

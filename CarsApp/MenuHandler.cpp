@@ -41,6 +41,7 @@ void MenuHandler::executeOption(int option)
 		ActionHandler::addCar();
 		break;
 	case 2:
+		ActionHandler::addLocation();
 		break;
 	case 3:
 		ActionHandler::modifyCar();
@@ -52,6 +53,7 @@ void MenuHandler::executeOption(int option)
 		ActionHandler::deleteCar();
 		break;
 	case 6:
+		ActionHandler::deleteLocation();
 		break;
 	case 7:
 		ActionHandler::listAllCars();
