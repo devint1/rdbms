@@ -15,7 +15,7 @@ void MenuHandler::printMenu()
 	cout << "7)  List all cars" << endl;				 //Devin
 	cout << "8)  List all car locations" << endl;		 //Corey
 	cout << "9)  List all cars with locations" << endl;  //Miguel
-	cout << "10) Find cars" << endl;
+	cout << "10) Find cars" << endl;					 //Sergio
 
 	//User operations
 	cout << "11) Add user" << endl;						 //Devin
@@ -64,6 +64,7 @@ void MenuHandler::executeOption(int option)
 	case 9:
 		break;
 	case 10:
+		ActionHandler::findCars();
 		break;
 	case 11:
 		break;

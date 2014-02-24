@@ -361,3 +361,40 @@ void ActionHandler::deleteLocation()
 
 	}
 }
+
+void ActionHandler::findCars()
+{
+	int makeOrModel;
+	string model;
+	string make;
+
+	cout << "Do you want to find a car by model or make?" << endl;
+	cout << "Please input 1 to find a car by model and 2 to find a cars of a given make" << endl;
+
+	cin >> makeOrModel;
+
+	if (makeOrModel == 1)
+	{
+		cout << "Please input the model of the car you want to be shown: ";
+		cin >> model;
+
+
+		parser.evaluateStatement("sel <- select (Name == " + model + ") Model");
+		//parser.evaluateStatement("sel2 <- select ( ==")
+		parser.evaluateStatement("SHOW sel");
+	}
+	if (makeOrModel == 2)
+	{
+		cout << "Please input the make of the cars you want to be shown: ";
+		cin >> make;
+
+		parser.evaluateStatement("sel <- select (Name == " + make + ") Make");
+		parser.evaluateStatement("SHOW sel");
+		
+	}
+	else
+	{
+		cout << "Incorrect Input";
+	}
+
+}
