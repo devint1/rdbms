@@ -83,6 +83,7 @@ void MenuHandler::executeOption(int option)
 		ActionHandler::findUsers();
 		break;
 	case 16:
+		ActionHandler::removeDuplicates();
 		break;
 	case 17:
 		break;

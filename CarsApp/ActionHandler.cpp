@@ -440,3 +440,12 @@ void ActionHandler::findUsers()
 	}
 	parser.evaluateStatement("SHOW temp");
 }
+
+void ActionHandler::removeDuplicates()
+{
+	string tablename;
+	cout << "Enter table name: ";
+	cin >> tablename;
+	parser.evaluateStatement("temp <- " + tablename + " + " + tablename);
+	parser.evaluateStatement("SHOW temp");
+}
