@@ -229,11 +229,11 @@ void ActionHandler::modifyCarLocation()
 
 }
 
-void ActionHandler::listAllCarLocations()
+void ActionHandler::listLocations()
 {
-	parser.evaluateStatement("temp1 <- project (Location) MakeLocation");
-	parser.evaluateStatement("temp2 <- (project (Name) Make) JOIN temp1");
-	parser.evaluateStatement("SHOW temp2");
+	parser.evaluateStatement("temp <- MakeLocation JOIN (rename (MakeID, Make) Make)");
+	parser.evaluateStatement("temp <- project (Make, Location) temp");
+	parser.evaluateStatement("SHOW temp");
 }
 
 void ActionHandler::addLocation()
