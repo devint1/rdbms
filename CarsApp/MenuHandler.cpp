@@ -60,7 +60,7 @@ void MenuHandler::executeOption(int option)
 		ActionHandler::listAllCars();
 		break;
 	case 8:
-		ActionHandler::listLocations();
+		//ActionHandler::listLocations();
 		break;
 	case 9:
 		ActionHandler::listAllCarLocations();
@@ -69,6 +69,7 @@ void MenuHandler::executeOption(int option)
 		ActionHandler::findCars();
 		break;
 	case 11:
+		ActionHandler::addCar();
 		break;
 	case 12:
 		ActionHandler::modifyUser();
@@ -80,15 +81,18 @@ void MenuHandler::executeOption(int option)
 		ActionHandler::showUsers();
 		break;
 	case 15:
+		ActionHandler::findUsers();
 		break;
 	case 16:
+		ActionHandler::removeDuplicates();
 		break;
 	case 17:
 		break;
 	case 18:
-		ActionHandler::ownerCombination();
+		//ActionHandler::ownerCombination();
 		break;
 	case 19:
+		exit(0);
 		break;
 	case 20:
 		ActionHandler::startInterpreter();

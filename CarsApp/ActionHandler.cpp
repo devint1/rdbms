@@ -98,22 +98,22 @@ void ActionHandler::modifyUser()
 	case 1:
 		cout << "Enter new Username: ";
 		cin >> newinput;
-		parser.evaluateStatement("UPDATE User SET (Username = " + newinput + ") WHERE (UserID = " + userID + ")");
+		parser.evaluateStatement("UPDATE User SET (Username = " + newinput + ") WHERE (UserId = " + userID + ")");
 		break;
 	case 2:
 		cout << "Enter new Firstname: ";
 		cin >> newinput;
-		parser.evaluateStatement("UPDATE User SET (Firstname = " + newinput + ") WHERE (UserID = " + userID + ")");
+		parser.evaluateStatement("UPDATE User SET (Firstname = " + newinput + ") WHERE (UserId = " + userID + ")");
 		break;
 	case 3:
 		cout << "Enter new Lastname: ";
 		cin >> newinput;
-		parser.evaluateStatement("UPDATE User SET (Lastname = " + newinput + ") WHERE (UserID = " + userID + ")");
+		parser.evaluateStatement("UPDATE User SET (Lastname = " + newinput + ") WHERE (UserId = " + userID + ")");
 		break;
 	case 4:
 		cout << "Enter new Email: ";
 		cin >> newinput;
-		parser.evaluateStatement("UPDATE User SET (Email = " + newinput + ") WHERE (UserID = " + userID + ")");
+		parser.evaluateStatement("UPDATE User SET (email = " + newinput + ") WHERE (UserId = " + userID + ")");
 		break;
 	default:
 		cerr << "ERROR: Invalid option." << endl;
@@ -399,10 +399,53 @@ void ActionHandler::findCars()
 
 }
 
-void ActionHandler::ownerCombination()
+void ActionHandler::findUsers()
 {
-	parser.evaluateStatement("temp1 <- project (Username) Users");
-	parser.evaluateStatement("temp2 <- (project (Name) Model) JOIN temp1");
-	parser.evaluateStatement("SHOW temp2");
+	string choiceStr;
+	string conditionValue;
 
+	cout << endl << "Select a value to search by:" << endl;
+	cout << "1) Username" << endl;
+	cout << "2) First Name" << endl;
+	cout << "3) Last Name" << endl;
+	cout << "4) Email" << endl;
+	cout << "Enter choice: ";
+	getline(cin, choiceStr);
+	getline(cin, choiceStr);
+
+	switch (stoi(choiceStr))
+	{
+		case 1:
+			cout << "Enter username to find: ";
+			getline(cin, conditionValue);
+			parser.evaluateStatement("temp <- select (Username == " + conditionValue + ") User");
+			break;
+		case 2:
+			cout << "Enter first name to find: ";
+			getline(cin, conditionValue);
+			parser.evaluateStatement("temp <- select (Firstname == " + conditionValue + ") User");
+			break;
+		case 3:
+			cout << "Enter last name to find: ";
+			getline(cin, conditionValue);
+			parser.evaluateStatement("temp <- select (Lastname == " + conditionValue + ") User");
+			break;
+		case 4:
+			cout << "Enter email to find: ";
+			getline(cin, conditionValue);
+			parser.evaluateStatement("temp <- select (email == " + conditionValue + ") User");
+			break;
+		default:
+			throw exception("Unknown option");
+	}
+	parser.evaluateStatement("SHOW temp");
+}
+
+void ActionHandler::removeDuplicates()
+{
+	string tablename;
+	cout << "Enter table name: ";
+	cin >> tablename;
+	parser.evaluateStatement("temp <- " + tablename + " + " + tablename);
+	parser.evaluateStatement("SHOW temp");
 }
