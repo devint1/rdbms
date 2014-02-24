@@ -229,11 +229,11 @@ void ActionHandler::modifyCarLocation()
 
 }
 
-void ActionHandler::listAllCarLocations()
+void ActionHandler::listLocations()
 {
-	parser.evaluateStatement("temp1 <- project (Location) MakeLocation");
-	parser.evaluateStatement("temp2 <- (project (Name) Make) JOIN temp1");
-	parser.evaluateStatement("SHOW temp2");
+	parser.evaluateStatement("temp <- MakeLocation JOIN (rename (MakeID, Make) Make)");
+	parser.evaluateStatement("temp <- project (Make, Location) temp");
+	parser.evaluateStatement("SHOW temp");
 }
 
 void ActionHandler::addLocation()
@@ -404,12 +404,13 @@ void ActionHandler::findUsers()
 	string choiceStr;
 	string conditionValue;
 
-	cout << endl << "Select a value to modify:" << endl;
+	cout << endl << "Select a value to search by:" << endl;
 	cout << "1) Username" << endl;
 	cout << "2) First Name" << endl;
 	cout << "3) Last Name" << endl;
 	cout << "4) Email" << endl;
 	cout << "Enter choice: ";
+	getline(cin, choiceStr);
 	getline(cin, choiceStr);
 
 	switch (stoi(choiceStr))
@@ -435,6 +436,7 @@ void ActionHandler::findUsers()
 			parser.evaluateStatement("temp <- select (email == " + conditionValue + ") User");
 			break;
 		default:
-			return;
+			throw exception("Unknown option");
 	}
+	parser.evaluateStatement("SHOW temp");
 }

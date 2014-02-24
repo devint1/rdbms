@@ -59,9 +59,10 @@ void MenuHandler::executeOption(int option)
 		ActionHandler::listAllCars();
 		break;
 	case 8:
-		ActionHandler::listAllCarLocations();
+		//ActionHandler::listLocations();
 		break;
 	case 9:
+		ActionHandler::listAllCarLocations();
 		break;
 	case 10:
 		ActionHandler::findCars();
@@ -86,8 +87,10 @@ void MenuHandler::executeOption(int option)
 	case 17:
 		break;
 	case 18:
+		//ActionHandler::ownerCombination();
 		break;
 	case 19:
+		exit(0);
 		break;
 	case 20:
 		ActionHandler::startInterpreter();
