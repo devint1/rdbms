@@ -122,8 +122,8 @@ void ActionHandler::addCar(){
 	int carID1 = stoi(carData[carData.size() - 1][0]) + 1;
 	string carID = to_string(carID1);
 	string MakeID, MakeName, ModelID, ModelName, Mpg;
-	MakeID = "0";
-	ModelID = "0";
+	MakeID = "-1";
+	ModelID = "-1";
 
 	cout << "Enter car Make: ";
 	cin >> MakeName;
@@ -135,7 +135,7 @@ void ActionHandler::addCar(){
 			break;
 		}
 	}
-	if (MakeID == "0"){
+	if (MakeID == "-1"){
 		int makeID1 = stoi(makeData[makeData.size() - 1][0]) + 1;
 		MakeID = to_string(makeID1);
 		parser.evaluateStatement("INSERT INTO Make VALUES FROM (" + MakeID + ", " + MakeName + ")");
@@ -152,7 +152,7 @@ void ActionHandler::addCar(){
 		}
 	}
 
-	if (ModelID == "0"){
+	if (ModelID == "-1"){
 		int modelID1 = stoi(modelData[modelData.size() - 1][0]) + 1;
 		ModelID = to_string(modelID1);
 		parser.evaluateStatement("INSERT INTO Model VALUES FROM (" + ModelID + ", " + ModelName + ")");
@@ -222,4 +222,10 @@ void ActionHandler::addLocation()
 	}
 
 
+}
+
+void ActionHandler::listAllCarLocations(){
+	parser.evaluateStatement("temp <- (cars JOIN (rename (MakeID, Make) Make)) JOIN (rename (ModelID, Model) Model)");
+	parser.evaluateStatement("temp <- project (CarID, Make, Model, Mpg, Location) (temp JOIN MakeLocation)");
+	parser.evaluateStatement("SHOW temp");
 }

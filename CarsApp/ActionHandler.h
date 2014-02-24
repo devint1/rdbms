@@ -11,6 +11,7 @@ public:
 	static void modifyCar();
 	static void deleteCar();
 	static void listAllCars();
+	static void listAllCarLocations();
 	static void startInterpreter();
 	static void addCar();
 	static void modifyCarLocation();
