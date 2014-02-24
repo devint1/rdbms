@@ -27,7 +27,7 @@ void MenuHandler::printMenu()
 	//Utilities
 	cout << "16) Remove duplicates" << endl;			 //Corey
 	cout << "17) Display duplicates" << endl;            //Miguel
-	cout << "18) Display all ownership combonations" << endl;	 //Sergio
+	cout << "18) Display all ownership combinations" << endl;	 //Sergio
 	cout << "19) Exit program" << endl;					 //Devin
 	cout << endl;
 }
@@ -68,8 +68,10 @@ void MenuHandler::executeOption(int option)
 	case 12:
 		break;
 	case 13:
+		ActionHandler::deleteUser();
 		break;
 	case 14:
+		ActionHandler::showUsers();
 		break;
 	case 15:
 		break;

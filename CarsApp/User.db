@@ -1,1 +1,4 @@
 UserId int	Username varchar(255)	Firstname varchar(255)	Lastname varchar(255)	email varchar(255)
+0			Clement360				Miguel					Clement					miguelfclement@gmail.com
+1			OneWhoKnocks			Walter					White					heisenburg@yahoo.com
+2			CaptainCook				Jesse					Pinkman					chilip@hotmail.com

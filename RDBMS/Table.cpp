@@ -189,15 +189,13 @@ void Table::changeAttributeName(string attributeName, string newAttributeName)
 
 void Table::deleteFromTable(string attributeName, string dataName)
 {
-	int attributeIndex;
-	for (int i = 0; i<(int)tableAttributes.size(); i++)
-	{
-		if (tableAttributes[i].getName() == attributeName) 
-		{
-			attributeIndex = i;
-			break;
-		}
+	int attributeIndex = findAttributebyName(attributeName);
+
+	if (attributeIndex == -1){
+		cout << "Error: attribute not found.";
+		return;
 	}
+
 	for (int i = 0; i<(int)tableData.size(); i++)
 	{
 		if (tableData[i][attributeIndex] == dataName)

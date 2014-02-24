@@ -14,9 +14,10 @@ int main()
 	ActionHandler::init();
 
 	while (true) {
+		
 		MenuHandler::printMenu();
 		cout << "Choose option: ";
-		getline(cin, option);
+		cin >> option;
 		try
 		{
 			MenuHandler::executeOption(stoi(option));

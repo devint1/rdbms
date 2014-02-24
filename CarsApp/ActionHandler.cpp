@@ -30,6 +30,7 @@ void ActionHandler::init()
 	parser.evaluateStatement("OPEN cars");
 	parser.evaluateStatement("OPEN Make");
 	parser.evaluateStatement("OPEN Model");
+	parser.evaluateStatement("OPEN User");
 	parser.evaluateStatement("OPEN MakeLocation");
 }
 	
@@ -119,6 +120,7 @@ void ActionHandler::addCar(){
 	vector< vector<string> > carData = db.findTable("cars").getTableData();
 	vector< vector<string> > modelData = db.findTable("Model").getTableData();
 	vector< vector<string> > makeData = db.findTable("Make").getTableData();
+
 	int carID1 = stoi(carData[carData.size() - 1][0]) + 1;
 	string carID = to_string(carID1);
 	string MakeID, MakeName, ModelID, ModelName, Mpg;
@@ -222,6 +224,19 @@ void ActionHandler::addLocation()
 	}
 
 
+}
+
+void ActionHandler::showUsers(){
+	parser.evaluateStatement("SHOW User");
+}
+
+void ActionHandler::deleteUser(){
+	Database db = parser.getDb();
+	string username = "-1";
+	cout << "Enter Username to be deleted: ";
+	cin >> username;
+
+	parser.evaluateStatement("DELETE FROM User WHERE Username == " + username);
 }
 
 void ActionHandler::listAllCarLocations(){
