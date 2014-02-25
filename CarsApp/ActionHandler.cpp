@@ -34,6 +34,25 @@ void ActionHandler::init()
 	parser.evaluateStatement("OPEN MakeLocation");
 }
 
+void ActionHandler::ownerCombination()
+{
+	/*Database db = parser.getDb();
+	Table user = db.findTable("User");
+	Table cars = db.findTable("Model");
+
+	Table crossProd = user.getTableData * cars;	*/
+	parser.evaluateStatement("temp <- select (User) UserId");
+	parser.evaluateStatement("temp <- Model JOIN  temp");
+	//parser.evaluateStatement("temp <- project (Make, Location) temp");
+	parser.evaluateStatement("SHOW temp");
+
+
+	/*parser.evaluateStatement("temp1 <- JOIN (Username) Users");
+	parser.evaluateStatement("temp2 <- (project (Name) Model) JOIN temp1");
+	parser.evaluateStatement("SHOW temp2");			*/
+
+}
+
 void ActionHandler::modifyCar()
 {
 	string carId;
@@ -396,21 +415,3 @@ void ActionHandler::findCars()
 
 }
 
-void ActionHandler::ownerCombination()
-{
-	/*Database db = parser.getDb();
-	Table user = db.findTable("User");
-	Table cars = db.findTable("Model");
-
-	Table crossProd = user.getTableData * cars;	*/
-	parser.evaluateStatement("temp <- select (User) UserId");
-	parser.evaluateStatement("temp <- Model JOIN  temp");
-	//parser.evaluateStatement("temp <- project (Make, Location) temp");
-	parser.evaluateStatement("SHOW temp");
-
-
-	/*parser.evaluateStatement("temp1 <- JOIN (Username) Users");
-	parser.evaluateStatement("temp2 <- (project (Name) Model) JOIN temp1");
-	parser.evaluateStatement("SHOW temp2");			*/
-
-}
