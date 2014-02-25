@@ -115,12 +115,14 @@ Table TableOperations::select(string attributesToInclude, Table targetTable)
 
 	targetData = targetTable.getTableData();
 	targetAttributes = targetTable.getAttributes();
-	newTableName = (targetTable.getName()+"_select_") + attributesToInclude; //Check if literals and non-literals can be concatenated
 
+	//Check if literals and non-literals can be concatenated
+	newTableName = (targetTable.getName()+"_select_") + attributesToInclude; 
 
-	for (size_t i = 0; i < targetAttributes.size(); i++)   //Finds the attributes to include index within a table attributes to later relate it to TableData
+	//Finds the attributes to include index within a table attributes to later relate it to TableData
+	for (size_t i = 0; i < targetAttributes.size(); i++)  
 	{
-		if (targetAttributes[i].getName() == attributesToInclude)	 //had == condition (I think  == condition is wrong)
+		if (targetAttributes[i].getName() == attributesToInclude)	
 		{
 			attributesToIncludeIndex = i;
 			newTableAttributeNames.push_back(targetAttributes[i].getName());
@@ -130,10 +132,8 @@ Table TableOperations::select(string attributesToInclude, Table targetTable)
 
 	for (size_t i = 0; i < targetData.size(); i++)
 	{
-		//if (targetData[i][attributesToIncludeIndex] == attributesToInclude)
-		//{
-		newTableData.push_back(targetData[i][attributesToIncludeIndex]); //Inputs attribute desired that met condition from old, original table, into the new table Data
-		//}
+		//Inputs attribute desired that met condition from old, original table, into the new table Data
+		newTableData.push_back(targetData[i][attributesToIncludeIndex]); 
 
 	}
 

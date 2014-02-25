@@ -163,7 +163,8 @@ int Table::findAttributebyName(string attributeName)
 	int position = 0;
 	vector<TableAttribute>::iterator it = tableAttributes.begin();
 
-	if (it != tableAttributes.end())		 //Checks if vector is not empty first. If it is, thus the name was not found and retunrs -1
+	//Checks if vector is not empty first. If it is, thus the name was not found and retunrs -1
+	if (it != tableAttributes.end())		
 	{
 		for (it = tableAttributes.begin(); it != tableAttributes.end(); it++)
 		{
@@ -205,7 +206,8 @@ void Table::deleteFromTable(string attributeName, string dataName)
 
 void Table::update(int& changeAttributePos, int& conditionAttributePos, string& conditionAttributeData, string& changeAttributeData)
 {
-	if ( (conditionAttributePos != -1) && (changeAttributePos != -1) ) //-1 Means attribute was not found
+	// -1 Means attribute was not found
+	if ( (conditionAttributePos != -1) && (changeAttributePos != -1) ) 
 	{
 		for (size_t i = 0; i < tableData.size(); i++)
 		{
