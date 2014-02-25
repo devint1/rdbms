@@ -91,7 +91,7 @@ void MenuHandler::executeOption(int option)
 		ActionHandler::addToCart();
 		break;
 	case 18:
-		//ActionHandler::ownerCombination();
+		ActionHandler::ownerCombination();
 		break;
 	case 19:
 		ActionHandler::displayCart();

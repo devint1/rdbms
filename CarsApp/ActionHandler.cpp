@@ -39,11 +39,11 @@ void ActionHandler::ownerCombination()
 {
 	/*Database db = parser.getDb();
 	Table user = db.findTable("User");
-	Table cars = db.findTable("Model");
+	Table cars = db.findTable("Model");	   */
 
-	Table crossProd = user.getTableData * cars;	*/
-	parser.evaluateStatement("temp <- select (User) UserId");
-	parser.evaluateStatement("temp <- Model JOIN  temp");
+	//Table crossProd = user.getTableData * cars;	
+	parser.evaluateStatement("temp <- user * cars");
+	//parser.evaluateStatement("temp <- Model JOIN  temp");
 	//parser.evaluateStatement("temp <- project (Make, Location) temp");
 	parser.evaluateStatement("SHOW temp");
 
@@ -269,6 +269,7 @@ void ActionHandler::addLocation()
 
 	cout << "Please input the Make of the car you want to add a location for: " << endl;
 	cin >> make;
+	cout << endl;
 
 	makeData = db.findTable("Make").getTableData();
 
@@ -303,6 +304,7 @@ void ActionHandler::addLocation()
 	{
 		cout << "Please input the new Location desired: " << endl;
 		cin >> location;
+		cout << endl;
 
 					int locationID1 = stoi(makeData[makeData.size() - 1][0]) + 1;
 					string locationID2 = to_string(locationID1);
@@ -320,6 +322,8 @@ void ActionHandler::showUsers(){
 void ActionHandler::deleteUser(){
 	Database db = parser.getDb();
 	string username = "-1";
+	
+	cout << endl;
 	cout << "Enter Username to be deleted: ";
 	cin >> username;
 
@@ -349,7 +353,7 @@ void ActionHandler::deleteLocation()
 
 	cout << "Please input the Make of the car you want to delete the location for: ";
 	cin >> make;
-
+	cout << endl;
 
 	makeTableNamePos = db.findTable("Make").findAttributebyName("Name");
 	makeTableMakeIDPos = db.findTable("Make").findAttributebyName("MakeID");
@@ -376,35 +380,42 @@ void ActionHandler::deleteLocation()
 
 void ActionHandler::findCars()
 {
-	int makeOrModel;
+	int makeOrModel = 0;
 	string model;
 	string make;
 
-	cout << "Do you want to find a car by model or make?" << endl;
-	cout << "Please input 1 to find a car by model and 2 to find a cars of a given make" << endl;
+	cout << "Do you want to find a car by model or make?" << endl << endl;
+	cout << "Please input 1 to find a car by model and 2 to find a cars of a given make" << endl << endl;
 
 	cin >> makeOrModel;
+	cout << endl;
 
-	if (makeOrModel == 1)
+	if (makeOrModel == 1 || makeOrModel == 2)
 	{
-		cout << "Please input the model of the car you want to be shown: ";
-		cin >> model;
+		if (makeOrModel == 1)
+		{
+			cout << "Please input the model of the car you want to be shown: ";
+			cin >> model;
+			cout << endl << endl;
 
-		parser.evaluateStatement("temp <- (cars JOIN (rename (MakeID, Make) Make)) JOIN (rename (ModelID, Model) Model)");
-		parser.evaluateStatement("temp <- select (Model == " + model + ") temp");
-		parser.evaluateStatement("temp <- project (CarID, Make, Model, Mpg) temp");
-		parser.evaluateStatement("SHOW temp");
+			parser.evaluateStatement("temp <- (cars JOIN (rename (MakeID, Make) Make)) JOIN (rename (ModelID, Model) Model)");
+			parser.evaluateStatement("temp <- select (Model == " + model + ") temp");
+			parser.evaluateStatement("temp <- project (CarID, Make, Model, Mpg) temp");
+			parser.evaluateStatement("SHOW temp");
 
-	}
-	if (makeOrModel == 2)
-	{
-		cout << "Please input the make of the cars you want to be shown: ";
-		cin >> make;
+		}
+		if (makeOrModel == 2)
+		{
+			cout << "Please input the make of the cars you want to be shown: ";
+			cin >> make;
+			cout << endl << endl;
 
-		parser.evaluateStatement("temp <- (cars JOIN (rename (MakeID, Make) Make)) JOIN (rename (ModelID, Model) Model)");
-		parser.evaluateStatement("temp <- select (Make == " + make + ") temp");
-		parser.evaluateStatement("temp <- project (CarID, Make, Model, Mpg) temp");
-		parser.evaluateStatement("SHOW temp");	
+			parser.evaluateStatement("temp <- (cars JOIN (rename (MakeID, Make) Make)) JOIN (rename (ModelID, Model) Model)");
+			parser.evaluateStatement("temp <- select (Make == " + make + ") temp");
+			parser.evaluateStatement("temp <- project (CarID, Make, Model, Mpg) temp");
+			parser.evaluateStatement("SHOW temp");
+			cout << endl;
+		}
 	}
 	else
 	{
