@@ -44,6 +44,9 @@
     <None Include="User.db">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="Cart.db">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MenuHandler.h">

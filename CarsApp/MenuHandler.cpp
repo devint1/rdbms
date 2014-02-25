@@ -25,10 +25,12 @@ void MenuHandler::printMenu()
 	cout << "15) Find users" << endl;					 //Devin
 
 	//Utilities
-	cout << "16) Remove duplicates" << endl;			 //Corey
-	cout << "17) Display duplicates" << endl;            //Miguel
-	cout << "18) Display all ownership combinations" << endl;	 //Sergio
-	cout << "19) Exit program" << endl;					 //Devin
+	cout << "16) Remove duplicates" << endl;			       //Corey
+	cout << "17) Add car to shopping cart" << endl;            //Miguel
+	cout << "18) Display all ownership combinations" << endl;  //Sergio
+	cout << "19) Display cars in Shopping cart" << endl;   //Miguel
+	cout << "20) Display cars not in Shopping cart" << endl;   //Miguel
+	cout << "21) Exit program" << endl;					       //Devin
 	cout << endl;
 }
 
@@ -68,6 +70,7 @@ void MenuHandler::executeOption(int option)
 		ActionHandler::findCars();
 		break;
 	case 11:
+		ActionHandler::addCar();
 		break;
 	case 12:
 		ActionHandler::modifyUser();
@@ -79,17 +82,27 @@ void MenuHandler::executeOption(int option)
 		ActionHandler::showUsers();
 		break;
 	case 15:
+		ActionHandler::findUsers();
 		break;
 	case 16:
+		ActionHandler::removeDuplicates();
 		break;
 	case 17:
+		ActionHandler::addToCart();
 		break;
 	case 18:
-		ActionHandler::ownerCombination();
+		//ActionHandler::ownerCombination();
 		break;
 	case 19:
+		ActionHandler::displayCart();
 		break;
 	case 20:
+		ActionHandler::displayNotInCart();
+		break;
+	case 21:
+		ActionHandler::exit();
+		break;
+	case 22:
 		ActionHandler::startInterpreter();
 		break;
 	default:

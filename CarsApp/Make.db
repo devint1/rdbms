@@ -1,12 +1,12 @@
-MakeID int	Name varchar(255)					
-501			ford				
-502			mazda				
-503			audi				
-502			mazda			
-504			hyundai							
-500			toyota				
-501			ford				
-504			hyundai					
-505			honda							
-506			maserati			
-507			lambourghini	
+MakeID int	Name varchar(255)	
+501	ford	
+502	mazda	
+503	audi	
+502	mazda	
+504	hyundai	
+500	toyota	
+501	ford	
+504	hyundai	
+505	honda	
+506	maserati	
+507	lambourghini	

@@ -31,6 +31,7 @@ void ActionHandler::init()
 	parser.evaluateStatement("OPEN Make");
 	parser.evaluateStatement("OPEN Model");
 	parser.evaluateStatement("OPEN User");
+	parser.evaluateStatement("OPEN Cart");
 	parser.evaluateStatement("OPEN MakeLocation");
 }
 
@@ -59,15 +60,17 @@ void ActionHandler::modifyCar()
 	string choiceStr;
 	string modifiedValue;
 
+	listAllCars();
+
 	cout << endl << "Car ID to modify: ";
-	getline(cin, carId);
+	cin >> carId;
 
 	cout << endl << "Select a value to modify:" << endl;
 	cout << "1) Make" << endl;
 	cout << "2) Model" << endl;
 	cout << "3) Mpg" << endl << endl;
 	cout << "Enter choice: ";
-	getline(cin, choiceStr);
+	cin >> choiceStr;
 
 	switch (stoi(choiceStr))
 	{
@@ -75,20 +78,20 @@ void ActionHandler::modifyCar()
 		cout << endl;
 		parser.evaluateStatement("SHOW Make");
 		cout << "Enter new ID: ";
-		getline(cin, modifiedValue);
+		cin >> modifiedValue;
 		parser.evaluateStatement("UPDATE cars SET (MakeID = " + modifiedValue + ") WHERE (CarID = " + carId + ")");
 		break;
 	case 2:
 		cout << endl;
 		parser.evaluateStatement("SHOW Model");
 		cout << "Enter new ID: ";
-		getline(cin, modifiedValue);
+		cin >> modifiedValue;
 		parser.evaluateStatement("UPDATE cars SET (ModelID = " + modifiedValue + ") WHERE (CarID = " + carId + ")");
 		break;
 	case 3:
 		cout << endl;
 		cout << "Enter new value: ";
-		getline(cin, modifiedValue);
+		cin >> modifiedValue;
 		parser.evaluateStatement("UPDATE cars SET (Mpg = " + modifiedValue + ") WHERE (CarID = " + carId + ")");
 		break;
 	default:
@@ -104,7 +107,6 @@ void ActionHandler::modifyUser()
 	string newinput;
 	cout << "Enter user ID: ";
 	cin >> userID;
-
 	cout << endl << "Select a value to modify:" << endl;
 	cout << "1) Username" << endl;
 	cout << "2) Firstname" << endl;
@@ -117,22 +119,22 @@ void ActionHandler::modifyUser()
 	case 1:
 		cout << "Enter new Username: ";
 		cin >> newinput;
-		parser.evaluateStatement("UPDATE User SET (Username = " + newinput + ") WHERE (UserID = " + userID + ")");
+		parser.evaluateStatement("UPDATE User SET (Username = " + newinput + ") WHERE (UserId = " + userID + ")");
 		break;
 	case 2:
 		cout << "Enter new Firstname: ";
 		cin >> newinput;
-		parser.evaluateStatement("UPDATE User SET (Firstname = " + newinput + ") WHERE (UserID = " + userID + ")");
+		parser.evaluateStatement("UPDATE User SET (Firstname = " + newinput + ") WHERE (UserId = " + userID + ")");
 		break;
 	case 3:
 		cout << "Enter new Lastname: ";
 		cin >> newinput;
-		parser.evaluateStatement("UPDATE User SET (Lastname = " + newinput + ") WHERE (UserID = " + userID + ")");
+		parser.evaluateStatement("UPDATE User SET (Lastname = " + newinput + ") WHERE (UserId = " + userID + ")");
 		break;
 	case 4:
 		cout << "Enter new Email: ";
 		cin >> newinput;
-		parser.evaluateStatement("UPDATE User SET (Email = " + newinput + ") WHERE (UserID = " + userID + ")");
+		parser.evaluateStatement("UPDATE User SET (email = " + newinput + ") WHERE (UserId = " + userID + ")");
 		break;
 	default:
 		cerr << "ERROR: Invalid option." << endl;
@@ -144,11 +146,12 @@ void ActionHandler::modifyUser()
 
 void ActionHandler::deleteCar()
 {
+	listAllCars();
 	string carId;
 
 	cout << endl << "Enter car ID to delete: ";
-	getline(cin, carId);
-	parser.evaluateStatement("DELETE FROM cars WHERE CarID = " + carId + "");
+	cin >> carId;
+	parser.evaluateStatement("DELETE FROM cars WHERE CarID = " + carId);
 }
 
 void ActionHandler::listAllCars()
@@ -273,7 +276,7 @@ void ActionHandler::addLocation()
 	for (size_t i = 0; i < makes.getTableData().size(); i++)
 	{
 		if (toLower(makes.getTableData()[i][1]) == toLower(make))
-		{
+	{
 			MakeID = makes.getTableData()[i][0];
 			makeIDFound = true;
 			break;
@@ -286,28 +289,28 @@ void ActionHandler::addLocation()
 
 		else
 		{
-		
+
 			Table makeLoc = db.findTable("MakeLocation");
 			for (size_t i = 0; i < makeLoc.getTableData().size(); i++)
-			{
+	{
 				if (toLower(makes.getTableData()[i][0]) == toLower(MakeID))
 				{
 					cout << "Please input the new Location desired: " << endl;
 					cin >> location;
 					parser.evaluateStatement("UPDATE MakeLocation SET (Location = " + location + ") WHERE (MakeID = " + MakeID + ")");
-				}
-				else
-				{
-					cout << "Please input the new Location desired: " << endl;
-					cin >> location;
+	}
+	else
+	{
+		cout << "Please input the new Location desired: " << endl;
+		cin >> location;
 
 					int locationID1 = stoi(makeData[makeData.size() - 1][0]) + 1;
 					string locationID2 = to_string(locationID1);
 					parser.evaluateStatement("INSERT INTO MakeLocation VALUES FROM (" + locationID2 + ", " + MakeID + ", " + location + ")");
 					break;
-				}
 			}
 		}
+	}
 }
 
 void ActionHandler::showUsers(){
@@ -338,12 +341,15 @@ void ActionHandler::deleteLocation()
 	int makeTableMakeIDPos;
 	int makeLocationTableLocPos;
 	int makeLocationTableMakeIDPos;
-	string makeID;
+	string makeID = "NoMakeFound";
 	vector< vector<string> >makeData;
 	vector< vector<string> >makeLocationData;
 
-	cout << "Please input the Make of the car you want to delete the location for: " << endl;
+	listLocations();
+
+	cout << "Please input the Make of the car you want to delete the location for: ";
 	cin >> make;
+
 
 	makeTableNamePos = db.findTable("Make").findAttributebyName("Name");
 	makeTableMakeIDPos = db.findTable("Make").findAttributebyName("MakeID");
@@ -353,27 +359,19 @@ void ActionHandler::deleteLocation()
 	makeData = db.findTable("Make").getTableData();
 	makeLocationData = db.findTable("MakeLocation").getTableData();
 
-	for (size_t i = 0; i < makeData.size(); i++)
-	{
-		if (makeData[makeTableNamePos][i] == make)
-		{
-			makeID = makeData[makeTableMakeIDPos][i];
-		}
-		else
-		{
-			makeID = "NoMakeFound";
+	for (size_t i = 0; i < makeData.size(); i++){
+		if (toLower(makeData[i][1]) == toLower(make)){
+			makeID = makeData[i][0];
+			break;
 		}
 	}
 
 	if (makeID == "NoMakeFound")
-	{
 		cout << "No such make was found!" << endl;
-	}
 	else
-	{
-		parser.evaluateStatement("DELETE FROM MakeLocation WHERE MakeID == " + makeID);	// is it where "==" or "=" ..... Does it delete the whole row or it deletes the make ID and I should instead put where Location = location?
+		parser.evaluateStatement("DELETE FROM MakeLocation WHERE MakeID == " + makeID);	
 
-	}
+	cout << make + " Removed from MakeLocation table" << endl;
 }
 
 void ActionHandler::findCars()
@@ -415,3 +413,95 @@ void ActionHandler::findCars()
 
 }
 
+void ActionHandler::findUsers()
+{
+	string choiceStr;
+	string conditionValue;
+
+	cout << endl << "Select a value to search by:" << endl;
+	cout << "1) Username" << endl;
+	cout << "2) First Name" << endl;
+	cout << "3) Last Name" << endl;
+	cout << "4) Email" << endl;
+	cout << "Enter choice: ";
+	getline(cin, choiceStr);
+	getline(cin, choiceStr);
+
+	switch (stoi(choiceStr))
+	{
+		case 1:
+			cout << "Enter username to find: ";
+			getline(cin, conditionValue);
+			parser.evaluateStatement("temp <- select (Username == " + conditionValue + ") User");
+			break;
+		case 2:
+			cout << "Enter first name to find: ";
+			getline(cin, conditionValue);
+			parser.evaluateStatement("temp <- select (Firstname == " + conditionValue + ") User");
+			break;
+		case 3:
+			cout << "Enter last name to find: ";
+			getline(cin, conditionValue);
+			parser.evaluateStatement("temp <- select (Lastname == " + conditionValue + ") User");
+			break;
+		case 4:
+			cout << "Enter email to find: ";
+			getline(cin, conditionValue);
+			parser.evaluateStatement("temp <- select (email == " + conditionValue + ") User");
+			break;
+		default:
+			throw exception("Unknown option");
+	}
+	parser.evaluateStatement("SHOW temp");
+}
+
+void ActionHandler::removeDuplicates()
+{
+	string tablename;
+	cout << "Enter table name: ";
+	cin >> tablename;
+	parser.evaluateStatement("temp <- " + tablename + " + " + tablename);
+	parser.evaluateStatement("SHOW temp");
+}
+
+void ActionHandler::addToCart(){
+	string carID;
+	parser.evaluateStatement("SHOW cars");
+	cout << "Enter car ID of desired car: ";
+	cin >> carID;
+	parser.evaluateStatement("addedCar <- select (CarID == "+ carID +") cars");
+	parser.evaluateStatement("Cart <- Cart + addedCar");
+	parser.evaluateStatement("Cart <- Cart + Cart");
+	cout << "Car has been added to cart." << endl;
+}
+
+void ActionHandler::displayCart(){
+	parser.evaluateStatement("temp <- (Cart JOIN (rename (MakeID, Make) Make)) JOIN (rename (ModelID, Model) Model)");
+	parser.evaluateStatement("temp <- project (CarID, Make, Model, Mpg) temp");
+	parser.evaluateStatement("SHOW temp");
+}
+
+void ActionHandler::displayNotInCart(){
+	parser.evaluateStatement("temp <- ((cars - Cart) JOIN (rename (MakeID, Make) Make)) JOIN (rename (ModelID, Model) Model)");
+	parser.evaluateStatement("temp <- project (CarID, Make, Model, Mpg) temp");
+	parser.evaluateStatement("SHOW temp");
+}
+
+void ActionHandler::exit()
+{
+	string yesNo;
+	cout << "Would you like to save your changes? (Y/N): ";
+	getline(cin, yesNo);
+	getline(cin, yesNo);
+
+	if (yesNo == "y" || yesNo == "Y")
+	{
+		parser.evaluateStatement("WRITE cars");
+		parser.evaluateStatement("WRITE Make");
+		parser.evaluateStatement("WRITE Model");
+		parser.evaluateStatement("WRITE User");
+		parser.evaluateStatement("WRITE Cart");
+		parser.evaluateStatement("WRITE MakeLocation");
+	}
+	_exit(0);
+}
