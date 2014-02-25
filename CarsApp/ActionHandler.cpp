@@ -411,6 +411,29 @@ void ActionHandler::findCars()
 
 }
 
+void ActionHandler::addUser()
+{
+	vector<vector<string>> tableData = parser.getDb().findTable("User").getTableData();
+	int id = stoi(tableData[tableData.size() - 1][0]) + 1;
+
+	string idString = to_string(id);
+	string username;
+	string firstname;
+	string lastname;
+	string email;
+
+	cout << endl << "Enter username: ";
+	getline(cin, username);
+	getline(cin, username);
+	cout << "Enter first name: ";
+	getline(cin, firstname);
+	cout << "Enter last name: ";
+	getline(cin, lastname);
+	cout << "Enter email: ";
+	getline(cin, email);
+	parser.evaluateStatement("INSERT INTO User VALUES FROM (" + idString + ", " + username + ", " + firstname + ", " + lastname + ", " + email + ")");
+}
+
 void ActionHandler::findUsers()
 {
 	string choiceStr;

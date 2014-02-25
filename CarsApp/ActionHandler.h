@@ -23,6 +23,7 @@ public:
 	static void modifyUser();
 	static void deleteLocation();
 	static void findCars();
+	static void addUser();
 	static void addToCart();
 	static void displayCart();
 	static void displayNotInCart();

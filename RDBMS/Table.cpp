@@ -154,7 +154,7 @@ void Table::insert(vector<string> values)
 	}
 	else
 	{
-		throw "Number of inserted values does not match number of columns.";
+		throw exception("Number of inserted values does not match number of columns.");
 	}
 }
 

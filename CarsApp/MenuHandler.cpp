@@ -70,7 +70,7 @@ void MenuHandler::executeOption(int option)
 		ActionHandler::findCars();
 		break;
 	case 11:
-		ActionHandler::addCar();
+		ActionHandler::addUser();
 		break;
 	case 12:
 		ActionHandler::modifyUser();
