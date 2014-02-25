@@ -30,6 +30,10 @@ int main()
 		{
 			cerr << endl << "ERROR: The value is out of range." << endl;
 		}
+		catch (exception e)
+		{
+			cerr << endl << "ERROR: " << e.what() << endl;
+		}
 		cout << endl;
 	}
 	return 0;
