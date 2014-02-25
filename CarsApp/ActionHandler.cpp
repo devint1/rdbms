@@ -435,7 +435,6 @@ void ActionHandler::addUser()
 	string lastname;
 	string email;
 
-	//UserId int	Username varchar(255)	Firstname varchar(255)	Lastname varchar(255)	email varchar(255)	
 	cout << endl << "Enter username: ";
 	getline(cin, username);
 	getline(cin, username);
